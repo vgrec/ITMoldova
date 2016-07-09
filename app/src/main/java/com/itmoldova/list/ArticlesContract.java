@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Author vgrec, on 09.07.16.
  */
-public interface ArticlesListContract {
+public interface ArticlesContract {
 
     interface View extends BaseView<Presenter> {
         void showNews(List<Article> articles);
@@ -18,7 +18,7 @@ public interface ArticlesListContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadNews();
+        void loadArticles();
     }
 
 }

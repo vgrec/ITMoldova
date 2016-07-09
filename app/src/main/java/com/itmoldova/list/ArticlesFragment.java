@@ -15,13 +15,21 @@ import java.util.List;
 /**
  * Author vgrec, on 09.07.16.
  */
-public class ArticlesListFragment extends Fragment implements ArticlesListContract.View {
+public class ArticlesFragment extends Fragment implements ArticlesContract.View {
+
+    private ArticlesContract.Presenter presenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_articles_list, container, false);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        presenter.loadArticles();
     }
 
     @Override
@@ -35,7 +43,7 @@ public class ArticlesListFragment extends Fragment implements ArticlesListContra
     }
 
     @Override
-    public void setPresenter(ArticlesListContract.Presenter presenter) {
-
+    public void setPresenter(ArticlesContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 }

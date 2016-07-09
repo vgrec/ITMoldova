@@ -1,9 +1,6 @@
 package com.itmoldova.list;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.itmoldova.R;
+import com.itmoldova.http.ArticlesHttpController;
 import com.itmoldova.util.ActivityUtils;
 
 import butterknife.BindView;
@@ -46,9 +44,13 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (savedInstanceState == null) {
-            ActivityUtils.addFragmentToActivity(getFragmentManager(), new ArticlesListFragment(), R.id.frameContent);
+        ArticlesFragment articlesFragment = (ArticlesFragment) getFragmentManager().findFragmentById(R.id.frameContent);
+        if (articlesFragment == null) {
+            articlesFragment = new ArticlesFragment();
+            ActivityUtils.addFragmentToActivity(getFragmentManager(), articlesFragment, R.id.frameContent);
         }
+
+        new ArticlesPresenter(new ArticlesHttpController(), articlesFragment);
     }
 
     @Override

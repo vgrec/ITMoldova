@@ -1,0 +1,9 @@
+  @Namespace(prefix = "wfw")
+        @Element(name = "commentRss", required = false)
+        String commentRss;
+
+
+        @Namespace(prefix = "slash")
+        @Path("slash")
+        @Element(name = "comments", required = false)
+        int comments;
