@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.itmoldova.R;
-import com.itmoldova.http.ArticlesHttpController;
+import com.itmoldova.http.RssFeedLoader;
 import com.itmoldova.util.ActivityUtils;
 
 import butterknife.BindView;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
             ActivityUtils.addFragmentToActivity(getFragmentManager(), articlesFragment, R.id.frameContent);
         }
 
-        new ArticlesPresenter(new ArticlesHttpController(), articlesFragment);
+        new ArticlesPresenter(new RssFeedLoader(getApplicationContext()), articlesFragment);
     }
 
     @Override

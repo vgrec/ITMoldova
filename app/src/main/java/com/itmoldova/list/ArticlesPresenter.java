@@ -1,23 +1,8 @@
 package com.itmoldova.list;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
-import com.itmoldova.http.ArticlesHttpController;
-import com.itmoldova.http.SimpleSubscriber;
-import com.itmoldova.http.test.GitHubService;
-import com.itmoldova.model.Channel;
-import com.itmoldova.model.Item;
+import com.itmoldova.http.HttpRequestListener;
+import com.itmoldova.http.RssFeedLoader;
 import com.itmoldova.model.Rss;
-
-import java.util.List;
-
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.schedulers.Schedulers;
 
 /**
  * Author vgrec, on 09.07.16.
@@ -25,68 +10,50 @@ import rx.schedulers.Schedulers;
 public class ArticlesPresenter implements ArticlesContract.Presenter {
 
     private ArticlesContract.View view;
-    private ArticlesHttpController httpController;
+    private RssFeedLoader rssFeedLoader;
 
-    public ArticlesPresenter(ArticlesHttpController httpController, ArticlesContract.View view) {
+    public ArticlesPresenter(RssFeedLoader rssFeedLoader, ArticlesContract.View view) {
         this.view = view;
+        this.rssFeedLoader = rssFeedLoader;
         this.view.setPresenter(this);
-        this.httpController = httpController;
     }
 
     @Override
     public void loadArticles() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://itmoldova.com")
-                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
+        if (!rssFeedLoader.hasInternetConnection()) {
+            view.showNoInternetConnection();
+            return;
+        }
 
-        GitHubService service = retrofit.create(GitHubService.class);
-        service.getArticles()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(setLoadingAction(true))
-                .doOnTerminate(setLoadingAction(false))
-                .subscribe(new SimpleSubscriber<Rss>() {
-                    @Override
-                    public void onNext(Rss response) {
-                        processResponse(response);
-                    }
+        rssFeedLoader.getRssFeed(new HttpRequestListener() {
+            @Override
+            public void onStart() {
+                view.setLoadingIndicator(true);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("GREC", e.getMessage());
-                    }
-                });
+            @Override
+            public void onTerminate() {
+                view.setLoadingIndicator(false);
+            }
 
+            @Override
+            public void onSuccess(Rss response) {
+                processResponse(response);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                view.showError();
+            }
+        });
     }
 
     private void processResponse(Rss response) {
-        if (response != null) {
-            Channel channel = response.getChannel();
-            if (channel != null) {
-                List<Item> items = channel.getItemList();
-                for (Item item : items) {
-                    Log.d("GREC", item.toString());
-                }
-            } else {
-                Log.d("GREC", "Channel is null");
-            }
-
-
+        if (response != null && response.getChannel() != null) {
+            view.showArticles(response.getChannel().getItemList());
         } else {
-            Log.d("GREC", "Response is null");
+            view.showError();
         }
-    }
-
-    @NonNull
-    private Action0 setLoadingAction(final boolean loading) {
-        return new Action0() {
-            @Override
-            public void call() {
-                view.setLoadingIndicator(loading);
-            }
-        };
     }
 
     @Override
