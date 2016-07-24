@@ -1,6 +1,7 @@
 package com.itmoldova.list;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.itmoldova.R;
 import com.itmoldova.adapter.ArticlesAdapter;
+import com.itmoldova.detail.DetailActivity;
 import com.itmoldova.model.Item;
 
 import java.util.ArrayList;
@@ -38,7 +41,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         ButterKnife.bind(this, view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ArticlesAdapter(items);
+        adapter = new ArticlesAdapter(items, itemClickListener);
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -65,16 +68,22 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
 
     @Override
     public void showError() {
-
+        Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showNoInternetConnection() {
-
+        Toast.makeText(getActivity(), "No Internet", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void setPresenter(ArticlesContract.Presenter presenter) {
         this.presenter = presenter;
     }
+
+    private ItemClickListener itemClickListener = item -> {
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(DetailActivity.ITEM, item);
+        startActivity(intent);
+    };
 }

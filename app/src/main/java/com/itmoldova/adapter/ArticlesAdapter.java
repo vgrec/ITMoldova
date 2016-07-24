@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.itmoldova.R;
+import com.itmoldova.list.ItemClickListener;
 import com.itmoldova.model.Item;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Author vgrec, on 10.07.16.
@@ -20,9 +22,11 @@ import butterknife.ButterKnife;
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
 
     private List<Item> items;
+    private ItemClickListener itemClickListener;
 
-    public ArticlesAdapter(List<Item> items) {
+    public ArticlesAdapter(List<Item> items, ItemClickListener itemClickListener) {
         this.items = items;
+        this.itemClickListener = itemClickListener;
     }
 
     @Override
@@ -43,7 +47,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         return items.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.title)
         TextView titleView;
@@ -54,6 +58,11 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+        }
+
+        @OnClick(R.id.row)
+        public void onItemClicked() {
+            itemClickListener.onItemClicked(items.get(getAdapterPosition()));
         }
     }
 }

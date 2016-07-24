@@ -1,13 +1,20 @@
 package com.itmoldova.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Namespace;
 import org.simpleframework.xml.Root;
 
 /**
  * Author vgrec, on 09.07.16.
  */
 @Root(name = "item", strict = false)
-public class Item {
+public class Item implements Parcelable {
+
+    public Item() {
+    }
 
     @Element(name = "title", required = true)
     private String title;
@@ -25,6 +32,10 @@ public class Item {
 
     @Element(name = "pubDate", required = false)
     private String pubDate;
+
+    @Namespace(prefix = "content")
+    @Element(name = "encoded", required = false)
+    public String content;
 
     public String getTitle() {
         return title;
@@ -46,4 +57,43 @@ public class Item {
         return guid;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeString(this.link);
+        dest.writeString(this.description);
+        dest.writeString(this.guid);
+        dest.writeString(this.pubDate);
+        dest.writeString(this.content);
+    }
+
+    protected Item(Parcel in) {
+        this.title = in.readString();
+        this.link = in.readString();
+        this.description = in.readString();
+        this.guid = in.readString();
+        this.pubDate = in.readString();
+        this.content = in.readString();
+    }
+
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel source) {
+            return new Item(source);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 }
