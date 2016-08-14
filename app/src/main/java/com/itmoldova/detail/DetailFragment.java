@@ -1,7 +1,6 @@
 package com.itmoldova.detail;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.itmoldova.R;
-import com.itmoldova.model.Item;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,8 +22,11 @@ public class DetailFragment extends Fragment implements DetailContract.View {
 
     private DetailContract.Presenter presenter;
 
-    @BindView(R.id.test)
-    TextView content;
+    @BindView(R.id.content)
+    ViewGroup contentGroup;
+
+    @BindView(R.id.title)
+    TextView titleView;
 
     @Nullable
     @Override
@@ -40,8 +43,15 @@ public class DetailFragment extends Fragment implements DetailContract.View {
     }
 
     @Override
-    public void showArticleDetail(Item item) {
-        content.setText(item.getContent());
+    public void showArticleDetail(List<View> views) {
+        for (View view : views) {
+            contentGroup.addView(view);
+        }
+    }
+
+    @Override
+    public void showTitle(String title) {
+        titleView.setText(title);
     }
 
     @Override

@@ -2,7 +2,8 @@ package com.itmoldova.detail;
 
 import com.itmoldova.BasePresenter;
 import com.itmoldova.BaseView;
-import com.itmoldova.model.Item;
+
+import java.util.List;
 
 /**
  * Author vgrec, on 24.07.16.
@@ -10,7 +11,9 @@ import com.itmoldova.model.Item;
 public class DetailContract {
 
     interface View extends BaseView<Presenter> {
-        void showArticleDetail(Item item);
+        void showArticleDetail(List<android.view.View> views);
+
+        void showTitle(String title);
     }
 
     interface Presenter extends BasePresenter {

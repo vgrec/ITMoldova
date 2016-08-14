@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.itmoldova.R;
 import com.itmoldova.model.Item;
+import com.itmoldova.parser.DetailViewCreator;
 import com.itmoldova.util.ActivityUtils;
 
 public class DetailActivity extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         Item item = getIntent().getParcelableExtra(ITEM);
-        new DetailPresenter(detailFragment, item);
+        new DetailPresenter(detailFragment, item, new DetailViewCreator(this));
 
     }
 }
