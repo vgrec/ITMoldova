@@ -4,9 +4,13 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -34,6 +38,15 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,10 +54,18 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         ButterKnife.bind(this, view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ArticlesAdapter(items, itemClickListener);
+        adapter = new ArticlesAdapter(items, this::openArticleDetail);
         recyclerView.setAdapter(adapter);
 
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.loadArticles());
+
         return view;
+    }
+
+    private void openArticleDetail(Item item) {
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(DetailActivity.ITEM, item);
+        startActivity(intent);
     }
 
     @Override
@@ -63,7 +84,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
 
     @Override
     public void setLoadingIndicator(boolean loading) {
-
+        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(loading));
     }
 
     @Override
@@ -81,9 +102,19 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         this.presenter = presenter;
     }
 
-    private ItemClickListener itemClickListener = item -> {
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(DetailActivity.ITEM, item);
-        startActivity(intent);
-    };
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.articles_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                presenter.loadArticles();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
