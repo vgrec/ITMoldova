@@ -1,9 +1,9 @@
 package com.itmoldova.list;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.itmoldova.R;
 import com.itmoldova.adapter.ArticlesAdapter;
 import com.itmoldova.detail.DetailActivity;
+import com.itmoldova.http.RssFeedLoader;
 import com.itmoldova.model.Item;
 
 import java.util.ArrayList;
@@ -40,6 +41,10 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
 
     @BindView(R.id.refresh)
     SwipeRefreshLayout swipeRefreshLayout;
+
+    public static Fragment newInstance(String item) {
+        return new ArticlesFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        presenter = new ArticlesPresenter(new RssFeedLoader(getActivity().getApplicationContext()), this);
         presenter.loadArticles();
     }
 

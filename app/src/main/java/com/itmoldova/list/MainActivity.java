@@ -2,17 +2,17 @@ package com.itmoldova.list;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.itmoldova.R;
-import com.itmoldova.http.RssFeedLoader;
-import com.itmoldova.util.ActivityUtils;
+import com.itmoldova.adapter.SimpleFragmentPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,13 +44,12 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        ArticlesFragment articlesFragment = (ArticlesFragment) getFragmentManager().findFragmentById(R.id.frameContent);
-        if (articlesFragment == null) {
-            articlesFragment = new ArticlesFragment();
-            ActivityUtils.addFragmentToActivity(getFragmentManager(), articlesFragment, R.id.frameContent);
-        }
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        assert viewPager != null;
+        viewPager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager()));
 
-        new ArticlesPresenter(new RssFeedLoader(getApplicationContext()), articlesFragment);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
