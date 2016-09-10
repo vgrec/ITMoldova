@@ -14,18 +14,15 @@ import java.util.List;
  */
 public class DetailPresenter implements DetailContract.Presenter {
     private DetailContract.View view;
-    private Item item;
     private DetailViewCreator detailViewCreator;
 
-    public DetailPresenter(DetailContract.View view, Item item, DetailViewCreator detailViewCreator) {
+    public DetailPresenter(DetailContract.View view, DetailViewCreator detailViewCreator) {
         this.view = view;
-        this.view.setPresenter(this);
-        this.item = item;
         this.detailViewCreator = detailViewCreator;
     }
 
     @Override
-    public void start() {
+    public void loadArticle(Item item) {
         view.showTitle(item.getTitle());
 
         List<Block> blocks = ContentParser.parse(item.getContent());

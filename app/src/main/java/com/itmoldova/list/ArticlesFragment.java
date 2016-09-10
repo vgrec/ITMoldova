@@ -15,10 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.itmoldova.Extra;
 import com.itmoldova.R;
 import com.itmoldova.adapter.ArticlesAdapter;
 import com.itmoldova.detail.DetailActivity;
-import com.itmoldova.http.RssFeedLoader;
+import com.itmoldova.http.HttpUtils;
 import com.itmoldova.model.Item;
 
 import java.util.ArrayList;
@@ -69,14 +70,14 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
 
     private void openArticleDetail(Item item) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(DetailActivity.ITEM, item);
+        intent.putExtra(Extra.ITEM, item);
         startActivity(intent);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter = new ArticlesPresenter(new RssFeedLoader(getActivity().getApplicationContext()), this);
+        presenter = new ArticlesPresenter(HttpUtils.createItMoldovaService(), this);
         presenter.loadArticles();
     }
 
@@ -104,11 +105,6 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     }
 
     @Override
-    public void setPresenter(ArticlesContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.articles_list, menu);
     }
@@ -122,5 +118,11 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.cancel();
     }
 }

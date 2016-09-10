@@ -8,7 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.itmoldova.Extra;
 import com.itmoldova.R;
+import com.itmoldova.model.Item;
+import com.itmoldova.parser.DetailViewCreator;
 
 import java.util.List;
 
@@ -21,12 +24,27 @@ import butterknife.ButterKnife;
 public class DetailFragment extends Fragment implements DetailContract.View {
 
     private DetailContract.Presenter presenter;
+    private Item item;
 
     @BindView(R.id.content)
     ViewGroup contentGroup;
 
     @BindView(R.id.title)
     TextView titleView;
+
+    public static DetailFragment newInstance(Item item) {
+        Bundle args = new Bundle();
+        args.putParcelable(Extra.ITEM, item);
+        DetailFragment fragment = new DetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        item = getArguments().getParcelable(Extra.ITEM);
+    }
 
     @Nullable
     @Override
@@ -39,7 +57,8 @@ public class DetailFragment extends Fragment implements DetailContract.View {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter.start();
+        presenter = new DetailPresenter(this, new DetailViewCreator(getActivity()));
+        presenter.loadArticle(item);
     }
 
     @Override
@@ -52,10 +71,5 @@ public class DetailFragment extends Fragment implements DetailContract.View {
     @Override
     public void showTitle(String title) {
         titleView.setText(title);
-    }
-
-    @Override
-    public void setPresenter(DetailContract.Presenter presenter) {
-        this.presenter = presenter;
     }
 }

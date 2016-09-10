@@ -1,7 +1,5 @@
 package com.itmoldova.list;
 
-import com.itmoldova.BasePresenter;
-import com.itmoldova.BaseView;
 import com.itmoldova.model.Item;
 
 import java.util.List;
@@ -11,7 +9,7 @@ import java.util.List;
  */
 public interface ArticlesContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View {
         void showArticles(List<Item> items);
 
         void setLoadingIndicator(boolean loading);
@@ -21,8 +19,10 @@ public interface ArticlesContract {
         void showNoInternetConnection();
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter {
         void loadArticles();
+
+        void cancel();
     }
 
 }

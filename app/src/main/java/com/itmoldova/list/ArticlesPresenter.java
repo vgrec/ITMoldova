@@ -1,8 +1,11 @@
 package com.itmoldova.list;
 
-import com.itmoldova.http.HttpRequestListener;
-import com.itmoldova.http.RssFeedLoader;
+import com.itmoldova.http.ITMoldovaService;
 import com.itmoldova.model.Rss;
+
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Author vgrec, on 09.07.16.
@@ -10,42 +13,29 @@ import com.itmoldova.model.Rss;
 public class ArticlesPresenter implements ArticlesContract.Presenter {
 
     private ArticlesContract.View view;
-    private RssFeedLoader rssFeedLoader;
+    private ITMoldovaService apiService;
+    private Subscription subscription;
 
-    public ArticlesPresenter(RssFeedLoader rssFeedLoader, ArticlesContract.View view) {
+    public ArticlesPresenter(ITMoldovaService apiService, ArticlesContract.View view) {
         this.view = view;
-        this.rssFeedLoader = rssFeedLoader;
-        this.view.setPresenter(this);
+        this.apiService = apiService;
     }
 
     @Override
     public void loadArticles() {
-        if (!rssFeedLoader.hasInternetConnection()) {
-            view.showNoInternetConnection();
-            return;
-        }
+//        if (!rssFeedLoader.hasInternetConnection()) {
+//            view.showNoInternetConnection();
+//            return;
+//        }
 
-        rssFeedLoader.getRssFeed(new HttpRequestListener() {
-            @Override
-            public void onStart() {
-                view.setLoadingIndicator(true);
-            }
-
-            @Override
-            public void onTerminate() {
-                view.setLoadingIndicator(false);
-            }
-
-            @Override
-            public void onSuccess(Rss response) {
-                processResponse(response);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                view.showError();
-            }
-        });
+        subscription = apiService.getRssFeed()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> view.setLoadingIndicator(true))
+                .doOnTerminate(() -> view.setLoadingIndicator(false))
+                .subscribe(
+                        response -> processResponse(response),
+                        error -> view.showError());
     }
 
     private void processResponse(Rss response) {
@@ -57,7 +47,9 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     }
 
     @Override
-    public void start() {
-        loadArticles();
+    public void cancel() {
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
     }
 }
