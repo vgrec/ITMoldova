@@ -6,12 +6,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.itmoldova.list.ArticlesFragment;
 
-public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
+public class CategoriesFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] items = {"Home", "Jocuri", "Software", "Hardware", "Locale", "Funny"};
+    private String[] items;
 
-    public SimpleFragmentPagerAdapter(FragmentManager fm) {
+    public CategoriesFragmentPagerAdapter(FragmentManager fm, String[] items) {
         super(fm);
+        this.items = items;
     }
 
     @Override

@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.itmoldova.R;
-import com.itmoldova.adapter.SimpleFragmentPagerAdapter;
+import com.itmoldova.adapter.CategoriesFragmentPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         assert viewPager != null;
-        viewPager.setAdapter(new SimpleFragmentPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new CategoriesFragmentPagerAdapter(
+                getSupportFragmentManager(),
+                getResources().getStringArray(R.array.categories)));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
