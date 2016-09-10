@@ -19,7 +19,8 @@ import com.itmoldova.Extra;
 import com.itmoldova.R;
 import com.itmoldova.adapter.ArticlesAdapter;
 import com.itmoldova.detail.DetailActivity;
-import com.itmoldova.http.HttpUtils;
+import com.itmoldova.http.ITMoldovaServiceCreator;
+import com.itmoldova.http.NetworkConnectionManager;
 import com.itmoldova.model.Item;
 
 import java.util.ArrayList;
@@ -77,7 +78,10 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter = new ArticlesPresenter(HttpUtils.createItMoldovaService(), this);
+        presenter = new ArticlesPresenter(
+                ITMoldovaServiceCreator.createItMoldovaService(),
+                this,
+                new NetworkConnectionManager(getActivity().getApplicationContext()));
         presenter.loadArticles();
     }
 

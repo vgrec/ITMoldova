@@ -1,9 +1,5 @@
 package com.itmoldova.http;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
 import com.itmoldova.Constants;
 
 import retrofit2.Retrofit;
@@ -15,7 +11,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
  * <p>
  * Author vgrec, on 10.09.16.
  */
-public class HttpUtils {
+public class ITMoldovaServiceCreator {
     public static ITMoldovaService createItMoldovaService() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.IT_MOLDOVA_BASE_URL)
@@ -24,11 +20,5 @@ public class HttpUtils {
                 .build();
 
         return retrofit.create(ITMoldovaService.class);
-    }
-
-    public static boolean hasInternetConnection(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
     }
 }

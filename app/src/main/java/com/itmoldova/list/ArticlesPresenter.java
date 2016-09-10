@@ -1,6 +1,7 @@
 package com.itmoldova.list;
 
 import com.itmoldova.http.ITMoldovaService;
+import com.itmoldova.http.NetworkConnectionManager;
 import com.itmoldova.model.Rss;
 
 import rx.Subscription;
@@ -15,19 +16,20 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     private ArticlesContract.View view;
     private ITMoldovaService apiService;
     private Subscription subscription;
+    private NetworkConnectionManager connectionManager;
 
-    public ArticlesPresenter(ITMoldovaService apiService, ArticlesContract.View view) {
+    public ArticlesPresenter(ITMoldovaService apiService, ArticlesContract.View view, NetworkConnectionManager connectionManager) {
         this.view = view;
         this.apiService = apiService;
+        this.connectionManager = connectionManager;
     }
 
     @Override
     public void loadArticles() {
-//        if (!rssFeedLoader.hasInternetConnection()) {
-//            view.showNoInternetConnection();
-//            return;
-//        }
-
+        if (!connectionManager.hasInternetConnection()) {
+            view.showNoInternetConnection();
+            return;
+        }
         subscription = apiService.getRssFeed()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
