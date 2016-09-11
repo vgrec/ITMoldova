@@ -1,5 +1,6 @@
 package com.itmoldova.list;
 
+import com.itmoldova.model.Category;
 import com.itmoldova.model.Item;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface ArticlesContract {
     }
 
     interface Presenter {
-        void loadArticles();
+        void loadArticles(Category category);
 
         void cancel();
     }

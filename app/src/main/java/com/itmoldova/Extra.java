@@ -5,4 +5,5 @@ package com.itmoldova;
  */
 public class Extra {
     public static final String ITEM = "item";
+    public static final String CATEGORY = "category";
 }

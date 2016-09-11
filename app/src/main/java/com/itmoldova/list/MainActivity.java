@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         assert viewPager != null;
         viewPager.setAdapter(new CategoriesFragmentPagerAdapter(
                 getSupportFragmentManager(),
-                getResources().getStringArray(R.array.categories)));
+                getResources()));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);

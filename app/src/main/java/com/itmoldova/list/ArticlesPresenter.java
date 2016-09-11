@@ -2,8 +2,10 @@ package com.itmoldova.list;
 
 import com.itmoldova.http.ITMoldovaService;
 import com.itmoldova.http.NetworkConnectionManager;
+import com.itmoldova.model.Category;
 import com.itmoldova.model.Rss;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -25,12 +27,12 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     }
 
     @Override
-    public void loadArticles() {
+    public void loadArticles(Category category) {
         if (!connectionManager.hasInternetConnection()) {
             view.showNoInternetConnection();
             return;
         }
-        subscription = apiService.getRssFeed()
+        subscription = getObservableByCategory(category)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> view.setLoadingIndicator(true))
@@ -38,6 +40,14 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
                 .subscribe(
                         response -> processResponse(response),
                         error -> view.showError());
+    }
+
+    private Observable<Rss> getObservableByCategory(Category category) {
+        if (category == Category.HOME) {
+            return apiService.getDefaultRssFeed();
+        } else {
+            return apiService.getRssFeedByCategory(category.getCategoryName());
+        }
     }
 
     private void processResponse(Rss response) {

@@ -21,6 +21,7 @@ import com.itmoldova.adapter.ArticlesAdapter;
 import com.itmoldova.detail.DetailActivity;
 import com.itmoldova.http.ITMoldovaServiceCreator;
 import com.itmoldova.http.NetworkConnectionManager;
+import com.itmoldova.model.Category;
 import com.itmoldova.model.Item;
 
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * Shows a list of articles.
+ * <p>
  * Author vgrec, on 09.07.16.
  */
 public class ArticlesFragment extends Fragment implements ArticlesContract.View {
@@ -37,6 +40,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     private ArticlesContract.Presenter presenter;
     private ArticlesAdapter adapter;
     private List<Item> items = new ArrayList<>();
+    private Category category;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -44,14 +48,19 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     @BindView(R.id.refresh)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    public static Fragment newInstance(String item) {
-        return new ArticlesFragment();
+    public static Fragment newInstance(Category category) {
+        Bundle args = new Bundle();
+        args.putSerializable(Extra.CATEGORY, category);
+        ArticlesFragment fragment = new ArticlesFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        category = (Category) getArguments().getSerializable(Extra.CATEGORY);
     }
 
     @Nullable
@@ -64,7 +73,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         adapter = new ArticlesAdapter(items, this::openArticleDetail);
         recyclerView.setAdapter(adapter);
 
-        swipeRefreshLayout.setOnRefreshListener(() -> presenter.loadArticles());
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.loadArticles(category));
 
         return view;
     }
@@ -82,7 +91,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
                 ITMoldovaServiceCreator.createItMoldovaService(),
                 this,
                 new NetworkConnectionManager(getActivity().getApplicationContext()));
-        presenter.loadArticles();
+        presenter.loadArticles(category);
     }
 
     @Override
@@ -117,7 +126,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                presenter.loadArticles();
+                presenter.loadArticles(category);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
