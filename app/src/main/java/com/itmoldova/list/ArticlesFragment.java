@@ -136,6 +136,8 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.cancel();
+        if (presenter != null) {
+            presenter.cancel();
+        }
     }
 }
