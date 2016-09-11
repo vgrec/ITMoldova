@@ -44,6 +44,12 @@ public class ContentParserTest {
     }
 
     @Test
+    public void testExtractFirstImageUrlFromContent(){
+        String url = ContentParser.extractFirstImage(CONTENT_MIXED);
+        assertThat(url).isEqualTo(IMAGE_1);
+    }
+
+    @Test
     public void testContentParser_OnlyText() {
         List<Block> parts = ContentParser.parse(CONTENT_ONLY_TEXT);
         assertThat(parts.size()).isEqualTo(1);

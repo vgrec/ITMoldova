@@ -70,7 +70,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         ButterKnife.bind(this, view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ArticlesAdapter(items, this::openArticleDetail);
+        adapter = new ArticlesAdapter(getActivity(), items, this::openArticleDetail);
         recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.loadArticles(category));
@@ -115,6 +115,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     @Override
     public void showNoInternetConnection() {
         Toast.makeText(getActivity(), "No Internet", Toast.LENGTH_LONG).show();
+        // TODO: consider showing a SnackBar here
     }
 
     @Override

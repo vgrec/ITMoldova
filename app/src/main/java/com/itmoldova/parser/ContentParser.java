@@ -53,4 +53,17 @@ public class ContentParser {
 
         return url;
     }
+
+    public static String extractFirstImage(String content) {
+        if (content == null) {
+            return null;
+        }
+
+        int imgTagIndex = content.indexOf(IMG_START_TAG);
+        if (imgTagIndex != -1) {
+            return extractUrl(content.substring(imgTagIndex));
+        } else {
+            return null;
+        }
+    }
 }
