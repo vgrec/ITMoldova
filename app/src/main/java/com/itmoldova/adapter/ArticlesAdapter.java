@@ -12,6 +12,7 @@ import com.itmoldova.R;
 import com.itmoldova.list.ItemClickListener;
 import com.itmoldova.model.Item;
 import com.itmoldova.parser.ContentParser;
+import com.itmoldova.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Item item = items.get(position);
         holder.titleView.setText(item.getTitle());
-        holder.dateView.setText(item.getPubDate());
+        holder.dateView.setText(Utils.formatPubDate(item.getPubDate()));
         Picasso.with(context).load(ContentParser.extractFirstImage(item.getContent())).into(holder.previewImage);
     }
 
