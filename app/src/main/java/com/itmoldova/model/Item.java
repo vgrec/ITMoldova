@@ -35,7 +35,11 @@ public class Item implements Parcelable {
 
     @Namespace(prefix = "content")
     @Element(name = "encoded", required = false)
-    public String content;
+    private String content;
+
+    @Namespace(prefix = "creator")
+    @Element(name = "creator", required = false)
+    private String dc;
 
     public String getTitle() {
         return title;
@@ -61,6 +65,10 @@ public class Item implements Parcelable {
         return content;
     }
 
+    public String getCreator() {
+        return dc;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -74,6 +82,7 @@ public class Item implements Parcelable {
         dest.writeString(this.guid);
         dest.writeString(this.pubDate);
         dest.writeString(this.content);
+        dest.writeString(this.dc);
     }
 
     protected Item(Parcel in) {
@@ -83,6 +92,7 @@ public class Item implements Parcelable {
         this.guid = in.readString();
         this.pubDate = in.readString();
         this.content = in.readString();
+        this.dc = in.readString();
     }
 
     public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
