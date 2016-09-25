@@ -38,6 +38,9 @@ public class ContentParser {
             blocks.add(new Block(Block.Type.TEXT, content));
         }
 
+        // TODO: normalize the list, for now it is hardcoded just for testing.
+        blocks.remove(0);
+
         return blocks;
     }
 

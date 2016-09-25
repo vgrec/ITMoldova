@@ -10,12 +10,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.itmoldova.Extra;
 import com.itmoldova.R;
 import com.itmoldova.model.Item;
 import com.itmoldova.parser.DetailViewCreator;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ import butterknife.ButterKnife;
 
 /**
  * Shows details of an article.
- *
+ * <p>
  * Author vgrec, on 09.07.16.
  */
 public class DetailFragment extends Fragment implements DetailContract.View {
@@ -40,6 +42,9 @@ public class DetailFragment extends Fragment implements DetailContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.image_header)
+    ImageView imageHeaderView;
 
 
     public static DetailFragment newInstance(Item item) {
@@ -97,5 +102,13 @@ public class DetailFragment extends Fragment implements DetailContract.View {
     @Override
     public void showTitle(String title) {
         titleView.setText(title);
+    }
+
+    @Override
+    public void showHeaderImage(String url) {
+        if (url != null) {
+            imageHeaderView.setVisibility(View.VISIBLE);
+            Picasso.with(getActivity()).load(url).into(imageHeaderView);
+        }
     }
 }

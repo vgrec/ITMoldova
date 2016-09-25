@@ -26,7 +26,17 @@ public class DetailPresenter implements DetailContract.Presenter {
         view.showTitle(item.getTitle());
 
         List<Block> blocks = ContentParser.parse(item.getContent());
+        String imageHeaderUrl = getHeaderImageFromBlocks(blocks);
+        view.showHeaderImage(imageHeaderUrl);
+
         List<View> views = detailViewCreator.createViewsFrom(blocks);
         view.showArticleDetail(views);
+    }
+
+    private String getHeaderImageFromBlocks(List<Block> blocks) {
+        if (blocks.get(0).getType() == Block.Type.IMAGE) {
+            return blocks.remove(0).getContent();
+        }
+        return null;
     }
 }

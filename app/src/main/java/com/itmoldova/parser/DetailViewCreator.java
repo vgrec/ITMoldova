@@ -53,6 +53,8 @@ public class DetailViewCreator {
         textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         textView.setText(Html.fromHtml(text));
+        textView.setTextSize(16f);
+        textView.setLineSpacing(8, 1);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         return textView;
     }

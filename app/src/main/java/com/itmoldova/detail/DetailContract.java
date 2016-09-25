@@ -13,6 +13,8 @@ public class DetailContract {
         void showArticleDetail(List<android.view.View> views);
 
         void showTitle(String title);
+
+        void showHeaderImage(String url);
     }
 
     interface Presenter {
