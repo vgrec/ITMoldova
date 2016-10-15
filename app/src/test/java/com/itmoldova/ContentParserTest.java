@@ -44,21 +44,21 @@ public class ContentParserTest {
     }
 
     @Test
-    public void testExtractFirstImageUrlFromContent(){
+    public void testExtractFirstImageUrlFromContent() {
         String url = ContentParser.extractFirstImage(CONTENT_MIXED);
         assertThat(url).isEqualTo(IMAGE_1);
     }
 
     @Test
     public void testContentParser_OnlyText() {
-        List<Block> parts = ContentParser.parse(CONTENT_ONLY_TEXT);
+        List<Block> parts = new ContentParser(CONTENT_ONLY_TEXT).parse();
         assertThat(parts.size()).isEqualTo(1);
         assertThat(parts.get(0).getContent()).isEqualTo(TEXT_1);
     }
 
     @Test
     public void testContentParser_ImageFirstTextAfter() {
-        List<Block> parts = ContentParser.parse(CONTENT_IMAGE_FIRST_TEXT_AFTER);
+        List<Block> parts = new ContentParser(CONTENT_IMAGE_FIRST_TEXT_AFTER).parse();
         assertThat(parts.size()).isEqualTo(2);
         assertThat(parts.get(0).getContent()).isEqualTo(IMAGE_1);
         assertThat(parts.get(1).getContent()).isEqualTo(TEXT_1);
@@ -66,7 +66,7 @@ public class ContentParserTest {
 
     @Test
     public void testContentParser_TextFirstImageAfter() {
-        List<Block> parts = ContentParser.parse(CONTENT_TEXT_FIRST_IMAGE_AFTER);
+        List<Block> parts = new ContentParser(CONTENT_TEXT_FIRST_IMAGE_AFTER).parse();
         assertThat(parts.size()).isEqualTo(2);
         assertThat(parts.get(0).getContent()).isEqualTo(TEXT_1);
         assertThat(parts.get(1).getContent()).isEqualTo(IMAGE_1);
@@ -74,7 +74,7 @@ public class ContentParserTest {
 
     @Test
     public void testContentParser_Mixed() {
-        List<Block> parts = ContentParser.parse(CONTENT_MIXED);
+        List<Block> parts = new ContentParser(CONTENT_MIXED).parse();
         assertThat(parts.size()).isEqualTo(6);
         assertThat(parts.get(0).getContent()).isEqualTo(TEXT_1);
         assertThat(parts.get(1).getContent()).isEqualTo(IMAGE_1);

@@ -1,5 +1,8 @@
 package com.itmoldova.parser;
 
+import android.text.Html;
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +16,14 @@ public class ContentParser {
     private static final String SRC_START_TAG = "src=\"";
     private static final String SRC_END_TAG = "\"";
 
+    private String content;
+    private List<Block> blocks = new ArrayList<>();
 
-    public static List<Block> parse(String content) {
-        List<Block> blocks = new ArrayList<>();
+    public ContentParser(String content) {
+        this.content = content;
+    }
 
+    public List<Block> parse() {
         int startTag;
         while ((startTag = content.indexOf(IMG_START_TAG)) != -1) {
             int endTag = content.indexOf(IMG_END_TAG, startTag);
@@ -37,9 +44,6 @@ public class ContentParser {
         if (content.length() > 0) {
             blocks.add(new Block(Block.Type.TEXT, content));
         }
-
-        // TODO: normalize the list, for now it is hardcoded just for testing.
-        blocks.remove(0);
 
         return blocks;
     }
@@ -68,5 +72,24 @@ public class ContentParser {
         } else {
             return null;
         }
+    }
+
+    public List<Block> normalize(List<Block> blocks) {
+        if (blocks.get(0).getType() == Block.Type.TEXT) {
+            // Convert the html content to String,
+            // if empty string is returned then the block is removed.
+            String content = Html.fromHtml(blocks.get(0).getContent()).toString();
+            if (TextUtils.isEmpty(content)) {
+                blocks.remove(0);
+            }
+        }
+        return blocks;
+    }
+
+    public String getHeaderImageFromBlocks(List<Block> blocks) {
+        if (blocks.get(0).getType() == Block.Type.IMAGE) {
+            return blocks.remove(0).getContent();
+        }
+        return null;
     }
 }

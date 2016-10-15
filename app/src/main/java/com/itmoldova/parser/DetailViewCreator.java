@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.itmoldova.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -64,6 +65,8 @@ public class DetailViewCreator {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER_HORIZONTAL;
+        params.setMargins(0, (int) context.getResources().getDimension(R.dimen.image_margin_top), 0,
+                (int) context.getResources().getDimension(R.dimen.image_margin_bottom));
         imageView.setLayoutParams(params);
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setAdjustViewBounds(true);

@@ -36,4 +36,9 @@ public class Block {
         TEXT,
         VIDEO
     }
+
+    @Override
+    public String toString() {
+        return "\n\n" + type.toString() + ":\n" + content;
+    }
 }
