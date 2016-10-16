@@ -70,6 +70,7 @@ public class DetailViewCreator {
         imageView.setLayoutParams(params);
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setAdjustViewBounds(true);
+        imageView.setTag(url);
         Picasso.with(context).load(url).into(imageView);
         return imageView;
     }

@@ -1,6 +1,7 @@
 package com.itmoldova.detail;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +18,10 @@ import com.itmoldova.Extra;
 import com.itmoldova.R;
 import com.itmoldova.model.Item;
 import com.itmoldova.parser.DetailViewCreator;
+import com.itmoldova.photoview.PhotoViewActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,7 +32,7 @@ import butterknife.ButterKnife;
  * <p>
  * Author vgrec, on 09.07.16.
  */
-public class DetailFragment extends Fragment implements DetailContract.View {
+public class DetailFragment extends Fragment implements DetailContract.View, View.OnClickListener {
 
     private DetailContract.Presenter presenter;
     private Item item;
@@ -95,6 +98,9 @@ public class DetailFragment extends Fragment implements DetailContract.View {
     @Override
     public void showArticleDetail(List<View> views) {
         for (View view : views) {
+            if (view instanceof ImageView) {
+                view.setOnClickListener(this);
+            }
             contentGroup.addView(view);
         }
     }
@@ -108,7 +114,18 @@ public class DetailFragment extends Fragment implements DetailContract.View {
     public void showHeaderImage(String url) {
         if (url != null) {
             imageHeaderView.setVisibility(View.VISIBLE);
+            imageHeaderView.setTag(url);
+            imageHeaderView.setOnClickListener(this);
             Picasso.with(getActivity()).load(url).into(imageHeaderView);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        List<String> urls = presenter.extractPhotoUrlsFromArticle();
+        Intent intent = new Intent(getActivity(), PhotoViewActivity.class);
+        intent.putStringArrayListExtra(Extra.PHOTO_URLS, (ArrayList<String>) urls);
+        intent.putExtra(Extra.CLICKED_URL, (String) v.getTag());
+        startActivity(intent);
     }
 }

@@ -19,5 +19,7 @@ public class DetailContract {
 
     interface Presenter {
         void loadArticle(Item item);
+
+        List<String> extractPhotoUrlsFromArticle();
     }
 }

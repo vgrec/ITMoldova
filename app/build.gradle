@@ -3,8 +3,8 @@ apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.itmold"
@@ -27,12 +27,17 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // test libraries
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.5.2'
 
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
+    // support libraries
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:cardview-v7:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+
+    // other libraries
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
@@ -40,10 +45,9 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile "com.squareup.retrofit2:adapter-rxjava:2.1.0"
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
-    compile ('com.squareup.retrofit2:converter-simplexml:2.1.0'){
+    compile('com.squareup.retrofit2:converter-simplexml:2.1.0') {
         exclude module: 'stax-api'
     }
-    compile 'com.android.support:cardview-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.chrisbanes:PhotoView:1.3.0'
 }
