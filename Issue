@@ -13,7 +13,7 @@
 - Display pub date and author on details page.
 - Display shadow around images (again details)
 - View in browser full article
-- Integrate an image viewer
+* Integrate an image viewer
 - About (info about app, author, link to git)
 - Settings (Change text size, notifications)
 - Add ability to bookmark
@@ -22,3 +22,4 @@
 - Infinite loading
 - Search?
 - Notifications?
+- Optimize for tablets.
