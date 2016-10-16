@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.itmoldova.Extra;
 import com.itmoldova.R;
 import com.itmoldova.adapter.PhotoViewAdapter;
+import com.itmoldova.anim.DepthPageTransformer;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ public class PhotoViewActivity extends AppCompatActivity implements ViewPager.On
         int currentItem = urls.indexOf(clickedUrl) != -1 ? urls.indexOf(clickedUrl) : 0;
         viewPager.setCurrentItem(currentItem);
         viewPager.addOnPageChangeListener(this);
+        viewPager.setPageTransformer(true, new DepthPageTransformer());
         updatePageCounter(currentItem);
 
         setSupportActionBar(toolbar);
