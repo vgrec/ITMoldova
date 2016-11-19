@@ -116,7 +116,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         if (clearDataSet) {
             this.items.clear();
             adapter.notifyDataSetChanged();
-            endlessScrollListener.resetCurrentPage();
+            endlessScrollListener.reset();
         }
 
         int fromPosition = this.items.size();
