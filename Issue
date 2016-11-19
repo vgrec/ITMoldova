@@ -19,8 +19,9 @@
 - Add ability to bookmark
 - In List view: if no preview image is available, then show text summary max 3 lines.
 - Display related articles
-- Infinite loading
+* Infinite loading
 - Search?
 - Notifications?
+- Cache?
 - Optimize for tablets.
 - Add ripple effect

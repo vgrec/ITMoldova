@@ -23,6 +23,7 @@ import com.itmoldova.http.ITMoldovaServiceCreator;
 import com.itmoldova.http.NetworkConnectionManager;
 import com.itmoldova.model.Category;
 import com.itmoldova.model.Item;
+import com.itmoldova.util.EndlessScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
 
     @BindView(R.id.refresh)
     SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerViewEndlessScrollListener endlessScrollListener;
 
     public static Fragment newInstance(Category category) {
         Bundle args = new Bundle();
@@ -69,13 +71,28 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
         adapter = new ArticlesAdapter(getActivity(), items, this::openArticleDetail);
         recyclerView.setAdapter(adapter);
+        endlessScrollListener = new RecyclerViewEndlessScrollListener(layoutManager);
+        recyclerView.addOnScrollListener(endlessScrollListener);
 
-        swipeRefreshLayout.setOnRefreshListener(() -> presenter.loadArticles(category));
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.refreshArticles(category));
 
         return view;
+    }
+
+    private class RecyclerViewEndlessScrollListener extends EndlessScrollListener {
+
+        RecyclerViewEndlessScrollListener(LinearLayoutManager layoutManager) {
+            super(layoutManager);
+        }
+
+        @Override
+        public void onLoadMore(int page, int totalItemsCount) {
+            presenter.loadArticles(category, page);
+        }
     }
 
     private void openArticleDetail(Item item) {
@@ -91,11 +108,17 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
                 ITMoldovaServiceCreator.createItMoldovaService(),
                 this,
                 new NetworkConnectionManager(getActivity().getApplicationContext()));
-        presenter.loadArticles(category);
+        presenter.loadArticles(category, 0);
     }
 
     @Override
-    public void showArticles(List<Item> items) {
+    public void showArticles(List<Item> items, boolean clearDataSet) {
+        if (clearDataSet) {
+            this.items.clear();
+            adapter.notifyDataSetChanged();
+            endlessScrollListener.resetCurrentPage();
+        }
+
         int fromPosition = this.items.size();
         int toPosition = items.size();
         this.items.addAll(items);
@@ -127,7 +150,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                presenter.loadArticles(category);
+                presenter.refreshArticles(category);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
