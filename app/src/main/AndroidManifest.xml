@@ -21,12 +21,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".detail.DetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".photoview.PhotoViewActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/screen_title_settings" />
+
+        <service
+            android:name=".sync.SyncArticlesService"
+            android:exported="false" />
+
+        <receiver
+            android:name=".sync.BootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

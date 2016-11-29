@@ -19,4 +19,26 @@
     <string name="funny_it">Funny IT</string>
     <string name="istoria_it">Istoria IT</string>
     <string name="page_counter">%1$s / %2$s</string>
+    <string name="prefs_notifications">Notifications</string>
+    <string name="prefs_sync_interval">Sync interval</string>
+    <string name="screen_title_settings">Settings</string>
+
+    <!-- Notification entries -->
+    <string name="entry_one_hour">1 ora</string>
+    <string name="entry_two_hours">2 ore</string>
+    <string name="entry_four_hours">4 ore</string>
+    <string name="entry_eight_hours">8 ore</string>
+    <string name="entry_twenty_four_hours">24 ore</string>
+    <string name="entry_never">Niciodata</string>
+
+    <string name="entry_value_one_hour" translatable="false">one_hour</string>
+    <string name="entry_value_two_hours" translatable="false">two_hours</string>
+    <string name="entry_value_four_hours" translatable="false">four_hours</string>
+    <string name="entry_value_eight_hours" translatable="false">eight_hours</string>
+    <string name="entry_value_twenty_four_hours" translatable="false">twenty_four_hours</string>
+    <string name="entry_value_never" translatable="false">never</string>
+
+    <!-- SharedPreferences keys -->
+    <string name="key_notifications" translatable="false">notifications</string>
+
 </resources>

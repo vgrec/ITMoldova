@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="@string/entry_value_never"
+        android:dialogTitle="@string/prefs_sync_interval"
+        android:entries="@array/notification_entries"
+        android:entryValues="@array/notification_entry_values"
+        android:key="@string/key_notifications"
+        android:title="@string/prefs_notifications" />
+
+</PreferenceScreen>

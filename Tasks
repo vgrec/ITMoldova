@@ -1,27 +1,21 @@
-  @Namespace(prefix = "wfw")
-        @Element(name = "commentRss", required = false)
-        String commentRss;
-
-
-        @Namespace(prefix = "slash")
-        @Path("slash")
-        @Element(name = "comments", required = false)
-        int comments;
 
 ----------
+- Handle Youtube videos in article details page
 - Change fonts in details and list. Check if the nav drawer also has to be changed.
 - Display pub date and author on details page.
 - Display shadow around images (again details)
 - View in browser full article
 * Integrate an image viewer
 - About (info about app, author, link to git)
-- Settings (Change text size, notifications)
+* Settings screen
+- Notifications
+- Change text size
 - Add ability to bookmark
 - In List view: if no preview image is available, then show text summary max 3 lines.
 - Display related articles
 * Infinite loading
 - Search?
-- Notifications?
 - Cache?
 - Optimize for tablets.
 - Add ripple effect
+- Check language files, make default Romanian.
