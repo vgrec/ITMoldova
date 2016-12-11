@@ -28,7 +28,14 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         setPreferenceSummary(preference, newValue);
+        if (getString(R.string.key_notifications).equals(preference.getKey())) {
+            setSyncInterval(newValue.toString());
+        }
         return true;
+    }
+
+    private void setSyncInterval(String interval) {
+
     }
 
     private void setPreferenceSummary(Preference preference, Object newValue) {

@@ -40,7 +40,7 @@ public class AppSettings {
 
     public String getNotificationEntry() {
         String key = resources.getString(R.string.key_notifications);
-        String defaultValue = resources.getString(R.string.entry_value_never);
+        String defaultValue = resources.getString(R.string.notification_value_never);
         return preferences.getString(key, defaultValue);
     }
 
