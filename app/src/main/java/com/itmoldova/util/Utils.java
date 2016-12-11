@@ -12,6 +12,8 @@ import java.util.Locale;
 
 public class Utils {
 
+    public static final SimpleDateFormat PUB_DATE_FORMATTER = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
+
     /**
      * Formats the publication date.
      *
@@ -20,9 +22,8 @@ public class Utils {
      * an exception occurred
      */
     public static String formatPubDate(String pubDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
         try {
-            Date date = formatter.parse(pubDate);
+            Date date = PUB_DATE_FORMATTER.parse(pubDate);
 
             int flags = DateUtils.FORMAT_SHOW_DATE
                     | DateUtils.FORMAT_SHOW_TIME
@@ -34,6 +35,16 @@ public class Utils {
         } catch (ParseException e) {
             Log.e(Constants.TAG, "Exception while formatting the pubDate", e);
             return pubDate;
+        }
+    }
+
+    public static long pubDateToMillis(String pubDate) {
+        try {
+            Date date = PUB_DATE_FORMATTER.parse(pubDate);
+            return date.getTime();
+        } catch (ParseException e) {
+            Log.e(Constants.TAG, "Exception while formatting the pubDate", e);
+            return -1;
         }
     }
 }

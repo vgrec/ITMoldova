@@ -1,9 +1,15 @@
 package com.itmoldova.list;
 
+import com.itmoldova.AppSettings;
+import com.itmoldova.ITMoldova;
 import com.itmoldova.http.ITMoldovaService;
 import com.itmoldova.http.NetworkConnectionManager;
 import com.itmoldova.model.Category;
+import com.itmoldova.model.Item;
 import com.itmoldova.model.Rss;
+import com.itmoldova.util.Utils;
+
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscription;
@@ -16,6 +22,7 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     private ITMoldovaService apiService;
     private Subscription subscription;
     private NetworkConnectionManager connectionManager;
+    private Category category;
 
     public ArticlesPresenter(ITMoldovaService apiService, ArticlesContract.View view, NetworkConnectionManager connectionManager) {
         this.view = view;
@@ -38,6 +45,7 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
             view.showNoInternetConnection();
             return;
         }
+        this.category = category;
         subscription = getObservableByCategory(category, page)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -58,9 +66,19 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
 
     private void processResponse(Rss response, boolean clearDataSet) {
         if (response != null && response.getChannel() != null) {
-            view.showArticles(response.getChannel().getItemList(), clearDataSet);
+            List<Item> items = response.getChannel().getItemList();
+            updateLastPubDate(items);
+            view.showArticles(items, clearDataSet);
         } else {
             view.showError();
+        }
+    }
+
+    private void updateLastPubDate(List<Item> items) {
+        // Update last pub date only for articles that belong to HOME category
+        if (category == Category.HOME) {
+            long newLastPubDate = Utils.pubDateToMillis(items.get(0).getPubDate());
+            AppSettings.getInstance(ITMoldova.getContext()).setLastPubDate(newLastPubDate);
         }
     }
 

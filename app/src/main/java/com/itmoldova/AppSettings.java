@@ -11,8 +11,9 @@ import android.preference.PreferenceManager;
  */
 public class AppSettings {
 
-    public static final String SYNC_INTERVAL = "SYNC_INTERVAL";
     public static final int SYNC_INTERVAL_NEVER = -1;
+    public static final String SYNC_INTERVAL = "SYNC_INTERVAL";
+    public static final String LAST_PUB_DATE = "LAST_PUB_DATE";
 
     private static AppSettings instance;
     private SharedPreferences preferences;
@@ -44,4 +45,11 @@ public class AppSettings {
         return preferences.getString(key, defaultValue);
     }
 
+    public void setLastPubDate(long lastPubDate) {
+        preferences.edit().putLong(LAST_PUB_DATE, lastPubDate).apply();
+    }
+
+    public long getLastPubDate() {
+        return preferences.getLong(LAST_PUB_DATE, 0);
+    }
 }

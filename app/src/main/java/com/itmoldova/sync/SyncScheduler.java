@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * A very thin wrapper around {@link AlarmManager} that provides the
  * ability to schedule and cancel the sync.
@@ -22,9 +24,10 @@ public class SyncScheduler {
     }
 
     public void scheduleRepeatingSync(long interval) {
+        long hours = TimeUnit.HOURS.toMillis(interval);
         alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                interval,
-                1000L, pendingIntent);
+                hours,
+                hours, pendingIntent);
     }
 
     public void cancel() {
