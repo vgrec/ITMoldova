@@ -33,7 +33,7 @@ public class Utils {
             return DateUtils.getRelativeTimeSpanString(date.getTime(), System.currentTimeMillis(),
                     DateUtils.MINUTE_IN_MILLIS, flags).toString();
         } catch (ParseException e) {
-            Log.e(Constants.TAG, "Exception while formatting the pubDate", e);
+            Logs.e("Exception while formatting the pubDate", e);
             return pubDate;
         }
     }
@@ -43,7 +43,7 @@ public class Utils {
             Date date = PUB_DATE_FORMATTER.parse(pubDate);
             return date.getTime();
         } catch (ParseException e) {
-            Log.e(Constants.TAG, "Exception while formatting the pubDate", e);
+            Logs.e("Exception while formatting the pubDate", e);
             return -1;
         }
     }

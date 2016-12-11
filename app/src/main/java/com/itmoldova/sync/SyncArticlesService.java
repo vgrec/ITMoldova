@@ -15,6 +15,7 @@ import com.itmoldova.http.NetworkConnectionManager;
 import com.itmoldova.list.MainActivity;
 import com.itmoldova.model.Item;
 import com.itmoldova.model.Rss;
+import com.itmoldova.util.Logs;
 import com.itmoldova.util.Utils;
 
 import java.util.List;
@@ -47,11 +48,11 @@ public class SyncArticlesService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         if (!connectionManager.hasInternetConnection()) {
-            Log.d("GREC_TEST", "No Connection. Abort sync.");
+            Logs.d("No Connection. Abort sync.");
             return;
         }
 
-        Log.d("GREC_TEST", "Alarm fired");
+        Logs.d("Alarm fired");
 
         subscription = service
                 .getDefaultRssFeed(0)
@@ -82,11 +83,11 @@ public class SyncArticlesService extends IntentService {
     }
 
     private void handleError(Throwable error) {
-        Log.d("GREC_TEST", "Error while downloading");
+        Logs.d("Error while syncing");
     }
 
     private void showNotification(int newArticles) {
-        Log.d("GREC_TEST", newArticles + " new articles published");
+        Logs.d(newArticles + " new articles published");
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_menu_gallery)
