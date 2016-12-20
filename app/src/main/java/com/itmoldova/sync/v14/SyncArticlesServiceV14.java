@@ -1,11 +1,10 @@
-package com.itmoldova.sync;
+package com.itmoldova.sync.v14;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.itmoldova.AppSettings;
 import com.itmoldova.R;
@@ -27,15 +26,15 @@ import rx.Subscription;
  * and fires a notification if new articles were published since
  * the last sync.
  */
-public class SyncArticlesService extends IntentService {
+public class SyncArticlesServiceV14 extends IntentService {
 
     public static final int NOTIFICATION_ID = 1;
     private NetworkConnectionManager connectionManager;
     private Subscription subscription;
     private ITMoldovaService service;
 
-    public SyncArticlesService() {
-        super("SyncArticlesService");
+    public SyncArticlesServiceV14() {
+        super("SyncArticlesServiceV14");
     }
 
     @Override
@@ -85,6 +84,8 @@ public class SyncArticlesService extends IntentService {
     private void handleError(Throwable error) {
         Logs.d("Error while syncing");
     }
+
+    // Show big notification
 
     private void showNotification(int newArticles) {
         Logs.d(newArticles + " new articles published");
