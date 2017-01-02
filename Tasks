@@ -19,3 +19,8 @@
 - Optimize for tablets.
 - Add ripple effect
 - Check language files, make default Romanian.
+
+
+----------
+- Test on device with api 15
+- Test landscape in the DetailsActivity with the test code

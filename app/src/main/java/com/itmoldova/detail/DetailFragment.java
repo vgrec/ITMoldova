@@ -79,7 +79,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
         setupToolbar();
 
         presenter = new DetailPresenter(this, new DetailViewCreator(getActivity()));
-        presenter.loadArticle(item);
+        loadArticle(item);
     }
 
     private void setupToolbar() {
@@ -97,6 +97,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
 
     @Override
     public void showArticleDetail(List<View> views) {
+        contentGroup.removeAllViews();
         for (View view : views) {
             if (view instanceof ImageView) {
                 view.setOnClickListener(this);
@@ -117,6 +118,8 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
             imageHeaderView.setTag(url);
             imageHeaderView.setOnClickListener(this);
             Picasso.with(getActivity()).load(url).into(imageHeaderView);
+        } else {
+            imageHeaderView.setVisibility(View.GONE);
         }
     }
 
@@ -127,5 +130,11 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
         intent.putStringArrayListExtra(Extra.PHOTO_URLS, (ArrayList<String>) urls);
         intent.putExtra(Extra.CLICKED_URL, (String) v.getTag());
         startActivity(intent);
+    }
+
+    public void loadArticle(Item item) {
+        if (presenter != null) {
+            presenter.loadArticle(item);
+        }
     }
 }

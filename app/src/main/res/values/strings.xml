@@ -31,4 +31,6 @@
     <string name="notification_entry_24hours">24 ore</string>
     <string name="notification_entry_never">Niciodata</string>
 
+    <string name="new_articles">articole noi</string>
+
 </resources>
