@@ -12,10 +12,10 @@ import android.net.NetworkInfo;
  * <p>
  * Author vgrec, on 10.09.16.
  */
-public class NetworkConnectionManager {
+public class NetworkDetector {
     private Context context;
 
-    public NetworkConnectionManager(Context context) {
+    public NetworkDetector(Context context) {
         this.context = context;
     }
 

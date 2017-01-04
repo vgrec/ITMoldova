@@ -3,13 +3,15 @@ package com.itmoldova.list;
 import com.itmoldova.AppSettings;
 import com.itmoldova.ITMoldova;
 import com.itmoldova.http.ITMoldovaService;
-import com.itmoldova.http.NetworkConnectionManager;
+import com.itmoldova.http.NetworkDetector;
 import com.itmoldova.model.Category;
 import com.itmoldova.model.Item;
 import com.itmoldova.model.Rss;
 import com.itmoldova.util.Utils;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscription;
@@ -21,13 +23,17 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     private ArticlesContract.View view;
     private ITMoldovaService apiService;
     private Subscription subscription;
-    private NetworkConnectionManager connectionManager;
+    private NetworkDetector connectionManager;
     private Category category;
 
-    public ArticlesPresenter(ITMoldovaService apiService, ArticlesContract.View view, NetworkConnectionManager connectionManager) {
+    @Inject
+    AppSettings appSettings;
+
+    public ArticlesPresenter(ITMoldovaService apiService, ArticlesContract.View view, NetworkDetector connectionManager) {
         this.view = view;
         this.apiService = apiService;
         this.connectionManager = connectionManager;
+        ITMoldova.getAppComponent().inject(this);
     }
 
     @Override
@@ -78,7 +84,7 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
         // Update last pub date only for articles that belong to HOME category
         if (category == Category.HOME) {
             long newLastPubDate = Utils.pubDateToMillis(items.get(0).getPubDate());
-            AppSettings.getInstance(ITMoldova.getContext()).setLastPubDate(newLastPubDate);
+            appSettings.setLastPubDate(newLastPubDate);
         }
     }
 

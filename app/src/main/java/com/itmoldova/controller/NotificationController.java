@@ -15,15 +15,20 @@ import android.support.v4.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.itmoldova.AppSettings;
 import com.itmoldova.Extra;
 import com.itmoldova.R;
 import com.itmoldova.detail.DetailActivity;
 import com.itmoldova.list.MainActivity;
 import com.itmoldova.model.Item;
+import com.itmoldova.model.Rss;
 import com.itmoldova.parser.ContentParser;
+import com.itmoldova.util.Utils;
 
 import java.util.List;
 import java.util.Random;
+
+import javax.inject.Inject;
 
 /**
  * Helper class that shows a status bar notification in different styles
@@ -45,6 +50,7 @@ public class NotificationController {
     private static final int NOTIFICATION_IMAGE_HEIGHT = 250;
 
     private Context context;
+    private AppSettings appSettings;
     private NotificationManager notificationManager;
 
     private enum NotificationType {
@@ -53,9 +59,36 @@ public class NotificationController {
         BIG_TEXT
     }
 
-    public NotificationController(Context context) {
+    @Inject
+    public NotificationController(Context context, NotificationManager notificationManager, AppSettings appSettings) {
         this.context = context;
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        this.notificationManager = notificationManager;
+        this.appSettings = appSettings;
+    }
+
+    public boolean shouldShowNotification(Rss response) {
+        if (response == null || response.getChannel() == null) {
+            return false;
+        }
+
+        List<Item> items = response.getChannel().getItemList();
+        long lastPubDate = appSettings.getLastPubDate();
+        if (lastPubDate == Utils.pubDateToMillis(items.get(0).getPubDate())) {
+            return false;
+        }
+
+        int newPosts = 0;
+        for (Item item : items) {
+            long date = Utils.pubDateToMillis(item.getPubDate());
+            if (date > lastPubDate) {
+                newPosts++;
+            } else {
+                // exit early if the subsequent items are older than the lastPubDate
+                break;
+            }
+        }
+
+        return newPosts > 0;
     }
 
     public void showNotification(List<Item> items) {
@@ -116,7 +149,7 @@ public class NotificationController {
 
     private void showBigImageNotification(List<Item> items) {
         Item firstItem = items.get(0);
-        Glide.with(context)
+        Glide.with(context.getApplicationContext())
                 .load(ContentParser.extractFirstImage(firstItem.getContent()))
                 .asBitmap()
                 .into(new SimpleTarget<Bitmap>(NOTIFICATION_IMAGE_WIDTH, NOTIFICATION_IMAGE_HEIGHT) {

@@ -20,7 +20,7 @@ import com.itmoldova.R;
 import com.itmoldova.adapter.ArticlesAdapter;
 import com.itmoldova.detail.DetailActivity;
 import com.itmoldova.http.ITMoldovaServiceCreator;
-import com.itmoldova.http.NetworkConnectionManager;
+import com.itmoldova.http.NetworkDetector;
 import com.itmoldova.model.Category;
 import com.itmoldova.model.Item;
 import com.itmoldova.util.EndlessScrollListener;
@@ -107,7 +107,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         presenter = new ArticlesPresenter(
                 ITMoldovaServiceCreator.createItMoldovaService(),
                 this,
-                new NetworkConnectionManager(getActivity().getApplicationContext()));
+                new NetworkDetector(getActivity().getApplicationContext()));
         presenter.loadArticles(category, 0);
     }
 

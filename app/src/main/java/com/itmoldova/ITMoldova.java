@@ -1,19 +1,26 @@
 package com.itmoldova;
 
 import android.app.Application;
-import android.content.Context;
+
+import com.itmoldova.di.ApplicationComponent;
+import com.itmoldova.di.ApplicationModule;
+import com.itmoldova.di.DaggerApplicationComponent;
 
 public class ITMoldova extends Application {
 
-    private static Context context;
+    private static ApplicationComponent applicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        context = getApplicationContext();
+
+        applicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
     }
 
-    public static Context getContext() {
-        return context;
+    public static ApplicationComponent getAppComponent() {
+        return applicationComponent;
     }
+
 }

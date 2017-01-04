@@ -12,23 +12,15 @@ import android.preference.PreferenceManager;
 public class AppSettings {
 
     public static final int SYNC_INTERVAL_NEVER = -1;
-    public static final String SYNC_INTERVAL = "SYNC_INTERVAL";
-    public static final String LAST_PUB_DATE = "LAST_PUB_DATE";
+    private static final String SYNC_INTERVAL = "SYNC_INTERVAL";
+    private static final String LAST_PUB_DATE = "LAST_PUB_DATE";
 
-    private static AppSettings instance;
     private SharedPreferences preferences;
     private Resources resources;
 
     public AppSettings(Context context) {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         resources = context.getResources();
-    }
-
-    public static AppSettings getInstance(Context context) {
-        if (instance == null) {
-            instance = new AppSettings(context);
-        }
-        return instance;
     }
 
     public void setSyncInterval(long interval) {
