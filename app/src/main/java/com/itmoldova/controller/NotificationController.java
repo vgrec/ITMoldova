@@ -70,26 +70,6 @@ public class NotificationController {
         return getNumberOfNewArticles(items) > 0;
     }
 
-    public int getNumberOfNewArticles(List<Item> items) {
-        long lastPubDate = appSettings.getLastPubDate();
-        if (lastPubDate == Utils.pubDateToMillis(items.get(0).getPubDate())) {
-            return 0;
-        }
-
-        int newPosts = 0;
-        for (Item item : items) {
-            long date = Utils.pubDateToMillis(item.getPubDate());
-            if (date > lastPubDate) {
-                newPosts++;
-            } else {
-                // exit early if the subsequent items are older than the lastPubDate
-                break;
-            }
-        }
-
-        return newPosts;
-    }
-
     public void showNotification(List<Item> items) {
         NotificationType type = detectNotificationTypeToShow(items);
         switch (type) {
@@ -123,7 +103,7 @@ public class NotificationController {
         Item firstItem = items.get(0);
 
         InboxStyle inboxStyle = new InboxStyle();
-        inboxStyle.setBigContentTitle(items.size() + " " + context.getString(R.string.new_articles));
+        inboxStyle.setBigContentTitle(getNumberOfNewArticles(items) + " " + context.getString(R.string.new_articles));
         for (Item item : items) {
             inboxStyle.addLine(item.getTitle());
         }
@@ -176,6 +156,27 @@ public class NotificationController {
                 .setContentText(description)
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+    }
+
+    @VisibleForTesting
+    int getNumberOfNewArticles(List<Item> items) {
+        long lastPubDate = appSettings.getLastPubDate();
+        if (lastPubDate == Utils.pubDateToMillis(items.get(0).getPubDate())) {
+            return 0;
+        }
+
+        int newPosts = 0;
+        for (Item item : items) {
+            long date = Utils.pubDateToMillis(item.getPubDate());
+            if (date > lastPubDate) {
+                newPosts++;
+            } else {
+                // exit early if the subsequent items are older than the lastPubDate
+                break;
+            }
+        }
+
+        return newPosts;
     }
 
     private PendingIntent createMainActivityPendingIntent() {
