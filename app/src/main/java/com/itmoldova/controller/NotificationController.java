@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.RingtoneManager;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.BigPictureStyle;
 import android.support.v4.app.NotificationCompat.BigTextStyle;
@@ -21,7 +22,6 @@ import com.itmoldova.R;
 import com.itmoldova.detail.DetailActivity;
 import com.itmoldova.list.MainActivity;
 import com.itmoldova.model.Item;
-import com.itmoldova.model.Rss;
 import com.itmoldova.parser.ContentParser;
 import com.itmoldova.util.Utils;
 
@@ -53,7 +53,7 @@ public class NotificationController {
     private AppSettings appSettings;
     private NotificationManager notificationManager;
 
-    private enum NotificationType {
+    public enum NotificationType {
         MULTILINE,
         BIG_IMAGE,
         BIG_TEXT
@@ -66,15 +66,14 @@ public class NotificationController {
         this.appSettings = appSettings;
     }
 
-    public boolean shouldShowNotification(Rss response) {
-        if (response == null || response.getChannel() == null) {
-            return false;
-        }
+    public boolean shouldShowNotification(List<Item> items) {
+        return getNumberOfNewArticles(items) > 0;
+    }
 
-        List<Item> items = response.getChannel().getItemList();
+    public int getNumberOfNewArticles(List<Item> items) {
         long lastPubDate = appSettings.getLastPubDate();
         if (lastPubDate == Utils.pubDateToMillis(items.get(0).getPubDate())) {
-            return false;
+            return 0;
         }
 
         int newPosts = 0;
@@ -88,7 +87,7 @@ public class NotificationController {
             }
         }
 
-        return newPosts > 0;
+        return newPosts;
     }
 
     public void showNotification(List<Item> items) {
@@ -106,7 +105,8 @@ public class NotificationController {
         }
     }
 
-    private NotificationType detectNotificationTypeToShow(List<Item> items) {
+    @VisibleForTesting
+    NotificationType detectNotificationTypeToShow(List<Item> items) {
         if (items.size() > 1) {
             return NotificationType.MULTILINE;
         }

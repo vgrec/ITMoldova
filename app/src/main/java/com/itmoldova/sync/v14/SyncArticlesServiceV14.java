@@ -66,7 +66,11 @@ public class SyncArticlesServiceV14 extends IntentService {
     }
 
     private void onSuccess(Rss response) {
-        if (notificationController.shouldShowNotification(response)) {
+        if (response == null || response.getChannel() == null) {
+            return;
+        }
+
+        if (notificationController.shouldShowNotification(response.getChannel().getItemList())) {
             List<Item> items = response.getChannel().getItemList();
             long newLastPubDate = Utils.pubDateToMillis(items.get(0).getPubDate());
             appSettings.setLastPubDate(newLastPubDate);
