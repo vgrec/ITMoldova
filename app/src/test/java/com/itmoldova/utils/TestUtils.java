@@ -1,6 +1,8 @@
 package com.itmoldova.utils;
 
+import com.itmoldova.model.Channel;
 import com.itmoldova.model.Item;
+import com.itmoldova.model.Rss;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,14 @@ import java.util.List;
  * Helper class that provides test data.
  */
 public class TestUtils {
+
+    public static Rss rssResponse() {
+        Channel channel = new Channel();
+        channel.setItemList(TestUtils.oneArticleWithImage());
+        Rss rss = new Rss();
+        rss.setChannel(channel);
+        return rss;
+    }
 
     public static List<Item> oneArticleWithImage() {
         List<Item> items = new ArrayList<>();

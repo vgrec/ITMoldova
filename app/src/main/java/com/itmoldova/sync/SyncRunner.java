@@ -1,7 +1,6 @@
 package com.itmoldova.sync;
 
 import com.itmoldova.AppSettings;
-import com.itmoldova.ITMoldova;
 import com.itmoldova.controller.NotificationController;
 import com.itmoldova.http.ITMoldovaService;
 import com.itmoldova.http.NetworkDetector;
@@ -26,20 +25,20 @@ public class SyncRunner {
 
     private Subscription subscription;
 
-    @Inject
     NotificationController notificationController;
-
-    @Inject
     AppSettings appSettings;
-
-    @Inject
     ITMoldovaService service;
-
-    @Inject
     NetworkDetector networkDetector;
 
-    public SyncRunner() {
-        ITMoldova.getAppComponent().inject(this);
+    @Inject
+    public SyncRunner(NotificationController notificationController,
+                      AppSettings appSettings,
+                      ITMoldovaService service,
+                      NetworkDetector networkDetector) {
+        this.notificationController = notificationController;
+        this.appSettings = appSettings;
+        this.service = service;
+        this.networkDetector = networkDetector;
     }
 
     public void start() {

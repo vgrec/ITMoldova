@@ -5,7 +5,10 @@ import android.app.job.JobService;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import com.itmoldova.ITMoldova;
 import com.itmoldova.sync.SyncRunner;
+
+import javax.inject.Inject;
 
 /**
  * Implementation of {@link JobService} used on Lollipop and above
@@ -14,12 +17,13 @@ import com.itmoldova.sync.SyncRunner;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SyncArticlesServiceV21 extends JobService {
 
-    private SyncRunner syncRunner;
+    @Inject
+    SyncRunner syncRunner;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        syncRunner = new SyncRunner();
+        ITMoldova.getAppComponent().inject(this);
     }
 
     @Override
