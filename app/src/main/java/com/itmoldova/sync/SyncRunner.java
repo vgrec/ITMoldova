@@ -6,6 +6,7 @@ import com.itmoldova.http.ITMoldovaService;
 import com.itmoldova.http.NetworkDetector;
 import com.itmoldova.model.Item;
 import com.itmoldova.model.Rss;
+import com.itmoldova.util.Logs;
 import com.itmoldova.util.Utils;
 
 import java.util.List;
@@ -25,10 +26,10 @@ public class SyncRunner {
 
     private Subscription subscription;
 
-    NotificationController notificationController;
-    AppSettings appSettings;
-    ITMoldovaService service;
-    NetworkDetector networkDetector;
+    private NotificationController notificationController;
+    private AppSettings appSettings;
+    private ITMoldovaService service;
+    private NetworkDetector networkDetector;
 
     @Inject
     public SyncRunner(NotificationController notificationController,
@@ -57,14 +58,15 @@ public class SyncRunner {
 
         List<Item> items = response.getChannel().getItemList();
         if (notificationController.shouldShowNotification(items)) {
+            notificationController.showNotification(items);
             long newLastPubDate = Utils.pubDateToMillis(items.get(0).getPubDate());
             appSettings.setLastPubDate(newLastPubDate);
-            notificationController.showNotification(items);
         }
     }
 
     private void onError(Throwable error) {
         // Ignore errors during sync
+        Logs.e("Error during sync", error);
     }
 
     public void cancel() {

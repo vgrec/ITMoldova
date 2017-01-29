@@ -70,3 +70,6 @@ public class TestUtils {
         return items;
     }
 }
+
+// https://www.youtube.com/watch?v=cA4iEmWuSB8, min 32:33, for injecting dependencies
+// in Espresso tests.

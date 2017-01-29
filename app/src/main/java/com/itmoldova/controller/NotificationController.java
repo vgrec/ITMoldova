@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.RingtoneManager;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.BigPictureStyle;
@@ -14,8 +15,7 @@ import android.support.v4.app.NotificationCompat.InboxStyle;
 import android.support.v4.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.FutureTarget;
 import com.itmoldova.AppSettings;
 import com.itmoldova.Extra;
 import com.itmoldova.R;
@@ -23,10 +23,12 @@ import com.itmoldova.detail.DetailActivity;
 import com.itmoldova.list.MainActivity;
 import com.itmoldova.model.Item;
 import com.itmoldova.parser.ContentParser;
+import com.itmoldova.util.Logs;
 import com.itmoldova.util.Utils;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
@@ -87,7 +89,7 @@ public class NotificationController {
 
     @VisibleForTesting
     NotificationType detectNotificationTypeToShow(List<Item> items) {
-        if (items.size() > 1) {
+        if (getNumberOfNewArticles(items) > 1) {
             return NotificationType.MULTILINE;
         }
 
@@ -104,7 +106,8 @@ public class NotificationController {
 
         InboxStyle inboxStyle = new InboxStyle();
         inboxStyle.setBigContentTitle(getNumberOfNewArticles(items) + " " + context.getString(R.string.new_articles));
-        for (Item item : items) {
+        for (int i = 0; i < getNumberOfNewArticles(items); i++) {
+            Item item = items.get(i);
             inboxStyle.addLine(item.getTitle());
         }
 
@@ -129,23 +132,35 @@ public class NotificationController {
 
     private void showBigImageNotification(List<Item> items) {
         Item firstItem = items.get(0);
-        Glide.with(context.getApplicationContext())
+        Bitmap bitmap = loadBitmap(firstItem);
+        if (bitmap != null) {
+            BigPictureStyle pictureStyle = new BigPictureStyle();
+            pictureStyle.setBigContentTitle(firstItem.getTitle());
+            pictureStyle.setSummaryText(firstItem.getDescription());
+            pictureStyle.bigPicture(bitmap);
+
+            NotificationCompat.Builder builder = createBaseBuilder(firstItem.getTitle(), firstItem.getDescription());
+            builder.setStyle(pictureStyle);
+            builder.setContentIntent(createDetailActivityPendingIntent(firstItem));
+            notificationManager.notify(generateId(), builder.build());
+        }
+    }
+
+    @Nullable
+    private Bitmap loadBitmap(Item firstItem) {
+        FutureTarget<Bitmap> futureTarget = Glide.with(context.getApplicationContext())
                 .load(ContentParser.extractFirstImage(firstItem.getContent()))
                 .asBitmap()
-                .into(new SimpleTarget<Bitmap>(NOTIFICATION_IMAGE_WIDTH, NOTIFICATION_IMAGE_HEIGHT) {
-                    @Override
-                    public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
-                        BigPictureStyle pictureStyle = new BigPictureStyle();
-                        pictureStyle.setBigContentTitle(firstItem.getTitle());
-                        pictureStyle.setSummaryText(firstItem.getDescription());
-                        pictureStyle.bigPicture(bitmap);
+                .fitCenter()
+                .into(NOTIFICATION_IMAGE_WIDTH, NOTIFICATION_IMAGE_HEIGHT);
 
-                        NotificationCompat.Builder builder = createBaseBuilder(firstItem.getTitle(), firstItem.getDescription());
-                        builder.setStyle(pictureStyle);
-                        builder.setContentIntent(createDetailActivityPendingIntent(firstItem));
-                        notificationManager.notify(generateId(), builder.build());
-                    }
-                });
+        Bitmap bitmap = null;
+        try {
+            bitmap = futureTarget.get();
+        } catch (InterruptedException | ExecutionException e) {
+            Logs.e("Error while loading image for notification", e);
+        }
+        return bitmap;
     }
 
     private NotificationCompat.Builder createBaseBuilder(String title, String description) {
@@ -160,18 +175,19 @@ public class NotificationController {
 
     @VisibleForTesting
     int getNumberOfNewArticles(List<Item> items) {
-        long lastPubDate = appSettings.getLastPubDate();
-        if (lastPubDate == Utils.pubDateToMillis(items.get(0).getPubDate())) {
+        long lastPubDateSaved = appSettings.getLastPubDate();
+        long firstArticlePubDate = Utils.pubDateToMillis(items.get(0).getPubDate());
+        if (lastPubDateSaved == firstArticlePubDate) {
             return 0;
         }
 
         int newPosts = 0;
         for (Item item : items) {
             long date = Utils.pubDateToMillis(item.getPubDate());
-            if (date > lastPubDate) {
+            if (date > lastPubDateSaved) {
                 newPosts++;
             } else {
-                // exit early if the subsequent items are older than the lastPubDate
+                // exit early if the subsequent items are older than the lastPubDateSaved
                 break;
             }
         }
