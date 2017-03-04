@@ -136,7 +136,6 @@ public class NotificationController {
         if (bitmap != null) {
             BigPictureStyle pictureStyle = new BigPictureStyle();
             pictureStyle.setBigContentTitle(firstItem.getTitle());
-            pictureStyle.setSummaryText(firstItem.getDescription());
             pictureStyle.bigPicture(bitmap);
 
             NotificationCompat.Builder builder = createBaseBuilder(firstItem.getTitle(), firstItem.getDescription());

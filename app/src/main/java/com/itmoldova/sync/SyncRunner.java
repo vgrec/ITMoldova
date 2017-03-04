@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Scheduler;
 import rx.Subscription;
 
 /**
@@ -42,16 +43,29 @@ public class SyncRunner {
         this.networkDetector = networkDetector;
     }
 
-    public void start() {
+    public void start(Scheduler subscribeOnScheduler, Scheduler observeOnScheduler) {
+        start(subscribeOnScheduler, observeOnScheduler, null);
+    }
+
+    public void start(Scheduler subscribeOnScheduler, Scheduler observeOnScheduler, SyncFinishedListener listener) {
         if (!networkDetector.hasInternetConnection()) {
             return;
         }
         subscription = service
                 .getDefaultRssFeed(PAGE_NUMBER)
-                .subscribe(this::onSuccess, this::onError);
+                .subscribeOn(subscribeOnScheduler)
+                .observeOn(observeOnScheduler)
+                .subscribe(
+                        rss -> onSuccess(rss, listener),
+                        error -> onError(error, listener)
+                );
     }
 
-    private void onSuccess(Rss response) {
+    private void onSuccess(Rss response, SyncFinishedListener listener) {
+        if (listener != null) {
+            listener.onSyncFinished();
+        }
+
         if (response == null || response.getChannel() == null) {
             return;
         }
@@ -64,7 +78,11 @@ public class SyncRunner {
         }
     }
 
-    private void onError(Throwable error) {
+    private void onError(Throwable error, SyncFinishedListener listener) {
+        if (listener != null) {
+            listener.onSyncFinished();
+        }
+
         // Ignore errors during sync
         Logs.e("Error during sync", error);
     }

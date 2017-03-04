@@ -6,16 +6,20 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.itmoldova.ITMoldova;
+import com.itmoldova.sync.SyncFinishedListener;
 import com.itmoldova.sync.SyncRunner;
 
 import javax.inject.Inject;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Implementation of {@link JobService} used on Lollipop and above
  * to retrieve the latest rss feed.
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class SyncArticlesServiceV21 extends JobService {
+public class SyncArticlesServiceV21 extends JobService implements SyncFinishedListener{
 
     @Inject
     SyncRunner syncRunner;
@@ -28,8 +32,8 @@ public class SyncArticlesServiceV21 extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        syncRunner.start();
-        return false;
+        syncRunner.start(Schedulers.newThread(), AndroidSchedulers.mainThread(), this);
+        return true;
     }
 
     @Override
@@ -42,5 +46,10 @@ public class SyncArticlesServiceV21 extends JobService {
     public void onDestroy() {
         super.onDestroy();
         syncRunner.cancel();
+    }
+
+    @Override
+    public void onSyncFinished() {
+        jobFinished(null, false);
     }
 }

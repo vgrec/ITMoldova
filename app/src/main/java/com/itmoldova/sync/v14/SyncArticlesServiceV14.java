@@ -8,6 +8,8 @@ import com.itmoldova.sync.SyncRunner;
 
 import javax.inject.Inject;
 
+import rx.schedulers.Schedulers;
+
 /**
  * Implementation of {@link IntentService} used on Pre-Lollipop devices
  * to retrieve the latest rss feed.
@@ -29,7 +31,7 @@ public class SyncArticlesServiceV14 extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        syncRunner.start();
+        syncRunner.start(Schedulers.immediate(), Schedulers.immediate());
     }
 
     @Override
