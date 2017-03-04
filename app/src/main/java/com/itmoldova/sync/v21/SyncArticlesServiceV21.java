@@ -6,7 +6,6 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import com.itmoldova.ITMoldova;
-import com.itmoldova.sync.SyncFinishedListener;
 import com.itmoldova.sync.SyncRunner;
 
 import javax.inject.Inject;
@@ -19,7 +18,7 @@ import rx.schedulers.Schedulers;
  * to retrieve the latest rss feed.
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class SyncArticlesServiceV21 extends JobService implements SyncFinishedListener{
+public class SyncArticlesServiceV21 extends JobService {
 
     @Inject
     SyncRunner syncRunner;
@@ -32,7 +31,10 @@ public class SyncArticlesServiceV21 extends JobService implements SyncFinishedLi
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        syncRunner.start(Schedulers.newThread(), AndroidSchedulers.mainThread(), this);
+        syncRunner.start(
+                Schedulers.newThread(),
+                AndroidSchedulers.mainThread(),
+                success -> jobFinished(params, !success));
         return true;
     }
 
@@ -46,10 +48,5 @@ public class SyncArticlesServiceV21 extends JobService implements SyncFinishedLi
     public void onDestroy() {
         super.onDestroy();
         syncRunner.cancel();
-    }
-
-    @Override
-    public void onSyncFinished() {
-        jobFinished(null, false);
     }
 }

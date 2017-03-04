@@ -63,7 +63,7 @@ public class SyncRunner {
 
     private void onSuccess(Rss response, SyncFinishedListener listener) {
         if (listener != null) {
-            listener.onSyncFinished();
+            listener.onSyncFinished(true);
         }
 
         if (response == null || response.getChannel() == null) {
@@ -80,7 +80,7 @@ public class SyncRunner {
 
     private void onError(Throwable error, SyncFinishedListener listener) {
         if (listener != null) {
-            listener.onSyncFinished();
+            listener.onSyncFinished(false);
         }
 
         // Ignore errors during sync

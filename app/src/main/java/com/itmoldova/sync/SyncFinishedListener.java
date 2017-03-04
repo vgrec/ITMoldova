@@ -1,5 +1,5 @@
 package com.itmoldova.sync;
 
 public interface SyncFinishedListener {
-    void onSyncFinished();
+    void onSyncFinished(boolean success);
 }
