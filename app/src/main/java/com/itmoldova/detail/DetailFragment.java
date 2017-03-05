@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itmoldova.Extra;
 import com.itmoldova.R;
@@ -36,6 +37,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
 
     private DetailContract.Presenter presenter;
     private Item item;
+    private List<Item> items;
 
     @BindView(R.id.content)
     ViewGroup contentGroup;
@@ -50,9 +52,10 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     ImageView imageHeaderView;
 
 
-    public static DetailFragment newInstance(Item item) {
+    public static DetailFragment newInstance(List<Item> items, Item item) {
         Bundle args = new Bundle();
         args.putParcelable(Extra.ITEM, item);
+        args.putParcelableArrayList(Extra.ITEMS, new ArrayList<>(items));
         DetailFragment fragment = new DetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -62,6 +65,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         item = getArguments().getParcelable(Extra.ITEM);
+        items = getArguments().getParcelableArrayList(Extra.ITEMS);
         setHasOptionsMenu(true);
     }
 
@@ -79,7 +83,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
         setupToolbar();
 
         presenter = new DetailPresenter(this, new DetailViewCreator(getActivity()));
-        loadArticle(item);
+        loadArticle(items, item);
     }
 
     private void setupToolbar() {
@@ -107,20 +111,26 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     }
 
     @Override
+    public void showRelatedArticles(List<Item> items) {
+        Toast.makeText(getActivity(), "Show related", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void showTitle(String title) {
         titleView.setText(title);
     }
 
     @Override
     public void showHeaderImage(String url) {
-        if (url != null) {
-            imageHeaderView.setVisibility(View.VISIBLE);
-            imageHeaderView.setTag(url);
-            imageHeaderView.setOnClickListener(this);
-            Picasso.with(getActivity()).load(url).into(imageHeaderView);
-        } else {
-            imageHeaderView.setVisibility(View.GONE);
-        }
+        imageHeaderView.setVisibility(View.VISIBLE);
+        imageHeaderView.setTag(url);
+        imageHeaderView.setOnClickListener(this);
+        Picasso.with(getActivity()).load(url).into(imageHeaderView);
+    }
+
+    @Override
+    public void hideHeaderImage() {
+        imageHeaderView.setVisibility(View.GONE);
     }
 
     @Override
@@ -132,9 +142,10 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
         startActivity(intent);
     }
 
-    public void loadArticle(Item item) {
+    public void loadArticle(List<Item> items, Item item) {
         if (presenter != null) {
-            presenter.loadArticle(item);
+            presenter.loadArticleDetail(item);
+            presenter.loadRelatedArticles(items, item);
         }
     }
 }

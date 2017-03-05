@@ -9,6 +9,8 @@ import com.itmoldova.R;
 import com.itmoldova.model.Item;
 import com.itmoldova.util.ActivityUtils;
 
+import java.util.List;
+
 public class DetailActivity extends AppCompatActivity {
 
     @Override
@@ -18,7 +20,8 @@ public class DetailActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Item item = getIntent().getParcelableExtra(Extra.ITEM);
-            DetailFragment detailFragment = DetailFragment.newInstance(item);
+            List<Item> items = getIntent().getParcelableArrayListExtra(Extra.ITEMS);
+            DetailFragment detailFragment = DetailFragment.newInstance(items, item);
             ActivityUtils.addFragmentToActivity(getFragmentManager(), detailFragment, android.R.id.content);
         }
     }
@@ -29,7 +32,8 @@ public class DetailActivity extends AppCompatActivity {
         DetailFragment detailFragment = (DetailFragment) getFragmentManager().findFragmentById(android.R.id.content);
         if (detailFragment != null) {
             Item item = intent.getParcelableExtra(Extra.ITEM);
-            detailFragment.loadArticle(item);
+            List<Item> items = intent.getParcelableArrayListExtra(Extra.ITEMS);
+            detailFragment.loadArticle(items, item);
         }
     }
 }

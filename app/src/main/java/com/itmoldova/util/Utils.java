@@ -6,6 +6,7 @@ import com.itmoldova.model.Item;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -59,6 +60,10 @@ public class Utils {
      * @param item  the item for which the related articles should be retrieved
      */
     public static List<Item> getRelatedArticles(List<Item> items, Item item) {
+        if (items == null || item == null) {
+            return Collections.emptyList();
+        }
+
         List<Item> selectedItems = Observable.from(items)
                 .take(7)
                 .toList().toBlocking().single();

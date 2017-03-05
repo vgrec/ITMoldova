@@ -36,6 +36,12 @@ public class UtilsTest {
         assertThat(related.size()).isEqualTo(6);
         assertThat(related).doesNotContain(currentItem);
     }
+
+    @Test
+    public void testGetRelatedArticles_InvalidParams() {
+        List<Item> related = Utils.getRelatedArticles(null, null);
+        assertThat(related.size()).isEqualTo(0);
+    }
 }
 
 

@@ -8,4 +8,5 @@ public class Extra {
     public static final String CATEGORY = "category";
     public static final String PHOTO_URLS = "photo_urls";
     public static final String CLICKED_URL = "clicked_url";
+    public static final String ITEMS = "items";
 }

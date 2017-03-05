@@ -19,6 +19,8 @@ public interface ArticlesContract {
 
         void showNoInternetConnection();
 
+        void openArticleDetail(List<Item> items, Item item);
+
     }
 
     interface Presenter {
@@ -27,6 +29,8 @@ public interface ArticlesContract {
         void refreshArticles(Category category);
 
         void cancel();
+
+        void onArticleClicked(List<Item> items, Item item);
     }
 
 }

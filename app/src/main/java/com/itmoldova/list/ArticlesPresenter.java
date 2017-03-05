@@ -42,6 +42,16 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     }
 
     @Override
+    public void onArticleClicked(List<Item> items, Item item) {
+        List<Item> selected = Observable.from(items)
+                .take(10) // we are interested only in the top 10 articles
+                .toList()
+                .toBlocking()
+                .single();
+        view.openArticleDetail(selected, item);
+    }
+
+    @Override
     public void refreshArticles(Category category) {
         loadRssFeed(category, 0, true);
     }
