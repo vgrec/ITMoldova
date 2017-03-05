@@ -90,6 +90,10 @@ public class Item implements Parcelable {
         this.pubDate = pubDate;
     }
 
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
@@ -122,4 +126,20 @@ public class Item implements Parcelable {
             return new Item[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Item item = (Item) obj;
+
+        return guid != null ? guid.equals(item.guid) : item.guid == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return guid != null ? guid.hashCode() : 0;
+    }
 }

@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.itmoldova.AppSettings;
 import com.itmoldova.controller.NotificationController.NotificationType;
-import com.itmoldova.utils.TestUtils;
+import com.itmoldova.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;

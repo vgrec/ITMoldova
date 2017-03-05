@@ -1,14 +1,16 @@
 package com.itmoldova.util;
 
 import android.text.format.DateUtils;
-import android.util.Log;
 
-import com.itmoldova.Constants;
+import com.itmoldova.model.Item;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import rx.Observable;
 
 public class Utils {
 
@@ -46,5 +48,28 @@ public class Utils {
             Logs.e("Exception while formatting the pubDate", e);
             return -1;
         }
+    }
+
+    /**
+     * If item is NOT in the list -> return the first six items
+     * If item IS in the list -> replace it with the item at position 0 and
+     * return the first six items from the list
+     *
+     * @param items a list of {@link Item}s
+     * @param item  the item for which the related articles should be retrieved
+     */
+    public static List<Item> getRelatedArticles(List<Item> items, Item item) {
+        List<Item> selectedItems = Observable.from(items)
+                .take(7)
+                .toList().toBlocking().single();
+
+        if (selectedItems.contains(item)) {
+            selectedItems.set(selectedItems.indexOf(item), selectedItems.get(0));
+            selectedItems.remove(0);
+        } else {
+            selectedItems.remove(selectedItems.size() - 1);
+        }
+
+        return selectedItems;
     }
 }

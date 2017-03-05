@@ -84,7 +84,6 @@ public class SyncRunner {
         }
 
         // Ignore errors during sync
-        Logs.e("Error during sync", error);
     }
 
     public void cancel() {
