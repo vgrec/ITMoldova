@@ -111,7 +111,8 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     }
 
     @Override
-    public void showRelatedArticles(List<Item> items) {
+    public void showRelatedArticles(View relatedItems) {
+        contentGroup.addView(relatedItems);
         Toast.makeText(getActivity(), "Show related", Toast.LENGTH_LONG).show();
     }
 

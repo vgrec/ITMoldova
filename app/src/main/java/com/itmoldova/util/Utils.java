@@ -59,13 +59,13 @@ public class Utils {
      * @param items a list of {@link Item}s
      * @param item  the item for which the related articles should be retrieved
      */
-    public static List<Item> getRelatedArticles(List<Item> items, Item item) {
+    public static List<Item> getRelatedArticles(List<Item> items, Item item, int n) {
         if (items == null || item == null) {
             return Collections.emptyList();
         }
 
         List<Item> selectedItems = Observable.from(items)
-                .take(7)
+                .take(n)
                 .toList().toBlocking().single();
 
         if (selectedItems.contains(item)) {

@@ -12,6 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UtilsTest {
 
+    public static final int N = 5;
+
     @Test
     public void testGetRelatedArticles_WhenCurrentItemInTheList() {
         Item currentItem = TestUtils.oneArticleWithImage().get(0);
@@ -19,8 +21,8 @@ public class UtilsTest {
 
         // current item is in the list -> should remove it and return the first six items
 
-        List<Item> related = Utils.getRelatedArticles(items, currentItem);
-        assertThat(related.size()).isEqualTo(6);
+        List<Item> related = Utils.getRelatedArticles(items, currentItem, N);
+        assertThat(related.size()).isEqualTo(N - 1);
         assertThat(related).doesNotContain(currentItem);
     }
 
@@ -32,14 +34,14 @@ public class UtilsTest {
 
         // current item is not in the list -> should return the first six items
 
-        List<Item> related = Utils.getRelatedArticles(items, currentItem);
-        assertThat(related.size()).isEqualTo(6);
+        List<Item> related = Utils.getRelatedArticles(items, currentItem, N);
+        assertThat(related.size()).isEqualTo(N - 1);
         assertThat(related).doesNotContain(currentItem);
     }
 
     @Test
     public void testGetRelatedArticles_InvalidParams() {
-        List<Item> related = Utils.getRelatedArticles(null, null);
+        List<Item> related = Utils.getRelatedArticles(null, null, N);
         assertThat(related.size()).isEqualTo(0);
     }
 }
