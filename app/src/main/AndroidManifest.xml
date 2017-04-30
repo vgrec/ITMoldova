@@ -24,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".detail.DetailActivity"
             android:launchMode="singleTop"
@@ -33,7 +32,6 @@
         <activity
             android:name=".photoview.PhotoViewActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/screen_title_settings" />
@@ -54,6 +52,7 @@
             android:name=".sync.v21.SyncArticlesServiceV21"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <activity android:name=".comments.NewCommentActivity"></activity>
     </application>
 
 </manifest>

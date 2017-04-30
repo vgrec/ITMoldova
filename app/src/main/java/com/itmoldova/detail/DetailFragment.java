@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.itmoldova.Extra;
 import com.itmoldova.R;
+import com.itmoldova.comments.NewCommentActivity;
 import com.itmoldova.model.Item;
 import com.itmoldova.parser.DetailViewCreator;
 import com.itmoldova.photoview.PhotoViewActivity;
@@ -27,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Shows details of an article.
@@ -123,7 +126,6 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
                     startActivity(intent);
                 });
         contentGroup.addView(relatedArticlesView);
-        Toast.makeText(getActivity(), "Show related", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -151,6 +153,11 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
         intent.putStringArrayListExtra(Extra.PHOTO_URLS, (ArrayList<String>) urls);
         intent.putExtra(Extra.CLICKED_URL, (String) v.getTag());
         startActivity(intent);
+    }
+
+    @OnClick(R.id.fab)
+    public void openNewCommentActivity() {
+        startActivity(new Intent(getActivity(), NewCommentActivity.class));
     }
 
     public void loadArticle(List<Item> items, Item item) {
