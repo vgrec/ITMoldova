@@ -46,8 +46,7 @@ public class DetailPresenter implements DetailContract.Presenter {
     @Override
     public void loadRelatedArticles(List<Item> items, Item item) {
         List<Item> relatedArticles = Utils.getRelatedArticles(items, item, 5);
-        View relatedArticlesView = detailViewCreator.createRelatedViews(relatedArticles);
-        view.showRelatedArticles(relatedArticlesView);
+        view.showRelatedArticles(relatedArticles);
     }
 
     @Override

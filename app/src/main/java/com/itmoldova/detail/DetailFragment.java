@@ -38,6 +38,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     private DetailContract.Presenter presenter;
     private Item item;
     private List<Item> items;
+    private DetailViewCreator detailViewCreator;
 
     @BindView(R.id.content)
     ViewGroup contentGroup;
@@ -82,6 +83,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
         super.onActivityCreated(savedInstanceState);
         setupToolbar();
 
+        detailViewCreator = new DetailViewCreator(getActivity());
         presenter = new DetailPresenter(this, new DetailViewCreator(getActivity()));
         loadArticle(items, item);
     }
@@ -111,8 +113,16 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     }
 
     @Override
-    public void showRelatedArticles(View relatedItems) {
-        contentGroup.addView(relatedItems);
+    public void showRelatedArticles(List<Item> relatedItems) {
+        View relatedArticlesView = detailViewCreator.createRelatedViews(relatedItems,
+                relatedArticle -> {
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    intent.putExtra(Extra.ITEM, relatedArticle);
+                    intent.putParcelableArrayListExtra(Extra.ITEMS, new ArrayList<>(items));
+                    getActivity().finish();
+                    startActivity(intent);
+                });
+        contentGroup.addView(relatedArticlesView);
         Toast.makeText(getActivity(), "Show related", Toast.LENGTH_LONG).show();
     }
 

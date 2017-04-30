@@ -1,7 +1,5 @@
 package com.itmoldova.detail;
 
-import android.view.View;
-
 import com.itmoldova.model.Item;
 
 import java.util.List;
@@ -14,7 +12,7 @@ public class DetailContract {
     interface View {
         void showArticleDetail(List<android.view.View> views);
 
-        void showRelatedArticles(android.view.View relatedArticles);
+        void showRelatedArticles(List<Item> relatedArticles);
 
         void showTitle(String title);
 

@@ -7,7 +7,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -83,7 +82,7 @@ public class DetailViewCreator {
         return null;
     }
 
-    public ViewGroup createRelatedViews(List<Item> relatedArticles) {
+    public ViewGroup createRelatedViews(List<Item> relatedArticles, RelatedArticleClickListener clickListener) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, context.getResources().getDimensionPixelSize(R.dimen.related_item_margin), 0, 0);
@@ -96,9 +95,15 @@ public class DetailViewCreator {
             view.setLayoutParams(params);
             ((TextView) view.findViewById(R.id.title)).setText(item.getTitle());
             ((TextView) view.findViewById(R.id.time)).setText(item.getPubDate());
+            view.setOnClickListener(v -> clickListener.onItemClicked(item));
             linearLayout.addView(view);
         }
 
         return linearLayout;
     }
+
+    public interface RelatedArticleClickListener {
+        void onItemClicked(Item item);
+    }
+
 }
