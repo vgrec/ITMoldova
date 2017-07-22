@@ -95,6 +95,9 @@ public class DetailViewCreator {
             view.setLayoutParams(params);
             ((TextView) view.findViewById(R.id.title)).setText(item.getTitle());
             ((TextView) view.findViewById(R.id.time)).setText(item.getPubDate());
+            Picasso.with(context)
+                    .load(ContentParser.extractFirstImage(item.getContent()))
+                    .into((ImageView) view.findViewById(R.id.image));
             view.setOnClickListener(v -> clickListener.onItemClicked(item));
             linearLayout.addView(view);
         }
