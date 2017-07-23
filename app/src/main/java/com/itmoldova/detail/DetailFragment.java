@@ -46,6 +46,9 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     @BindView(R.id.content)
     ViewGroup contentGroup;
 
+    @BindView(R.id.related)
+    ViewGroup relatedGroup;
+
     @BindView(R.id.title)
     TextView titleView;
 
@@ -125,7 +128,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
                     getActivity().finish();
                     startActivity(intent);
                 });
-        contentGroup.addView(relatedArticlesView);
+        relatedGroup.addView(relatedArticlesView);
     }
 
     @Override
