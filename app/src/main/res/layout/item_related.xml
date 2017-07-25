@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/item_row_background"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/title"
@@ -10,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/image"
         android:lines="2"
-        android:maxHeight="30dp"
         android:maxLines="2"
+        android:textColor="@color/item_title"
         android:textSize="18sp"
         tools:text="Title" />
 
@@ -23,29 +25,15 @@
         android:scaleType="centerCrop"
         android:src="@drawable/test" />
 
-    <LinearLayout
-        android:layout_marginTop="10dp"
+
+    <TextView
+        android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_toLeftOf="@+id/image"
-        android:orientation="horizontal">
+        android:layout_alignParentBottom="true"
+        android:lines="1"
+        android:textColor="@color/item_date"
+        tools:text="1 hour ago" />
 
-        <TextView
-            android:id="@+id/category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="IT News MD" />
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_marginLeft="16dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:lines="1"
-            tools:text="1 hour ago" />
-
-    </LinearLayout>
 
 </RelativeLayout>

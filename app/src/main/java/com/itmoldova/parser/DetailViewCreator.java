@@ -59,6 +59,7 @@ public class DetailViewCreator {
         textView.setText(Html.fromHtml(text));
         textView.setTextSize(16f);
         textView.setLineSpacing(8, 1);
+        textView.setTextColor(context.getResources().getColor(R.color.item_title));
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         return textView;
     }
@@ -94,7 +95,7 @@ public class DetailViewCreator {
             View view = LayoutInflater.from(context).inflate(R.layout.item_related, null, false);
             view.setLayoutParams(params);
             ((TextView) view.findViewById(R.id.title)).setText(item.getTitle());
-            ((TextView) view.findViewById(R.id.time)).setText(item.getPubDate());
+            ((TextView) view.findViewById(R.id.date)).setText(item.getPubDate());
             Picasso.with(context)
                     .load(ContentParser.extractFirstImage(item.getContent()))
                     .into((ImageView) view.findViewById(R.id.image));
