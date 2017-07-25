@@ -19,4 +19,5 @@
     <string name="funny_it">Funny IT</string>
     <string name="istoria_it">Istoria IT</string>
     <string name="page_counter">%1$s / %2$s</string>
+    <string name="view_in_browser">View in browser</string>
 </resources>
