@@ -23,16 +23,14 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     private ArticlesContract.View view;
     private ITMoldovaService apiService;
     private Subscription subscription;
-    private NetworkDetector connectionManager;
     private Category category;
 
     @Inject
     AppSettings appSettings;
 
-    public ArticlesPresenter(ITMoldovaService apiService, ArticlesContract.View view, NetworkDetector connectionManager) {
+    public ArticlesPresenter(ITMoldovaService apiService, ArticlesContract.View view) {
         this.view = view;
         this.apiService = apiService;
-        this.connectionManager = connectionManager;
         ITMoldova.getAppComponent().inject(this);
     }
 
@@ -57,10 +55,6 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     }
 
     private void loadRssFeed(Category category, int page, boolean clearDataSet) {
-        if (!connectionManager.hasInternetConnection()) {
-            view.showNoInternetConnection();
-            return;
-        }
         this.category = category;
         subscription = getObservableByCategory(category, page)
                 .subscribeOn(Schedulers.newThread())
