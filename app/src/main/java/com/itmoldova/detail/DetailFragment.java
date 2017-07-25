@@ -166,14 +166,14 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     public void openInBrowser() {
         // test code to bookmark an article.
         AppDatabase db = AppDatabase.getDatabase(getActivity());
-        if (db.itemModel().getItemById(item.getGuid()) == null) {
-            db.itemModel().insertItem(item);
+        if (db.itemDao().getItemById(item.getGuid()) == null) {
+            db.itemDao().insertItem(item);
         } else {
-            db.itemModel().deleteItem(item);
+            db.itemDao().deleteItem(item);
         }
 
         // show the list of all items:
-        List<Item> items = db.itemModel().loadAllItems();
+        List<Item> items = db.itemDao().loadAllItems();
         for (Item item : items) {
             System.out.println(item.getTitle());
         }

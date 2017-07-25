@@ -8,13 +8,11 @@
 - About (info about app, author, link to git)
 * Settings screen
 - Notifications
-- Change text size
 - Add ability to bookmark
 - In List view: if no preview image is available, then show text summary max 3 lines.
 * Display related articles
 * Infinite loading
-- Search?
-* Cache?
+* Cache
 - Optimize for tablets.
 - Add ripple effect
 - Animate when opening the details screen
