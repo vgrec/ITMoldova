@@ -6,6 +6,7 @@ import com.itmoldova.model.Item;
 import com.itmoldova.parser.Block;
 import com.itmoldova.parser.DetailViewCreator;
 import com.itmoldova.parser.ContentParser;
+import com.itmoldova.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,16 +27,26 @@ public class DetailPresenter implements DetailContract.Presenter {
     }
 
     @Override
-    public void loadArticle(Item item) {
+    public void loadArticleDetail(Item item) {
         view.showTitle(item.getTitle());
 
         ContentParser parser = new ContentParser(item.getContent());
         blocks = parser.normalize(parser.parse());
         imageHeaderUrl = parser.getHeaderImageFromBlocks(blocks);
-        view.showHeaderImage(imageHeaderUrl);
+        if (imageHeaderUrl != null) {
+            view.showHeaderImage(imageHeaderUrl);
+        } else {
+            view.hideHeaderImage();
+        }
 
         List<View> views = detailViewCreator.createViewsFrom(blocks);
         view.showArticleDetail(views);
+    }
+
+    @Override
+    public void loadRelatedArticles(List<Item> items, Item item) {
+        List<Item> relatedArticles = Utils.getRelatedArticles(items, item, 5);
+        view.showRelatedArticles(relatedArticles);
     }
 
     @Override

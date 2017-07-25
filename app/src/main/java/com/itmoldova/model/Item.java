@@ -74,6 +74,26 @@ public class Item implements Parcelable {
         return 0;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
@@ -106,4 +126,20 @@ public class Item implements Parcelable {
             return new Item[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Item item = (Item) obj;
+
+        return guid != null ? guid.equals(item.guid) : item.guid == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return guid != null ? guid.hashCode() : 0;
+    }
 }

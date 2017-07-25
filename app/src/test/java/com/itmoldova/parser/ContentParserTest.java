@@ -1,7 +1,4 @@
-package com.itmoldova;
-
-import com.itmoldova.parser.Block;
-import com.itmoldova.parser.ContentParser;
+package com.itmoldova.parser;
 
 import org.junit.Test;
 

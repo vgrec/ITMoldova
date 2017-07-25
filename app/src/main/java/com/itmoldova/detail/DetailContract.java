@@ -12,13 +12,19 @@ public class DetailContract {
     interface View {
         void showArticleDetail(List<android.view.View> views);
 
+        void showRelatedArticles(List<Item> relatedArticles);
+
         void showTitle(String title);
 
         void showHeaderImage(String url);
+
+        void hideHeaderImage();
     }
 
     interface Presenter {
-        void loadArticle(Item item);
+        void loadArticleDetail(Item item);
+
+        void loadRelatedArticles(List<Item> items, Item item);
 
         List<String> extractPhotoUrlsFromArticle();
     }

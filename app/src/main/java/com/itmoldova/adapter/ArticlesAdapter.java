@@ -21,14 +21,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Author vgrec, on 10.07.16.
- */
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
 
     private List<Item> items;
     private ItemClickListener itemClickListener;
     private Context context;
+
+    private static final int VIEW_TYPE_HEADER = 0;
+    private static final int VIEW_TYPE_NORMAL = 1;
 
     public ArticlesAdapter(Context context, List<Item> items, ItemClickListener itemClickListener) {
         this.context = context;
@@ -37,8 +37,13 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
+    public ArticlesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        if (viewType == VIEW_TYPE_HEADER) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_header, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_normal, parent, false);
+        }
         return new ViewHolder(view);
     }
 
@@ -55,7 +60,12 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         return items.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        return (position == 0) ? VIEW_TYPE_HEADER : VIEW_TYPE_NORMAL;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.title)
         TextView titleView;
@@ -66,13 +76,13 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         @BindView(R.id.preview_image)
         ImageView previewImage;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
         @OnClick(R.id.row)
-        public void onItemClicked() {
+        void onItemClicked() {
             itemClickListener.onItemClicked(items.get(getAdapterPosition()));
         }
     }

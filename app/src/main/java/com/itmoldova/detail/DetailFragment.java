@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -13,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.itmoldova.Extra;
 import com.itmoldova.R;
+import com.itmoldova.comments.NewCommentActivity;
 import com.itmoldova.model.Item;
 import com.itmoldova.parser.DetailViewCreator;
 import com.itmoldova.photoview.PhotoViewActivity;
@@ -26,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Shows details of an article.
@@ -36,6 +40,8 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
 
     private DetailContract.Presenter presenter;
     private Item item;
+    private List<Item> items;
+    private DetailViewCreator detailViewCreator;
 
     @BindView(R.id.content)
     ViewGroup contentGroup;
@@ -50,9 +56,10 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     ImageView imageHeaderView;
 
 
-    public static DetailFragment newInstance(Item item) {
+    public static DetailFragment newInstance(List<Item> items, Item item) {
         Bundle args = new Bundle();
         args.putParcelable(Extra.ITEM, item);
+        args.putParcelableArrayList(Extra.ITEMS, new ArrayList<>(items));
         DetailFragment fragment = new DetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -62,6 +69,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         item = getArguments().getParcelable(Extra.ITEM);
+        items = getArguments().getParcelableArrayList(Extra.ITEMS);
         setHasOptionsMenu(true);
     }
 
@@ -78,8 +86,9 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
         super.onActivityCreated(savedInstanceState);
         setupToolbar();
 
+        detailViewCreator = new DetailViewCreator(getActivity());
         presenter = new DetailPresenter(this, new DetailViewCreator(getActivity()));
-        presenter.loadArticle(item);
+        loadArticle(items, item);
     }
 
     private void setupToolbar() {
@@ -97,6 +106,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
 
     @Override
     public void showArticleDetail(List<View> views) {
+        contentGroup.removeAllViews();
         for (View view : views) {
             if (view instanceof ImageView) {
                 view.setOnClickListener(this);
@@ -106,18 +116,34 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     }
 
     @Override
+    public void showRelatedArticles(List<Item> relatedItems) {
+        View relatedArticlesView = detailViewCreator.createRelatedViews(relatedItems,
+                relatedArticle -> {
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    intent.putExtra(Extra.ITEM, relatedArticle);
+                    intent.putParcelableArrayListExtra(Extra.ITEMS, new ArrayList<>(items));
+                    getActivity().finish();
+                    startActivity(intent);
+                });
+        contentGroup.addView(relatedArticlesView);
+    }
+
+    @Override
     public void showTitle(String title) {
         titleView.setText(title);
     }
 
     @Override
     public void showHeaderImage(String url) {
-        if (url != null) {
-            imageHeaderView.setVisibility(View.VISIBLE);
-            imageHeaderView.setTag(url);
-            imageHeaderView.setOnClickListener(this);
-            Picasso.with(getActivity()).load(url).into(imageHeaderView);
-        }
+        imageHeaderView.setVisibility(View.VISIBLE);
+        imageHeaderView.setTag(url);
+        imageHeaderView.setOnClickListener(this);
+        Picasso.with(getActivity()).load(url).into(imageHeaderView);
+    }
+
+    @Override
+    public void hideHeaderImage() {
+        imageHeaderView.setVisibility(View.GONE);
     }
 
     @Override
@@ -127,5 +153,17 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
         intent.putStringArrayListExtra(Extra.PHOTO_URLS, (ArrayList<String>) urls);
         intent.putExtra(Extra.CLICKED_URL, (String) v.getTag());
         startActivity(intent);
+    }
+
+    @OnClick(R.id.fab)
+    public void openNewCommentActivity() {
+        startActivity(new Intent(getActivity(), NewCommentActivity.class));
+    }
+
+    public void loadArticle(List<Item> items, Item item) {
+        if (presenter != null) {
+            presenter.loadArticleDetail(item);
+            presenter.loadRelatedArticles(items, item);
+        }
     }
 }

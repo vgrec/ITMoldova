@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="notification_entries">
+        <item>@string/notification_entry_1hour</item>
+        <item>@string/notification_entry_2hours</item>
+        <item>@string/notification_entry_4hours</item>
+        <item>@string/notification_entry_8hours</item>
+        <item>@string/notification_entry_24hours</item>
+        <item>@string/notification_entry_never</item>
+    </string-array>
+
+    <string-array name="notification_values">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+        <item>24</item>
+        <item>@string/notification_value_never</item>
+    </string-array>
+
+    <string name="notification_value_never" translatable="false">-1</string>
+
+</resources>

@@ -20,7 +20,7 @@ import com.itmoldova.R;
 import com.itmoldova.adapter.ArticlesAdapter;
 import com.itmoldova.detail.DetailActivity;
 import com.itmoldova.http.ITMoldovaServiceCreator;
-import com.itmoldova.http.NetworkConnectionManager;
+import com.itmoldova.http.NetworkDetector;
 import com.itmoldova.model.Category;
 import com.itmoldova.model.Item;
 import com.itmoldova.util.EndlessScrollListener;
@@ -73,7 +73,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ArticlesAdapter(getActivity(), items, this::openArticleDetail);
+        adapter = new ArticlesAdapter(getActivity(), items, item -> presenter.onArticleClicked(items, item));
         recyclerView.setAdapter(adapter);
         endlessScrollListener = new RecyclerViewEndlessScrollListener(layoutManager);
         recyclerView.addOnScrollListener(endlessScrollListener);
@@ -95,9 +95,11 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         }
     }
 
-    private void openArticleDetail(Item item) {
+    @Override
+    public void openArticleDetail(List<Item> items, Item item) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra(Extra.ITEM, item);
+        intent.putParcelableArrayListExtra(Extra.ITEMS, new ArrayList<>(items));
         startActivity(intent);
     }
 
@@ -107,7 +109,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         presenter = new ArticlesPresenter(
                 ITMoldovaServiceCreator.createItMoldovaService(),
                 this,
-                new NetworkConnectionManager(getActivity().getApplicationContext()));
+                new NetworkDetector(getActivity().getApplicationContext()));
         presenter.loadArticles(category, 0);
     }
 
@@ -116,7 +118,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
         if (clearDataSet) {
             this.items.clear();
             adapter.notifyDataSetChanged();
-            endlessScrollListener.resetCurrentPage();
+            endlessScrollListener.reset();
         }
 
         int fromPosition = this.items.size();

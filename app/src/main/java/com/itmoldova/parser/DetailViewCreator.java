@@ -4,12 +4,15 @@ import android.content.Context;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.itmoldova.R;
+import com.itmoldova.model.Item;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -77,6 +80,33 @@ public class DetailViewCreator {
 
     private View createVideoView(String url) {
         return null;
+    }
+
+    public ViewGroup createRelatedViews(List<Item> relatedArticles, RelatedArticleClickListener clickListener) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, context.getResources().getDimensionPixelSize(R.dimen.related_item_margin), 0, 0);
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setLayoutParams(params);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        for (Item item : relatedArticles) {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_related, null, false);
+            view.setLayoutParams(params);
+            ((TextView) view.findViewById(R.id.title)).setText(item.getTitle());
+            ((TextView) view.findViewById(R.id.time)).setText(item.getPubDate());
+            Picasso.with(context)
+                    .load(ContentParser.extractFirstImage(item.getContent()))
+                    .into((ImageView) view.findViewById(R.id.image));
+            view.setOnClickListener(v -> clickListener.onItemClicked(item));
+            linearLayout.addView(view);
+        }
+
+        return linearLayout;
+    }
+
+    public interface RelatedArticleClickListener {
+        void onItemClicked(Item item);
     }
 
 }
