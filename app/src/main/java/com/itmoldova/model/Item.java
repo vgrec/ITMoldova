@@ -1,5 +1,7 @@
 package com.itmoldova.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,6 +12,7 @@ import org.simpleframework.xml.Root;
 /**
  * Author vgrec, on 09.07.16.
  */
+@Entity
 @Root(name = "item", strict = false)
 public class Item implements Parcelable {
 
@@ -26,7 +29,7 @@ public class Item implements Parcelable {
     @Element(name = "description", required = true)
     private String description;
 
-
+    @PrimaryKey
     @Element(name = "guid", required = false)
     private String guid; // A string that uniquely identifies the item.
 
@@ -55,6 +58,10 @@ public class Item implements Parcelable {
 
     public String getLink() {
         return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getGuid() {
@@ -92,6 +99,14 @@ public class Item implements Parcelable {
 
     public void setGuid(String guid) {
         this.guid = guid;
+    }
+
+    public String getDc() {
+        return dc;
+    }
+
+    public void setDc(String dc) {
+        this.dc = dc;
     }
 
     @Override

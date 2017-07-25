@@ -3,7 +3,6 @@
 - Handle Youtube videos in article details page
 - Change fonts in details and list. Check if the nav drawer also has to be changed.
 - Display pub date and author on details page.
-- Display shadow around images (again details)
 - View in browser full article
 * Integrate an image viewer
 - About (info about app, author, link to git)
@@ -12,10 +11,10 @@
 - Change text size
 - Add ability to bookmark
 - In List view: if no preview image is available, then show text summary max 3 lines.
-- Display related articles
+* Display related articles
 * Infinite loading
 - Search?
-- Cache?
+* Cache?
 - Optimize for tablets.
 - Add ripple effect
 - Animate when opening the details screen

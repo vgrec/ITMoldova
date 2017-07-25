@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -14,11 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.itmoldova.Extra;
 import com.itmoldova.R;
 import com.itmoldova.comments.NewCommentActivity;
+import com.itmoldova.db.AppDatabase;
 import com.itmoldova.model.Item;
 import com.itmoldova.parser.DetailViewCreator;
 import com.itmoldova.photoview.PhotoViewActivity;
@@ -161,6 +160,23 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     @OnClick(R.id.fab)
     public void openNewCommentActivity() {
         startActivity(new Intent(getActivity(), NewCommentActivity.class));
+    }
+
+    @OnClick(R.id.view_in_browser)
+    public void openInBrowser() {
+        // test code to bookmark an article.
+        AppDatabase db = AppDatabase.getDatabase(getActivity());
+        if (db.itemModel().getItemById(item.getGuid()) == null) {
+            db.itemModel().insertItem(item);
+        } else {
+            db.itemModel().deleteItem(item);
+        }
+
+        // show the list of all items:
+        List<Item> items = db.itemModel().loadAllItems();
+        for (Item item : items) {
+            System.out.println(item.getTitle());
+        }
     }
 
     public void loadArticle(List<Item> items, Item item) {
