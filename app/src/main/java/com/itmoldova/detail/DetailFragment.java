@@ -2,8 +2,11 @@ package com.itmoldova.detail;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -37,26 +40,20 @@ import butterknife.OnClick;
  */
 public class DetailFragment extends Fragment implements DetailContract.View, View.OnClickListener {
 
+    @BindView(R.id.content)
+    ViewGroup contentGroup;
+    @BindView(R.id.related)
+    ViewGroup relatedGroup;
+    @BindView(R.id.title)
+    TextView titleView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.image_header)
+    ImageView imageHeaderView;
     private DetailContract.Presenter presenter;
     private Item item;
     private List<Item> items;
     private DetailViewCreator detailViewCreator;
-
-    @BindView(R.id.content)
-    ViewGroup contentGroup;
-
-    @BindView(R.id.related)
-    ViewGroup relatedGroup;
-
-    @BindView(R.id.title)
-    TextView titleView;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.image_header)
-    ImageView imageHeaderView;
-
 
     public static DetailFragment newInstance(List<Item> items, Item item) {
         Bundle args = new Bundle();
@@ -164,6 +161,13 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
 
     @OnClick(R.id.view_in_browser)
     public void openInBrowser() {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(getActivity(), Uri.parse(item.getLink()));
+    }
+
+    private void bookMarkArticle() {
         // test code to bookmark an article.
         AppDatabase db = AppDatabase.getDatabase(getActivity());
         if (db.itemDao().getItemById(item.getGuid()) == null) {
