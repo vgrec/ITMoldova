@@ -3,7 +3,7 @@
 - Handle Youtube videos in article details page
 - Change fonts in details and list. Check if the nav drawer also has to be changed.
 - Display pub date and author on details page.
-- View in browser full article
+* View in browser full article
 * Integrate an image viewer
 - About (info about app, author, link to git)
 * Settings screen

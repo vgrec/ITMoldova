@@ -6,7 +6,6 @@ import com.itmoldova.http.ITMoldovaService;
 import com.itmoldova.http.NetworkDetector;
 import com.itmoldova.model.Item;
 import com.itmoldova.model.Rss;
-import com.itmoldova.util.Logs;
 import com.itmoldova.util.Utils;
 
 import java.util.List;

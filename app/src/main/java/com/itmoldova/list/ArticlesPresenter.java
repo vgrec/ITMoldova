@@ -3,7 +3,6 @@ package com.itmoldova.list;
 import com.itmoldova.AppSettings;
 import com.itmoldova.ITMoldova;
 import com.itmoldova.http.ITMoldovaService;
-import com.itmoldova.http.NetworkDetector;
 import com.itmoldova.model.Category;
 import com.itmoldova.model.Item;
 import com.itmoldova.model.Rss;

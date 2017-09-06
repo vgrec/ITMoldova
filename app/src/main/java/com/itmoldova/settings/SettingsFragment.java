@@ -47,7 +47,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         long interval = Long.valueOf(newValue.toString());
         appSettings.setSyncInterval(interval);
         SyncScheduler scheduler = SyncSchedulerFactory.getScheduler(getActivity());
-        if (interval != AppSettings.SYNC_INTERVAL_NEVER) {
+        if (interval != AppSettings.Companion.getSYNC_INTERVAL_NEVER()) {
             scheduler.scheduleRepeatingSync(interval);
         } else {
             scheduler.cancel();
