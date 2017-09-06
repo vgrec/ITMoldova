@@ -32,7 +32,7 @@ public class ITMoldovaServiceCreator {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.IT_MOLDOVA_BASE_URL)
+                .baseUrl(Constants.INSTANCE.getIT_MOLDOVA_BASE_URL())
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(httpClient)

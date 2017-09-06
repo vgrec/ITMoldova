@@ -19,8 +19,8 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         if (savedInstanceState == null) {
-            Item item = getIntent().getParcelableExtra(Extra.ITEM);
-            List<Item> items = getIntent().getParcelableArrayListExtra(Extra.ITEMS);
+            Item item = getIntent().getParcelableExtra(Extra.INSTANCE.getITEM());
+            List<Item> items = getIntent().getParcelableArrayListExtra(Extra.INSTANCE.getITEMS());
             DetailFragment detailFragment = DetailFragment.newInstance(items, item);
             ActivityUtils.addFragmentToActivity(getFragmentManager(), detailFragment, android.R.id.content);
         }
@@ -31,8 +31,8 @@ public class DetailActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         DetailFragment detailFragment = (DetailFragment) getFragmentManager().findFragmentById(android.R.id.content);
         if (detailFragment != null) {
-            Item item = intent.getParcelableExtra(Extra.ITEM);
-            List<Item> items = intent.getParcelableArrayListExtra(Extra.ITEMS);
+            Item item = intent.getParcelableExtra(Extra.INSTANCE.getITEM());
+            List<Item> items = intent.getParcelableArrayListExtra(Extra.INSTANCE.getITEMS());
             detailFragment.loadArticle(items, item);
         }
     }

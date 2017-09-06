@@ -202,7 +202,7 @@ public class NotificationController {
 
     private PendingIntent createDetailActivityPendingIntent(Item item) {
         Intent intent = new Intent(context, DetailActivity.class);
-        intent.putExtra(Extra.ITEM, item);
+        intent.putExtra(Extra.INSTANCE.getITEM(), item);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return PendingIntent.getActivity(context, generateId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }

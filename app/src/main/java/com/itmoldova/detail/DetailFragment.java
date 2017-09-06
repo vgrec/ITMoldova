@@ -57,8 +57,8 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
 
     public static DetailFragment newInstance(List<Item> items, Item item) {
         Bundle args = new Bundle();
-        args.putParcelable(Extra.ITEM, item);
-        args.putParcelableArrayList(Extra.ITEMS, new ArrayList<>(items));
+        args.putParcelable(Extra.INSTANCE.getITEM(), item);
+        args.putParcelableArrayList(Extra.INSTANCE.getITEMS(), new ArrayList<>(items));
         DetailFragment fragment = new DetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -67,8 +67,8 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        item = getArguments().getParcelable(Extra.ITEM);
-        items = getArguments().getParcelableArrayList(Extra.ITEMS);
+        item = getArguments().getParcelable(Extra.INSTANCE.getITEM());
+        items = getArguments().getParcelableArrayList(Extra.INSTANCE.getITEMS());
         setHasOptionsMenu(true);
     }
 
@@ -119,8 +119,8 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
         View relatedArticlesView = detailViewCreator.createRelatedViews(relatedItems,
                 relatedArticle -> {
                     Intent intent = new Intent(getActivity(), DetailActivity.class);
-                    intent.putExtra(Extra.ITEM, relatedArticle);
-                    intent.putParcelableArrayListExtra(Extra.ITEMS, new ArrayList<>(items));
+                    intent.putExtra(Extra.INSTANCE.getITEM(), relatedArticle);
+                    intent.putParcelableArrayListExtra(Extra.INSTANCE.getITEMS(), new ArrayList<>(items));
                     getActivity().finish();
                     startActivity(intent);
                 });
@@ -149,8 +149,8 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     public void onClick(View v) {
         List<String> urls = presenter.extractPhotoUrlsFromArticle();
         Intent intent = new Intent(getActivity(), PhotoViewActivity.class);
-        intent.putStringArrayListExtra(Extra.PHOTO_URLS, (ArrayList<String>) urls);
-        intent.putExtra(Extra.CLICKED_URL, (String) v.getTag());
+        intent.putStringArrayListExtra(Extra.INSTANCE.getPHOTO_URLS(), (ArrayList<String>) urls);
+        intent.putExtra(Extra.INSTANCE.getCLICKED_URL(), (String) v.getTag());
         startActivity(intent);
     }
 

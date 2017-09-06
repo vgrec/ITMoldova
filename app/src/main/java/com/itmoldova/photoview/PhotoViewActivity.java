@@ -36,8 +36,8 @@ public class PhotoViewActivity extends AppCompatActivity implements ViewPager.On
         setContentView(R.layout.activity_photo_view);
         ButterKnife.bind(this);
 
-        ArrayList<String> urls = getIntent().getStringArrayListExtra(Extra.PHOTO_URLS);
-        String clickedUrl = getIntent().getStringExtra(Extra.CLICKED_URL);
+        ArrayList<String> urls = getIntent().getStringArrayListExtra(Extra.INSTANCE.getPHOTO_URLS());
+        String clickedUrl = getIntent().getStringExtra(Extra.INSTANCE.getCLICKED_URL());
         totalNumberOfUrls = urls.size();
 
         PhotoViewAdapter adapter = new PhotoViewAdapter(this, urls);

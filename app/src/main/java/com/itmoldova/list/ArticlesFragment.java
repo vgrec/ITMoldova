@@ -51,7 +51,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
 
     public static Fragment newInstance(Category category) {
         Bundle args = new Bundle();
-        args.putSerializable(Extra.CATEGORY, category);
+        args.putSerializable(Extra.INSTANCE.getCATEGORY(), category);
         ArticlesFragment fragment = new ArticlesFragment();
         fragment.setArguments(args);
         return fragment;
@@ -61,7 +61,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        category = (Category) getArguments().getSerializable(Extra.CATEGORY);
+        category = (Category) getArguments().getSerializable(Extra.INSTANCE.getCATEGORY());
     }
 
     @Nullable
@@ -97,8 +97,8 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     @Override
     public void openArticleDetail(List<Item> items, Item item) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(Extra.ITEM, item);
-        intent.putParcelableArrayListExtra(Extra.ITEMS, new ArrayList<>(items));
+        intent.putExtra(Extra.INSTANCE.getITEM(), item);
+        intent.putParcelableArrayListExtra(Extra.INSTANCE.getITEMS(), new ArrayList<>(items));
         startActivity(intent);
     }
 
