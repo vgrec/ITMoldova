@@ -1,8 +1,8 @@
 package com.itmoldova.photoview;
 
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -14,19 +14,10 @@ import com.itmoldova.anim.DepthPageTransformer;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class PhotoViewActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
-    @BindView(R.id.viewpager)
-    ViewPager viewPager;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.page_number)
-    TextView pageNumber;
+    private ViewPager viewPager;
+    private TextView pageNumber;
 
     private int totalNumberOfUrls;
 
@@ -34,7 +25,9 @@ public class PhotoViewActivity extends AppCompatActivity implements ViewPager.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_view);
-        ButterKnife.bind(this);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        pageNumber = (TextView) findViewById(R.id.page_number);
 
         ArrayList<String> urls = getIntent().getStringArrayListExtra(Extra.INSTANCE.getPHOTO_URLS());
         String clickedUrl = getIntent().getStringExtra(Extra.INSTANCE.getCLICKED_URL());
@@ -48,6 +41,7 @@ public class PhotoViewActivity extends AppCompatActivity implements ViewPager.On
         viewPager.setPageTransformer(true, new DepthPageTransformer());
         updatePageCounter(currentItem);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

@@ -22,7 +22,7 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ITMoldova.getAppComponent().inject(this);
+        ITMoldova.Companion.getAppComponent().inject(this);
         long interval = appSettings.getSyncInterval();
         if (interval != AppSettings.Companion.getSYNC_INTERVAL_NEVER()) {
             SyncScheduler syncScheduler = SyncSchedulerFactory.getScheduler(context);

@@ -30,7 +30,7 @@ public class ArticlesPresenter implements ArticlesContract.Presenter {
     public ArticlesPresenter(ITMoldovaService apiService, ArticlesContract.View view) {
         this.view = view;
         this.apiService = apiService;
-        ITMoldova.getAppComponent().inject(this);
+        ITMoldova.Companion.getAppComponent().inject(this);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class SyncArticlesServiceV14 extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        ITMoldova.getAppComponent().inject(this);
+        ITMoldova.Companion.getAppComponent().inject(this);
     }
 
     @Override

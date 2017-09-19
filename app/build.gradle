@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'android-apt'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
@@ -50,7 +51,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
     // Dagger
-    apt 'com.google.dagger:dagger-compiler:2.7'
+    kapt 'com.google.dagger:dagger-compiler:2.7'
     compile 'com.google.dagger:dagger:2.7'
 
     // Google Architecture Components
@@ -58,15 +59,13 @@ dependencies {
     compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion;
     annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.archLifecycleVersion;
     annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.archRoomVersion;
-    apt 'android.arch.persistence.room:compiler:'+rootProject.roomCompilerVersion
+    apt 'android.arch.persistence.room:compiler:' + rootProject.roomCompilerVersion
 
     // other libraries
-    compile 'com.jakewharton:butterknife:8.1.0'
-    apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

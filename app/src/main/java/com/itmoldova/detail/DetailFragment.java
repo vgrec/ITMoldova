@@ -2,7 +2,6 @@ package com.itmoldova.detail;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,10 +28,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Shows details of an article.
  * <p>
@@ -40,16 +35,11 @@ import butterknife.OnClick;
  */
 public class DetailFragment extends Fragment implements DetailContract.View, View.OnClickListener {
 
-    @BindView(R.id.content)
-    ViewGroup contentGroup;
-    @BindView(R.id.related)
-    ViewGroup relatedGroup;
-    @BindView(R.id.title)
-    TextView titleView;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.image_header)
-    ImageView imageHeaderView;
+    private ViewGroup contentGroup;
+    private ViewGroup relatedGroup;
+    private TextView titleView;
+    private Toolbar toolbar;
+    private ImageView imageHeaderView;
     private DetailContract.Presenter presenter;
     private Item item;
     private List<Item> items;
@@ -76,7 +66,16 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
-        ButterKnife.bind(this, view);
+
+        contentGroup = (ViewGroup) view.findViewById(R.id.content);
+        relatedGroup = (ViewGroup) view.findViewById(R.id.related);
+        titleView = (TextView) view.findViewById(R.id.title);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        imageHeaderView = (ImageView) view.findViewById(R.id.image_header);
+
+        view.findViewById(R.id.fab).setOnClickListener(v -> openNewCommentActivity());
+        view.findViewById(R.id.view_in_browser).setOnClickListener(v -> openInBrowser());
+
         return view;
     }
 
@@ -154,12 +153,10 @@ public class DetailFragment extends Fragment implements DetailContract.View, Vie
         startActivity(intent);
     }
 
-    @OnClick(R.id.fab)
     public void openNewCommentActivity() {
         startActivity(new Intent(getActivity(), NewCommentActivity.class));
     }
 
-    @OnClick(R.id.view_in_browser)
     public void openInBrowser() {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));

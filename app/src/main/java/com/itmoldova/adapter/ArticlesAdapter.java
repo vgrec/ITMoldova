@@ -17,10 +17,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
 
     private List<Item> items;
@@ -65,25 +61,25 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         return (position == 0) ? VIEW_TYPE_HEADER : VIEW_TYPE_NORMAL;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.title)
         TextView titleView;
-
-        @BindView(R.id.date)
         TextView dateView;
-
-        @BindView(R.id.preview_image)
         ImageView previewImage;
 
         ViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
+            titleView = (TextView) view.findViewById(R.id.title);
+            dateView = (TextView) view.findViewById(R.id.date);
+            previewImage = (ImageView) view.findViewById(R.id.preview_image);
+            view.setOnClickListener(this);
         }
 
-        @OnClick(R.id.row)
-        void onItemClicked() {
-            itemClickListener.onItemClicked(items.get(getAdapterPosition()));
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.row) {
+                itemClickListener.onItemClicked(items.get(getAdapterPosition()));
+            }
         }
     }
 }

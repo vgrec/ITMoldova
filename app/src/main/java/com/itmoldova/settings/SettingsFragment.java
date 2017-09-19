@@ -27,7 +27,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
-        ITMoldova.getAppComponent().inject(this);
+        ITMoldova.Companion.getAppComponent().inject(this);
 
         ListPreference notificationsList = (ListPreference) findPreference(getString(R.string.key_notifications));
         notificationsList.setOnPreferenceChangeListener(this);

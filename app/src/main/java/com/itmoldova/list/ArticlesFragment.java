@@ -27,9 +27,6 @@ import com.itmoldova.util.EndlessScrollListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Shows a list of articles.
  * <p>
@@ -42,11 +39,7 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     private List<Item> items = new ArrayList<>();
     private Category category;
 
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
-
-    @BindView(R.id.refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerViewEndlessScrollListener endlessScrollListener;
 
     public static Fragment newInstance(Category category) {
@@ -68,15 +61,17 @@ public class ArticlesFragment extends Fragment implements ArticlesContract.View 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        ButterKnife.bind(this, view);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ArticlesAdapter(getActivity(), items, item -> presenter.onArticleClicked(items, item));
         recyclerView.setAdapter(adapter);
         endlessScrollListener = new RecyclerViewEndlessScrollListener(layoutManager);
         recyclerView.addOnScrollListener(endlessScrollListener);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.refreshArticles(category));
 
         return view;
