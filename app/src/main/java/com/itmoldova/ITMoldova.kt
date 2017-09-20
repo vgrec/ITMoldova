@@ -9,7 +9,7 @@ import com.itmoldova.di.DaggerApplicationComponent
 class ITMoldova : Application() {
 
     companion object {
-        var appComponent: ApplicationComponent? = null
+        lateinit var appComponent: ApplicationComponent
     }
 
     override fun onCreate() {

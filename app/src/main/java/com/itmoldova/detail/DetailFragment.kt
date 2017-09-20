@@ -38,7 +38,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     private lateinit var items: List<Item>
     private lateinit var detailViewCreator: DetailViewCreator
 
-    private var presenter: DetailContract.Presenter? = null
+    private lateinit var presenter: DetailContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_details, container, false)
 
         contentGroup = view.findViewById(R.id.content)
@@ -86,7 +86,9 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     override fun showArticleDetail(views: List<View>) {
         contentGroup.removeAllViews()
         for (view in views) {
-            (view as ImageView).setOnClickListener(this)
+            if (view is ImageView) {
+                view.setOnClickListener(this)
+            }
             contentGroup.addView(view)
         }
     }
@@ -118,7 +120,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        val urls = presenter!!.extractPhotoUrlsFromArticle()
+        val urls = presenter.extractPhotoUrlsFromArticle()
         val intent = Intent(activity, PhotoViewActivity::class.java)
         intent.putStringArrayListExtra(Extra.PHOTO_URLS, urls as ArrayList<String>)
         intent.putExtra(Extra.CLICKED_URL, v.tag as String)
@@ -153,10 +155,8 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     }
 
     fun loadArticle(items: List<Item>, item: Item) {
-        if (presenter != null) {
-            presenter!!.loadArticleDetail(item)
-            presenter!!.loadRelatedArticles(items, item)
-        }
+        presenter.loadArticleDetail(item)
+        presenter.loadRelatedArticles(items, item)
     }
 
     companion object {

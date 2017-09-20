@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
 import com.itmoldova.R
-import com.itmoldova.list.ItemClickListener
 import com.itmoldova.model.Item
 import com.itmoldova.parser.ContentParser
 import com.itmoldova.util.Utils
@@ -17,7 +15,7 @@ import com.squareup.picasso.Picasso
 
 class ArticlesAdapter(private val context: Context,
                       private val items: List<Item>,
-                      private val itemClickListener: ItemClickListener) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
+                      private val itemClickListener: (item: Item) -> Unit) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticlesAdapter.ViewHolder {
         val itemLayout = if (viewType == VIEW_TYPE_HEADER) R.layout.item_list_header else R.layout.item_list_normal
@@ -48,7 +46,7 @@ class ArticlesAdapter(private val context: Context,
 
         override fun onClick(v: View) {
             if (v.id == R.id.row) {
-                itemClickListener.onItemClicked(items[adapterPosition])
+                itemClickListener(items[adapterPosition])
             }
         }
     }
