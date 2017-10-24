@@ -13,7 +13,7 @@ import java.util.*
 class DetailPresenter(private val view: DetailContract.View,
                       private val detailViewCreator: DetailViewCreator) : DetailContract.Presenter {
 
-    private var blocks: List<Block>? = null
+    private var blocks: MutableList<Block>? = mutableListOf()
     private var imageHeaderUrl: String? = null
 
     override fun loadArticleDetail(item: Item) {
@@ -21,14 +21,14 @@ class DetailPresenter(private val view: DetailContract.View,
 
         val parser = ContentParser(item.content)
         blocks = parser.normalize(parser.parse())
-        imageHeaderUrl = parser.getHeaderImageFromBlocks(blocks)
+        imageHeaderUrl = parser.getHeaderImageFromBlocks(blocks as MutableList<Block>)
         if (imageHeaderUrl != null) {
             view.showHeaderImage(imageHeaderUrl!!)
         } else {
             view.hideHeaderImage()
         }
 
-        val views = detailViewCreator.createViewsFrom(blocks)
+        val views = detailViewCreator.createViewsFrom(blocks as List<Block>)
         view.showArticleDetail(views)
     }
 

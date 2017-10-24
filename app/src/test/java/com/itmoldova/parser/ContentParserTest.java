@@ -36,13 +36,13 @@ public class ContentParserTest {
 
     @Test
     public void testExtractUrl() {
-        String url = ContentParser.extractUrl(IMAGE_TAG_1);
+        String url = ContentParser.Companion.extractUrl(IMAGE_TAG_1);
         assertThat(url).isEqualTo(IMAGE_1);
     }
 
     @Test
     public void testExtractFirstImageUrlFromContent() {
-        String url = ContentParser.extractFirstImage(CONTENT_MIXED);
+        String url = ContentParser.Companion.extractFirstImage(CONTENT_MIXED);
         assertThat(url).isEqualTo(IMAGE_1);
     }
 
