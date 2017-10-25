@@ -60,7 +60,7 @@ class NotificationController @Inject constructor(private val context: Context,
     }
 
     @VisibleForTesting
-    private fun detectNotificationTypeToShow(items: List<Item>): NotificationType {
+    fun detectNotificationTypeToShow(items: List<Item>): NotificationType {
         if (getNumberOfNewArticles(items) > 1) {
             return NotificationType.MULTILINE
         }
@@ -142,7 +142,7 @@ class NotificationController @Inject constructor(private val context: Context,
     }
 
     @VisibleForTesting
-    private fun getNumberOfNewArticles(items: List<Item>): Int {
+    fun getNumberOfNewArticles(items: List<Item>): Int {
         val lastPubDateSaved = appSettings.lastPubDate
         val firstArticlePubDate = Utils.pubDateToMillis(items[0].pubDate)
         if (lastPubDateSaved == firstArticlePubDate) {
