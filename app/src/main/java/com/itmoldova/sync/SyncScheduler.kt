@@ -1,18 +1,18 @@
-package com.itmoldova.sync;
+package com.itmoldova.sync
 
 /**
  * Defines the interface for scheduling repeating syncs.
  */
-public interface SyncScheduler {
+interface SyncScheduler {
 
     /**
      * Schedule repeating sync at the specified interval.
      */
-    void scheduleRepeatingSync(long interval);
+    fun scheduleRepeatingSync(interval: Long)
 
     /**
      * Cancel sync
      */
-    void cancel();
+    fun cancel()
 
 }

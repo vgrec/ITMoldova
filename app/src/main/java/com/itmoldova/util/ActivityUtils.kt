@@ -14,28 +14,27 @@
  * limitations under the License.
  */
 
-package com.itmoldova.util;
+package com.itmoldova.util
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.support.annotation.NonNull;
+import android.app.Fragment
+import android.app.FragmentManager
+import android.app.FragmentTransaction
 
 
 /**
  * This provides methods to help Activities load their UI.
  */
-public class ActivityUtils {
+object ActivityUtils {
 
     /**
-     * The {@code fragment} is added to the container view with id {@code frameId}. The operation is
-     * performed by the {@code fragmentManager}.
+     * The `fragment` is added to the container view with id `frameId`. The operation is
+     * performed by the `fragmentManager`.
      */
-    public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager,
-                                             @NonNull Fragment fragment, int frameId) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(frameId, fragment);
-        transaction.commit();
+    fun addFragmentToActivity(fragmentManager: FragmentManager,
+                              fragment: Fragment, frameId: Int) {
+        val transaction = fragmentManager.beginTransaction()
+        transaction.add(frameId, fragment)
+        transaction.commit()
     }
 
 }

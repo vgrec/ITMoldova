@@ -21,7 +21,7 @@ public class UtilsTest {
 
         // current item is in the list -> should remove it and return the first six items
 
-        List<Item> related = Utils.getRelatedArticles(items, currentItem, N);
+        List<Item> related = Utils.INSTANCE.getRelatedArticles(items, currentItem, N);
         assertThat(related.size()).isEqualTo(N - 1);
         assertThat(related).doesNotContain(currentItem);
     }
@@ -34,14 +34,14 @@ public class UtilsTest {
 
         // current item is not in the list -> should return the first six items
 
-        List<Item> related = Utils.getRelatedArticles(items, currentItem, N);
+        List<Item> related = Utils.INSTANCE.getRelatedArticles(items, currentItem, N);
         assertThat(related.size()).isEqualTo(N - 1);
         assertThat(related).doesNotContain(currentItem);
     }
 
     @Test
     public void testGetRelatedArticles_InvalidParams() {
-        List<Item> related = Utils.getRelatedArticles(null, null, N);
+        List<Item> related = Utils.INSTANCE.getRelatedArticles(null, null, N);
         assertThat(related.size()).isEqualTo(0);
     }
 }
