@@ -1,12 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'android-apt'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.itmold"
@@ -15,6 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -56,10 +55,11 @@ dependencies {
 
     // Google Architecture Components
     compile 'android.arch.lifecycle:extensions:' + rootProject.archLifecycleVersion;
-    compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion;
     annotationProcessor 'android.arch.lifecycle:compiler:' + rootProject.archLifecycleVersion;
     annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.archRoomVersion;
-    apt 'android.arch.persistence.room:compiler:' + rootProject.roomCompilerVersion
+
+    compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion;
+    annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.roomCompilerVersion
 
     // other libraries
     compile 'io.reactivex:rxjava:1.1.0'
