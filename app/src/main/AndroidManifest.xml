@@ -52,7 +52,8 @@
             android:name=".sync.v21.SyncArticlesServiceV21"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <activity android:name=".comments.NewCommentActivity"></activity>
+        <activity android:name=".comments.NewCommentActivity" />
+        <activity android:name=".bookmarks.BookmarksActivity"/>
     </application>
 
 </manifest>

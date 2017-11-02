@@ -14,6 +14,7 @@ import android.view.MenuItem
 
 import com.itmoldova.R
 import com.itmoldova.adapter.CategoriesFragmentPagerAdapter
+import com.itmoldova.bookmarks.BookmarksActivity
 import com.itmoldova.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (id == R.id.action_settings) {
             startActivity(Intent(this, SettingsActivity::class.java))
         } else if (id == R.id.action_bookmarks) {
-
+            startActivity(Intent(this, BookmarksActivity::class.java))
         }
 
         drawer.closeDrawer(GravityCompat.START)
