@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.*
@@ -12,8 +13,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.itmoldova.Extra
 import com.itmoldova.R
-import com.itmoldova.comments.NewCommentActivity
 import com.itmoldova.db.AppDatabase
+import com.itmoldova.db.ItemDao
 import com.itmoldova.model.Item
 import com.itmoldova.parser.DetailViewCreator
 import com.itmoldova.photoview.PhotoViewActivity
@@ -33,12 +34,14 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     private lateinit var titleView: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var imageHeaderView: ImageView
+    private lateinit var fab: FloatingActionButton
 
     private lateinit var item: Item
     private lateinit var items: List<Item>
     private lateinit var detailViewCreator: DetailViewCreator
 
     private lateinit var presenter: DetailContract.Presenter
+    private lateinit var dao: ItemDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +59,9 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         toolbar = view.findViewById(R.id.toolbar)
         imageHeaderView = view.findViewById(R.id.image_header)
 
-        view.findViewById<View>(R.id.fab).setOnClickListener { openNewCommentActivity() }
+        fab = view.findViewById(R.id.fab)
+        fab.setOnClickListener { presenter.addRemoveFromBookmarks(item) }
+
         view.findViewById<View>(R.id.view_in_browser).setOnClickListener { openInBrowser() }
 
         return view
@@ -66,16 +71,20 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         setupToolbar()
 
+        dao = AppDatabase.getDatabase(activity).itemDao()
         detailViewCreator = DetailViewCreator(activity)
-        presenter = DetailPresenter(this, DetailViewCreator(activity))
+
+        presenter = DetailPresenter(this, DetailViewCreator(activity), dao)
+
+        fab.setImageResource(if (presenter.isItemBookmarked(item)) R.drawable.ic_star_full else R.drawable.ic_star_outline)
         loadArticle(items, item)
     }
 
     private fun setupToolbar() {
         val activity = activity as AppCompatActivity
         activity.setSupportActionBar(toolbar)
-        activity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        activity.supportActionBar!!.setDisplayShowTitleEnabled(false)
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        activity.supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -119,6 +128,10 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         imageHeaderView.visibility = View.GONE
     }
 
+    override fun updateStarIcon(iconResId: Int) {
+        fab.setImageResource(iconResId)
+    }
+
     override fun onClick(v: View) {
         val urls = presenter.extractPhotoUrlsFromArticle()
         val intent = Intent(activity, PhotoViewActivity::class.java)
@@ -127,31 +140,11 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         startActivity(intent)
     }
 
-    private fun openNewCommentActivity() {
-        startActivity(Intent(activity, NewCommentActivity::class.java))
-    }
-
     private fun openInBrowser() {
         val builder = CustomTabsIntent.Builder()
         builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
         val customTabsIntent = builder.build()
         customTabsIntent.launchUrl(activity, Uri.parse(item.link))
-    }
-
-    private fun bookMarkArticle() {
-        // test code to bookmark an article.
-        val db = AppDatabase.getDatabase(activity)
-        if (db.itemDao().getItemById(item.guid) == null) {
-            db.itemDao().insertItem(item)
-        } else {
-            db.itemDao().deleteItem(item)
-        }
-
-        // show the list of all items:
-        val items = db.itemDao().loadAllItems()
-        for (item in items) {
-            println(item.title)
-        }
     }
 
     fun loadArticle(items: List<Item>, item: Item) {

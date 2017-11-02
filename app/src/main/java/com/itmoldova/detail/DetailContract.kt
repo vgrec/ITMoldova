@@ -17,6 +17,8 @@ class DetailContract {
         fun showHeaderImage(url: String)
 
         fun hideHeaderImage()
+
+        fun updateStarIcon(iconResId: Int)
     }
 
     interface Presenter {
@@ -25,5 +27,9 @@ class DetailContract {
         fun loadRelatedArticles(items: List<Item>, item: Item)
 
         fun extractPhotoUrlsFromArticle(): List<String>
+
+        fun addRemoveFromBookmarks(item: Item)
+
+        fun isItemBookmarked(item: Item): Boolean
     }
 }

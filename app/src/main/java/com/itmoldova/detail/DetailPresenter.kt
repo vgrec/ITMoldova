@@ -1,5 +1,7 @@
 package com.itmoldova.detail
 
+import com.itmoldova.R
+import com.itmoldova.db.ItemDao
 import com.itmoldova.model.Item
 import com.itmoldova.parser.Block
 import com.itmoldova.parser.ContentParser
@@ -11,7 +13,8 @@ import java.util.*
  * Author vgrec, on 24.07.16.
  */
 class DetailPresenter(private val view: DetailContract.View,
-                      private val detailViewCreator: DetailViewCreator) : DetailContract.Presenter {
+                      private val detailViewCreator: DetailViewCreator,
+                      private val itemDao: ItemDao) : DetailContract.Presenter {
 
     private var blocks: MutableList<Block>? = mutableListOf()
     private var imageHeaderUrl: String? = null
@@ -50,5 +53,17 @@ class DetailPresenter(private val view: DetailContract.View,
 
         return urls
     }
+
+    override fun addRemoveFromBookmarks(item: Item) {
+        if (itemDao.getItemById(item.guid) == null) {
+            itemDao.insertItem(item)
+            view.updateStarIcon(R.drawable.ic_star_full)
+        } else {
+            itemDao.deleteItem(item)
+            view.updateStarIcon(R.drawable.ic_star_outline)
+        }
+    }
+
+    override fun isItemBookmarked(item: Item): Boolean = itemDao.getItemById(item.guid) != null
 
 }
