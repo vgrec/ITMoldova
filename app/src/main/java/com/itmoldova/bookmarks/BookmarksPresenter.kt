@@ -1,8 +1,11 @@
 package com.itmoldova.bookmarks
 
+import com.itmoldova.db.ItemDao
 
-class BookmarksPresenter : BookmarksContract.Presenter{
+
+class BookmarksPresenter(private val view: BookmarksContract.View,
+                         private val itemDao: ItemDao) : BookmarksContract.Presenter {
     override fun loadBookmarks() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view.showBookmarks(itemDao.loadAllItems())
     }
 }
