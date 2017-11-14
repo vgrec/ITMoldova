@@ -19,7 +19,6 @@ import com.itmoldova.model.Item
 import com.itmoldova.parser.DetailViewCreator
 import com.itmoldova.photoview.PhotoViewActivity
 import com.squareup.picasso.Picasso
-import java.util.*
 
 /**
  * Shows details of an article.
@@ -149,15 +148,17 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
     fun loadArticle(items: List<Item>, item: Item) {
         presenter.loadArticleDetail(item)
-        presenter.loadRelatedArticles(items, item)
+        if (items.isNotEmpty()) {
+            presenter.loadRelatedArticles(items, item)
+        }
     }
 
     companion object {
 
-        fun newInstance(items: List<Item>, item: Item): DetailFragment {
+        fun newInstance(items: List<Item>?, item: Item): DetailFragment {
             val args = Bundle()
             args.putParcelable(Extra.ITEM, item)
-            args.putParcelableArrayList(Extra.ITEMS, ArrayList(items))
+            args.putParcelableArrayList(Extra.ITEMS, items?.let { ArrayList(items) } ?: ArrayList())
             val fragment = DetailFragment()
             fragment.arguments = args
             return fragment
