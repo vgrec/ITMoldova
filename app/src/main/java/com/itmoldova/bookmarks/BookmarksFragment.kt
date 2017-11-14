@@ -40,7 +40,9 @@ class BookmarksFragment : Fragment(), BookmarksContract.View {
     }
 
     override fun showBookmarks(items: List<Item>) {
-        recyclerView.adapter = ArticlesAdapter(activity, items, { item -> openArticleDetail(item) })
+        val adapter = ArticlesAdapter(activity, items, { item -> openArticleDetail(item) })
+        adapter.setShowingBookmarks(true)
+        recyclerView.adapter = adapter
     }
 
     private fun openArticleDetail(item: Item) {

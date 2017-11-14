@@ -17,6 +17,8 @@ class ArticlesAdapter(private val context: Context,
                       private val items: List<Item>,
                       private val itemClickListener: (item: Item) -> Unit) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
 
+    private var showingBookmarks: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticlesAdapter.ViewHolder {
         val itemLayout = if (viewType == VIEW_TYPE_HEADER) R.layout.item_list_header else R.layout.item_list_normal
         return ViewHolder(LayoutInflater.from(parent.context).inflate(itemLayout, parent, false))
@@ -32,7 +34,11 @@ class ArticlesAdapter(private val context: Context,
     override fun getItemCount(): Int = items.size
 
     override fun getItemViewType(position: Int): Int =
-            if (position == 0) VIEW_TYPE_HEADER else VIEW_TYPE_NORMAL
+            when {
+                showingBookmarks -> VIEW_TYPE_NORMAL
+                position == 0 -> VIEW_TYPE_HEADER
+                else -> VIEW_TYPE_NORMAL
+            }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
@@ -54,5 +60,9 @@ class ArticlesAdapter(private val context: Context,
     companion object {
         private val VIEW_TYPE_HEADER = 0
         private val VIEW_TYPE_NORMAL = 1
+    }
+
+    fun setShowingBookmarks(showingBookmarks: Boolean) {
+        this.showingBookmarks = showingBookmarks
     }
 }
