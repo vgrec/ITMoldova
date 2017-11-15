@@ -1,16 +1,12 @@
 package com.itmoldova.util
 
 import android.text.format.DateUtils
-
+import android.transition.Transition
 import com.itmoldova.model.Item
-
+import rx.Observable
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Collections
-import java.util.Date
-import java.util.Locale
-
-import rx.Observable
+import java.util.*
 
 object Utils {
 
@@ -74,5 +70,22 @@ object Utils {
         }
 
         return selectedItems
+    }
+
+    open class TransactionListenerAdapter : Transition.TransitionListener {
+        override fun onTransitionEnd(transition: Transition?) {
+        }
+
+        override fun onTransitionResume(transition: Transition?) {
+        }
+
+        override fun onTransitionPause(transition: Transition?) {
+        }
+
+        override fun onTransitionCancel(transition: Transition?) {
+        }
+
+        override fun onTransitionStart(transition: Transition?) {
+        }
     }
 }

@@ -1,13 +1,18 @@
 package com.itmoldova.detail
 
+import android.annotation.TargetApi
 import android.app.Fragment
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.customtabs.CustomTabsIntent
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.transition.Transition
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,9 +20,11 @@ import com.itmoldova.Extra
 import com.itmoldova.R
 import com.itmoldova.db.AppDatabase
 import com.itmoldova.db.ItemDao
+import com.itmoldova.kotlinex.lollipopAndAbove
 import com.itmoldova.model.Item
 import com.itmoldova.parser.DetailViewCreator
 import com.itmoldova.photoview.PhotoViewActivity
+import com.itmoldova.util.Utils
 import com.squareup.picasso.Picasso
 
 /**
@@ -77,6 +84,30 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
         fab.setImageResource(if (presenter.isItemBookmarked(item)) R.drawable.ic_star_full else R.drawable.ic_star_outline)
         loadArticle(items, item)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        showFabOnTransitionEnd()
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun showFabOnTransitionEnd() {
+        lollipopAndAbove {
+            val sharedElementTransition = activity.window.sharedElementEnterTransition
+            sharedElementTransition?.let {
+                it.addListener(object : Utils.TransactionListenerAdapter() {
+                    override fun onTransitionEnd(transition: Transition?) {
+                        fab.show()
+                    }
+
+                    override fun onTransitionStart(transition: Transition?) {
+                        fab.visibility = View.INVISIBLE
+                    }
+                })
+            }
+        }
     }
 
     private fun setupToolbar() {
