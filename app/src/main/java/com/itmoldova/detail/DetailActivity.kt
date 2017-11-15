@@ -2,6 +2,7 @@ package com.itmoldova.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 
 import com.itmoldova.Extra
@@ -25,11 +26,19 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val detailFragment = fragmentManager.findFragmentById(android.R.id.content) as DetailFragment
-        if (detailFragment != null) {
+        val detailFragment = fragmentManager.findFragmentById(android.R.id.content)
+        detailFragment?.let {
             val item = intent.getParcelableExtra<Item>(Extra.ITEM)
             val items = intent.getParcelableArrayListExtra<Item>(Extra.ITEMS)
-            detailFragment.loadArticle(items, item)
+            (it as DetailFragment).loadArticle(items, item)
         }
+    }
+
+    override fun onBackPressed() {
+        val detailFragment = fragmentManager.findFragmentById(android.R.id.content)
+        detailFragment?.let {
+            (it as DetailFragment).hideFab()
+        }
+        Handler().postDelayed({ super.onBackPressed() }, DetailFragment.FAB_CLOSE_ANIM_DURATION)
     }
 }

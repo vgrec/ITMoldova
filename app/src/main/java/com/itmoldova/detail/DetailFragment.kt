@@ -186,6 +186,8 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
     companion object {
 
+        val FAB_CLOSE_ANIM_DURATION = 150L
+
         fun newInstance(items: List<Item>?, item: Item): DetailFragment {
             val args = Bundle()
             args.putParcelable(Extra.ITEM, item)
@@ -194,5 +196,12 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    fun hideFab() {
+        fab.animate()
+                .scaleX(0f)
+                .scaleY(0f)
+                .setDuration(FAB_CLOSE_ANIM_DURATION)
     }
 }

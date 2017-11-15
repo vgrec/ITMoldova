@@ -20,7 +20,8 @@
 
 
 ----------
-- Test on device with api 15
 - Test landscape in the DetailsActivity with the test code
 * Display real image in notification status bar
 - Fix image wrap on Api 16
+- Add a default image for articles that don't have headline image otherwise the FAB won't show,
+  therefore, not being possible to bookmark
