@@ -1,5 +1,6 @@
 package com.itmoldova.list
 
+import android.widget.ImageView
 import com.itmoldova.model.Category
 import com.itmoldova.model.Item
 
@@ -17,7 +18,7 @@ interface ArticlesContract {
 
         fun showNoInternetConnection()
 
-        fun openArticleDetail(items: List<Item>, item: Item)
+        fun openArticleDetail(items: List<Item>, item: Item, imageView: ImageView)
 
     }
 
@@ -28,7 +29,7 @@ interface ArticlesContract {
 
         fun cancel()
 
-        fun onArticleClicked(items: List<Item>, item: Item)
+        fun onArticleClicked(items: List<Item>, item: Item, imageView: ImageView)
     }
 
 }

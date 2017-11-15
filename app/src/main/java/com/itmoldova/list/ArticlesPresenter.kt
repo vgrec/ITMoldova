@@ -1,5 +1,6 @@
 package com.itmoldova.list
 
+import android.widget.ImageView
 import com.itmoldova.AppSettings
 import com.itmoldova.ITMoldova
 import com.itmoldova.http.ITMoldovaService
@@ -28,13 +29,13 @@ class ArticlesPresenter(private val apiService: ITMoldovaService, private val vi
         loadRssFeed(category, page, false)
     }
 
-    override fun onArticleClicked(items: List<Item>, item: Item) {
+    override fun onArticleClicked(items: List<Item>, item: Item, imageView: ImageView) {
         val selected = Observable.from(items)
                 .take(10) // we are interested only in the top 10 articles
                 .toList()
                 .toBlocking()
                 .single()
-        view.openArticleDetail(selected, item)
+        view.openArticleDetail(selected, item, imageView)
     }
 
     override fun refreshArticles(category: Category) {

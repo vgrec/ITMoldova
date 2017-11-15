@@ -2,11 +2,14 @@ package com.itmoldova.list
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import android.widget.ImageView
 import android.widget.Toast
 import com.itmoldova.Extra
 import com.itmoldova.R
@@ -49,7 +52,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         recyclerView.layoutManager = layoutManager
 
 
-        adapter = ArticlesAdapter(activity, items, { item -> presenter?.onArticleClicked(items, item) })
+        adapter = ArticlesAdapter(activity, items, { item, imageView -> presenter?.onArticleClicked(items, item, imageView) })
 
         recyclerView.adapter = adapter
         endlessScrollListener = RecyclerViewEndlessScrollListener(layoutManager)
@@ -68,11 +71,18 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         }
     }
 
-    override fun openArticleDetail(items: List<Item>, item: Item) {
+    override fun openArticleDetail(items: List<Item>, item: Item, imageView: ImageView) {
         val intent = Intent(activity, DetailActivity::class.java)
         intent.putExtra(Extra.ITEM, item)
         intent.putParcelableArrayListExtra(Extra.ITEMS, ArrayList(items))
-        startActivity(intent)
+
+        val transitionName = ViewCompat.getTransitionName(imageView)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity,
+                imageView,
+                transitionName)
+
+        startActivity(intent, options.toBundle())
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

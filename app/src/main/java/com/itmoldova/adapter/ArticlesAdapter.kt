@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso
 
 class ArticlesAdapter(private val context: Context,
                       private val items: List<Item>,
-                      private val itemClickListener: (item: Item) -> Unit) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
+                      private val itemClickListener: (item: Item, imageView: ImageView) -> Unit) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
 
     private var showingBookmarks: Boolean = false
 
@@ -52,7 +52,7 @@ class ArticlesAdapter(private val context: Context,
 
         override fun onClick(v: View) {
             if (v.id == R.id.row) {
-                itemClickListener(items[adapterPosition])
+                itemClickListener(items[adapterPosition], previewImage)
             }
         }
     }

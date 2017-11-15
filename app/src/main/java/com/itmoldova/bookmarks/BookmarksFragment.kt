@@ -4,12 +4,15 @@ package com.itmoldova.bookmarks
 import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.itmoldova.Extra
 
 import com.itmoldova.R
@@ -40,15 +43,22 @@ class BookmarksFragment : Fragment(), BookmarksContract.View {
     }
 
     override fun showBookmarks(items: List<Item>) {
-        val adapter = ArticlesAdapter(activity, items, { item -> openArticleDetail(item) })
+        val adapter = ArticlesAdapter(activity, items, { item, image -> openArticleDetail(item, image) })
         adapter.setShowingBookmarks(true)
         recyclerView.adapter = adapter
     }
 
-    private fun openArticleDetail(item: Item) {
+    private fun openArticleDetail(item: Item, image: ImageView) {
         val intent = Intent(activity, DetailActivity::class.java)
         intent.putExtra(Extra.ITEM, item)
-        startActivity(intent)
+
+        val transitionName = ViewCompat.getTransitionName(image)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity,
+                image,
+                transitionName)
+
+        startActivity(intent, options.toBundle())
     }
 
 }
