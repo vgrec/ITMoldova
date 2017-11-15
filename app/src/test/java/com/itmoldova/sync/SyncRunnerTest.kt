@@ -17,7 +17,7 @@ class SyncRunnerTest {
     private lateinit var mockScheduler: Scheduler
     private lateinit var mockService: ITMoldovaService
     private lateinit var mockNetworkDetector: NetworkDetector
-    private lateinit var syncRunner: SyncRunner
+    private lateinit var syncRunner: RssChecker
 
     @Before
     fun setUp() {
@@ -25,7 +25,7 @@ class SyncRunnerTest {
         mockService = mock(ITMoldovaService::class.java)
         mockNetworkDetector = mock(NetworkDetector::class.java)
 
-        syncRunner = SyncRunner(
+        syncRunner = RssChecker(
                 mock(NotificationController::class.java),
                 mock(AppSettings::class.java),
                 mockService,

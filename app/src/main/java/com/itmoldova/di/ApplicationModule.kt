@@ -4,6 +4,8 @@ import android.app.NotificationManager
 import android.content.Context
 
 import com.itmoldova.AppSettings
+import com.itmoldova.sync.ITMoldovaJobCreator
+import com.itmoldova.sync.RssChecker
 
 import javax.inject.Singleton
 
@@ -27,5 +29,10 @@ class ApplicationModule(private val context: Context) {
     @Provides
     fun provideNotificationManager(context: Context): NotificationManager {
         return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
+
+    @Provides
+    fun provideJobCreator(rssChecker: RssChecker): ITMoldovaJobCreator {
+        return ITMoldovaJobCreator(rssChecker)
     }
 }

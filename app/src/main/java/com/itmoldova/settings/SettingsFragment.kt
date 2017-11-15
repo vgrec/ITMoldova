@@ -7,7 +7,7 @@ import android.preference.PreferenceFragment
 import com.itmoldova.AppSettings
 import com.itmoldova.ITMoldova
 import com.itmoldova.R
-import com.itmoldova.sync.SyncSchedulerFactory
+import com.itmoldova.sync.SyncJob
 import javax.inject.Inject
 
 /**
@@ -42,11 +42,11 @@ class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeList
     private fun setSyncInterval(newValue: Any) {
         val interval = java.lang.Long.valueOf(newValue.toString())!!
         appSettings.syncInterval = interval
-        val scheduler = SyncSchedulerFactory.getScheduler(activity)
+
         if (interval != AppSettings.SYNC_INTERVAL_NEVER) {
-            scheduler.scheduleRepeatingSync(interval)
+            SyncJob.schedulePeriodicSync(interval)
         } else {
-            scheduler.cancel()
+            SyncJob.cancelSync()
         }
     }
 
