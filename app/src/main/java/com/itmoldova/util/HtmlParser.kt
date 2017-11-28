@@ -6,7 +6,8 @@ import org.jsoup.nodes.Element
 class HtmlParser(private val displayWidth: Int,
                  private val displayDensity: Float,
                  private val bgColor: Int,
-                 private val textColor: Int) {
+                 private val textColor: Int,
+                 private val linkColor: Int) {
 
     var content: String = ""
     var headerUrl: String? = ""
@@ -106,7 +107,11 @@ class HtmlParser(private val displayWidth: Int,
 
     private fun getImageStyle(): String = "<style>img {display: inline; max-width: 100%; }</style>"
 
-    private fun getBodyStyle(): String = "<style>body {color: " + toHex(textColor) + "; background-color: " + toHex(bgColor) + ";} </style>"
+    private fun getBodyStyle(): String = "<style>" +
+            "body {color: " + toHex(textColor) + "; " +
+            "background-color: " + toHex(bgColor) + ";} " +
+            "a { color: " + toHex(linkColor) + ";}" +
+            "</style>"
 
     private fun toHex(color: Int) = String.format("#%06X", 0xFFFFFF and color)
 }

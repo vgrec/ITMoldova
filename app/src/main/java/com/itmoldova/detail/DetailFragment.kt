@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar
 import android.transition.Transition
 import android.view.*
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.TextView
 import com.itmoldova.Extra
@@ -67,13 +68,20 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         titleView = view.findViewById(R.id.title)
         toolbar = view.findViewById(R.id.toolbar)
         imageHeaderView = view.findViewById(R.id.image_header)
+
         webView = view.findViewById(R.id.webview)
         webView.settings.javaScriptEnabled = true
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                openInBrowser(url)
+                return true
+            }
+        }
 
         fab = view.findViewById(R.id.fab)
         fab.setOnClickListener { presenter.addRemoveFromBookmarks(item) }
 
-        view.findViewById<View>(R.id.view_in_browser).setOnClickListener { openInBrowser() }
+        view.findViewById<View>(R.id.view_in_browser).setOnClickListener { openInBrowser(item.link) }
 
         return view
     }
@@ -88,8 +96,9 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         val displayDensity = resources.displayMetrics.density
         val bgColor = ContextCompat.getColor(activity, R.color.content_main_background)
         val textColor = ContextCompat.getColor(activity, R.color.item_title)
+        val linkColor = ContextCompat.getColor(activity, R.color.colorAccent)
 
-        val htmlParser = HtmlParser(displayWidth, displayDensity, bgColor, textColor)
+        val htmlParser = HtmlParser(displayWidth, displayDensity, bgColor, textColor, linkColor)
         presenter = DetailPresenter(this, dao, htmlParser)
 
         fab.setImageResource(if (presenter.isItemBookmarked(item)) R.drawable.ic_star_full else R.drawable.ic_star_outline)
@@ -184,11 +193,13 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         startActivity(intent)
     }
 
-    private fun openInBrowser() {
-        val builder = CustomTabsIntent.Builder()
-        builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
-        val customTabsIntent = builder.build()
-        customTabsIntent.launchUrl(activity, Uri.parse(item.link))
+    private fun openInBrowser(url: String?) {
+        url?.let {
+            val builder = CustomTabsIntent.Builder()
+            builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
+            val customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(activity, Uri.parse(url))
+        }
     }
 
     fun loadArticle(items: List<Item>, item: Item) {
