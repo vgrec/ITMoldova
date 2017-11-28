@@ -28,13 +28,20 @@
                     android:id="@+id/image_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:transitionName="@string/activity_image_transition"
                     android:adjustViewBounds="true"
                     android:maxHeight="256dp"
                     android:scaleType="centerCrop"
+                    android:transitionName="@string/activity_image_transition"
                     android:visibility="gone"
                     app:layout_collapseMode="parallax"
                     tools:visibility="visible" />
+
+                <View
+                    android:id="@+id/image_header_scrim"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:alpha="0"
+                    android:background="@drawable/scrim_details" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -63,7 +70,7 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="4dp"
                     android:lineSpacingExtra="2sp"
                     android:padding="16dp"
                     android:textColor="@color/item_title"
@@ -72,19 +79,13 @@
                     android:typeface="serif"
                     tools:text="Ce sa intamplat cu noul Android care va fi?" />
 
-                <!-- Views are added programmatically -->
-                <LinearLayout
-                    android:id="@+id/content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    android:padding="16dp" />
-
                 <WebView
                     android:id="@+id/webview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginStart="16dp" />
 
                 <LinearLayout
                     android:id="@+id/related"

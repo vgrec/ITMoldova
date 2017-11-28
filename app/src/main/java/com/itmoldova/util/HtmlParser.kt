@@ -108,9 +108,8 @@ class HtmlParser(private val displayWidth: Int,
     private fun getImageStyle(): String = "<style>img {display: inline; max-width: 100%; }</style>"
 
     private fun getBodyStyle(): String = "<style>" +
-            "body {color: " + toHex(textColor) + "; " +
-            "background-color: " + toHex(bgColor) + ";} " +
-            "a { color: " + toHex(linkColor) + ";}" +
+            "body {color: " + toHex(textColor) + "; padding:0; margin:0; background-color: " + toHex(bgColor) + ";} " +
+            "a { color: " + toHex(linkColor) + "; }" +
             "</style>"
 
     private fun toHex(color: Int) = String.format("#%06X", 0xFFFFFF and color)

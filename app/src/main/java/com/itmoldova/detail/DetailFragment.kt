@@ -1,5 +1,6 @@
 package com.itmoldova.detail
 
+import android.animation.ValueAnimator
 import android.annotation.TargetApi
 import android.app.Fragment
 import android.content.Context
@@ -39,7 +40,6 @@ import com.squareup.picasso.Picasso
  */
 class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
-    private lateinit var contentGroup: ViewGroup
     private lateinit var relatedGroup: ViewGroup
     private lateinit var titleView: TextView
     private lateinit var toolbar: Toolbar
@@ -63,7 +63,6 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_details, container, false)
 
-        contentGroup = view.findViewById(R.id.content)
         relatedGroup = view.findViewById(R.id.related)
         titleView = view.findViewById(R.id.title)
         toolbar = view.findViewById(R.id.toolbar)
@@ -82,6 +81,20 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         fab.setOnClickListener { presenter.addRemoveFromBookmarks(item) }
 
         view.findViewById<View>(R.id.view_in_browser).setOnClickListener { openInBrowser(item.link) }
+
+        val scrimView = view.findViewById<View>(R.id.image_header_scrim)
+
+        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                view.postDelayed({
+                    val animator = ValueAnimator.ofFloat(0f, 1f)
+                    animator.duration = resources.getInteger(android.R.integer.config_mediumAnimTime).toLong()
+                    animator.addUpdateListener { animation -> scrimView.alpha = animation.animatedValue as Float }
+                    animator.start()
+                }, resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
+            }
+        })
 
         return view
     }
@@ -139,16 +152,6 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.articles_list, menu)
-    }
-
-    override fun showArticleDetail(views: List<View>) {
-        contentGroup.removeAllViews()
-        for (view in views) {
-            if (view is ImageView) {
-                view.setOnClickListener(this)
-            }
-            contentGroup.addView(view)
-        }
     }
 
     override fun showArticleDetail(content: String) {
