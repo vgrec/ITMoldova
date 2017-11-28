@@ -10,6 +10,8 @@ class DetailContract {
     interface View {
         fun showArticleDetail(views: List<android.view.View>)
 
+        fun showArticleDetail(content: String)
+
         fun showRelatedArticles(relatedItems: List<Item>)
 
         fun showTitle(title: String)
@@ -25,8 +27,6 @@ class DetailContract {
         fun loadArticleDetail(item: Item)
 
         fun loadRelatedArticles(items: List<Item>, item: Item)
-
-        fun extractPhotoUrlsFromArticle(): List<String>
 
         fun addRemoveFromBookmarks(item: Item)
 

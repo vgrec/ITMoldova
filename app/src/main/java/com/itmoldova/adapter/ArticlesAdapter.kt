@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.itmoldova.R
 import com.itmoldova.model.Item
-import com.itmoldova.parser.ContentParser
+import com.itmoldova.util.UiUtils
 import com.itmoldova.util.Utils
 import com.squareup.picasso.Picasso
 
@@ -28,7 +28,7 @@ class ArticlesAdapter(private val context: Context,
         val item = items[position]
         holder.titleView.text = item.title
         holder.dateView.text = Utils.formatPubDate(item.pubDate)
-        Picasso.with(context).load(ContentParser.extractFirstImage(item.content)).into(holder.previewImage)
+        Picasso.with(context).load(UiUtils.extractFirstImage(item.content)).into(holder.previewImage)
     }
 
     override fun getItemCount(): Int = items.size

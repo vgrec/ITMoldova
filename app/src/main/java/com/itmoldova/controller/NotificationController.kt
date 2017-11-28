@@ -17,8 +17,8 @@ import com.itmoldova.R
 import com.itmoldova.detail.DetailActivity
 import com.itmoldova.list.MainActivity
 import com.itmoldova.model.Item
-import com.itmoldova.parser.ContentParser
 import com.itmoldova.util.Logs
+import com.itmoldova.util.UiUtils
 import com.itmoldova.util.Utils
 import java.util.*
 import java.util.concurrent.ExecutionException
@@ -65,7 +65,7 @@ class NotificationController @Inject constructor(private val context: Context,
             return NotificationType.MULTILINE
         }
 
-        val hasImage = ContentParser.extractFirstImage(items[0].content) != null
+        val hasImage = UiUtils.extractFirstImage(items[0].content) != null
         return if (hasImage) NotificationType.BIG_IMAGE else NotificationType.BIG_TEXT
     }
 
@@ -114,7 +114,7 @@ class NotificationController @Inject constructor(private val context: Context,
 
     private fun loadBitmap(firstItem: Item): Bitmap? {
         val futureTarget = Glide.with(context.applicationContext)
-                .load(ContentParser.extractFirstImage(firstItem.content))
+                .load(UiUtils.extractFirstImage(firstItem.content))
                 .asBitmap()
                 .fitCenter()
                 .into(NOTIFICATION_IMAGE_WIDTH, NOTIFICATION_IMAGE_HEIGHT)

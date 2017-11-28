@@ -3,55 +3,33 @@ package com.itmoldova.detail
 import com.itmoldova.R
 import com.itmoldova.db.ItemDao
 import com.itmoldova.model.Item
-import com.itmoldova.parser.Block
-import com.itmoldova.parser.ContentParser
-import com.itmoldova.parser.DetailViewCreator
+import com.itmoldova.util.HtmlParser
 import com.itmoldova.util.Utils
-import java.util.*
 
 /**
  * Author vgrec, on 24.07.16.
  */
 class DetailPresenter(private val view: DetailContract.View,
-                      private val detailViewCreator: DetailViewCreator,
-                      private val itemDao: ItemDao) : DetailContract.Presenter {
-
-    private var blocks: MutableList<Block>? = mutableListOf()
-    private var imageHeaderUrl: String? = null
+                      private val itemDao: ItemDao,
+                      private val htmlParser: HtmlParser) : DetailContract.Presenter {
 
     override fun loadArticleDetail(item: Item) {
         view.showTitle(item.title)
 
-        val parser = ContentParser(item.content)
-        blocks = parser.normalize(parser.parse())
-        imageHeaderUrl = parser.getHeaderImageFromBlocks(blocks as MutableList<Block>)
-        if (imageHeaderUrl != null) {
-            view.showHeaderImage(imageHeaderUrl!!)
+        val content = htmlParser.parse(item.content)
+        view.showArticleDetail(content)
+
+        val imageUrl = htmlParser.getHeaderImageUrl()
+        if (imageUrl != null) {
+            view.showHeaderImage(imageUrl)
         } else {
             view.hideHeaderImage()
         }
-
-        val views = detailViewCreator.createViewsFrom(blocks as List<Block>)
-        view.showArticleDetail(views)
     }
 
     override fun loadRelatedArticles(items: List<Item>, item: Item) {
         val relatedArticles = Utils.getRelatedArticles(items, item, 5)
         view.showRelatedArticles(relatedArticles)
-    }
-
-    override fun extractPhotoUrlsFromArticle(): List<String> {
-        if (blocks == null) {
-            return emptyList()
-        }
-
-        val urls = ArrayList<String>()
-        urls.add(imageHeaderUrl!!)
-        blocks!!
-                .filter { it.type == Block.Type.IMAGE }
-                .mapTo(urls) { it.content }
-
-        return urls
     }
 
     override fun addRemoveFromBookmarks(item: Item) {
