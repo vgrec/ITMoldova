@@ -46,7 +46,7 @@ dependencies {
     compile('com.squareup.retrofit2:converter-simplexml:2.2.0') {
         exclude module: 'stax-api'
     }
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 

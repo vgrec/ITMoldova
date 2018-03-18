@@ -39,7 +39,7 @@ class HtmlParser(private val displayWidth: Int,
     }
 
     fun getHeaderImageUrl(): String? {
-        return headerUrl
+        return headerUrl?.replace("http", "https")
     }
 
     private fun parseBody(body: String): String {
