@@ -8,18 +8,22 @@ import com.itmoldova.model.Category
 import com.itmoldova.model.Item
 import com.itmoldova.model.Rss
 import com.itmoldova.util.Utils
-import rx.Observable
-import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class ArticlesPresenter(private val apiService: ITMoldovaService, private val view: ArticlesContract.View) : ArticlesContract.Presenter {
-    private var subscription: Subscription? = null
+    private var disposable: Disposable? = null
     private var category: Category? = null
 
     @Inject
     lateinit var appSettings: AppSettings
+
+    companion object {
+        val TOP_ARTICLES_NUMBER = 10L
+    }
 
     init {
         ITMoldova.appComponent.inject(this)
@@ -30,12 +34,13 @@ class ArticlesPresenter(private val apiService: ITMoldovaService, private val vi
     }
 
     override fun onArticleClicked(items: List<Item>, item: Item, imageView: ImageView) {
-        val selected = Observable.from(items)
-                .take(10) // we are interested only in the top 10 articles
-                .toList()
-                .toBlocking()
-                .single()
-        view.openArticleDetail(selected, item, imageView)
+        val topItems = mutableListOf<Item>()
+
+        Observable.fromIterable(items)
+                .take(TOP_ARTICLES_NUMBER) // we are interested only in the top 10 articles
+                .subscribe({ currentItem -> topItems.add(currentItem) })
+
+        view.openArticleDetail(topItems, item, imageView)
     }
 
     override fun refreshArticles(category: Category) {
@@ -44,7 +49,7 @@ class ArticlesPresenter(private val apiService: ITMoldovaService, private val vi
 
     private fun loadRssFeed(category: Category, page: Int, clearDataSet: Boolean) {
         this.category = category
-        subscription = getObservableByCategory(category, page)
+        disposable = getObservableByCategory(category, page)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { view.setLoadingIndicator(true) }
@@ -82,8 +87,10 @@ class ArticlesPresenter(private val apiService: ITMoldovaService, private val vi
     }
 
     override fun cancel() {
-        if (subscription?.isUnsubscribed == true) {
-            subscription?.unsubscribe()
+        disposable?.let {
+            if (!it.isDisposed) {
+                it.dispose()
+            }
         }
     }
 }

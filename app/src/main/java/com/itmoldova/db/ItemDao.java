@@ -10,11 +10,13 @@ import com.itmoldova.model.Item;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface ItemDao {
 
     @Query("select * from item")
-    List<Item> loadAllItems();
+    Flowable<List<Item>> loadAllItems();
 
     @Query("select * from item where guid = :id")
     Item getItemById(String id);

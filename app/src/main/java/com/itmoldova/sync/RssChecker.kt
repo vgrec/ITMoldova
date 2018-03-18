@@ -6,8 +6,8 @@ import com.itmoldova.http.ITMoldovaService
 import com.itmoldova.http.NetworkDetector
 import com.itmoldova.model.Rss
 import com.itmoldova.util.Utils
-import rx.Scheduler
-import rx.Subscription
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 /**
@@ -20,13 +20,13 @@ constructor(private val notificationsController: NotificationsController,
             private val service: ITMoldovaService,
             private val networkDetector: NetworkDetector) {
 
-    private var subscription: Subscription? = null
+    private var disposable: Disposable? = null
 
     fun start(subscribeOnScheduler: Scheduler, observeOnScheduler: Scheduler) {
         if (!networkDetector.hasInternetConnection()) {
             return
         }
-        subscription = service
+        disposable = service
                 .getDefaultRssFeed(PAGE_NUMBER)
                 .subscribeOn(subscribeOnScheduler)
                 .observeOn(observeOnScheduler)
@@ -53,9 +53,9 @@ constructor(private val notificationsController: NotificationsController,
     }
 
     fun cancel() {
-        subscription?.let {
-            if (it.isUnsubscribed) {
-                it.unsubscribe()
+        disposable?.let {
+            if (!it.isDisposed) {
+                it.dispose()
             }
         }
     }

@@ -3,7 +3,7 @@ package com.itmoldova.util
 import android.text.format.DateUtils
 import android.transition.Transition
 import com.itmoldova.model.Item
-import rx.Observable
+import io.reactivex.Observable
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -53,14 +53,15 @@ object Utils {
      * @param items a list of [Item]s
      * @param item  the item for which the related articles should be retrieved
      */
-    fun getRelatedArticles(items: List<Item>?, item: Item?, n: Int): List<Item> {
+    fun getRelatedArticles(items: List<Item>?, item: Item?, n: Long): List<Item> {
         if (items == null || item == null) {
             return emptyList()
         }
 
-        val selectedItems = Observable.from(items)
+        val selectedItems = mutableListOf<Item>()
+        Observable.fromIterable(items)
                 .take(n)
-                .toList().toBlocking().single()
+                .subscribe({currentItem -> selectedItems.add(currentItem)})
 
         if (selectedItems.contains(item)) {
             selectedItems[selectedItems.indexOf(item)] = selectedItems[0]

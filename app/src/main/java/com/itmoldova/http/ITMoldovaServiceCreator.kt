@@ -7,7 +7,7 @@ import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -31,7 +31,7 @@ object ITMoldovaServiceCreator {
         val retrofit = Retrofit.Builder()
                 .baseUrl(Constants.IT_MOLDOVA_BASE_URL)
                 .addConverterFactory(SimpleXmlConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(httpClient)
                 .build()
 
