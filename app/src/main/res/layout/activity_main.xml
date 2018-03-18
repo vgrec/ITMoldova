@@ -22,8 +22,8 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:itemBackground="?attr/selectableItemBackgroundBorderless"
-        app:itemIconTint="@color/item_title"
-        app:itemTextColor="@color/item_title"
+        app:itemIconTint="@color/article_title"
+        app:itemTextColor="@color/article_title"
         app:menu="@menu/activity_main_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 
 import com.itmoldova.Extra
 import com.itmoldova.R
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 import com.itmoldova.util.ActivityUtils
 
 class DetailActivity : AppCompatActivity() {
@@ -17,9 +17,9 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         if (savedInstanceState == null) {
-            val item = intent.getParcelableExtra<Item>(Extra.ITEM)
-            val items = intent.getParcelableArrayListExtra<Item>(Extra.ITEMS)
-            val detailFragment = DetailFragment.newInstance(items, item)
+            val article = intent.getParcelableExtra<Article>(Extra.ARTICLE)
+            val relatedArticles = intent.getParcelableArrayListExtra<Article>(Extra.ARTICLES)
+            val detailFragment = DetailFragment.newInstance(relatedArticles, article)
             ActivityUtils.addFragmentToActivity(fragmentManager, detailFragment, android.R.id.content)
         }
     }
@@ -28,9 +28,9 @@ class DetailActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         val detailFragment = fragmentManager.findFragmentById(android.R.id.content)
         detailFragment?.let {
-            val item = intent.getParcelableExtra<Item>(Extra.ITEM)
-            val items = intent.getParcelableArrayListExtra<Item>(Extra.ITEMS)
-            (it as DetailFragment).loadArticle(items, item)
+            val article = intent.getParcelableExtra<Article>(Extra.ARTICLE)
+            val topArticles = intent.getParcelableArrayListExtra<Article>(Extra.ARTICLES)
+            (it as DetailFragment).loadArticle(topArticles, article)
         }
     }
 

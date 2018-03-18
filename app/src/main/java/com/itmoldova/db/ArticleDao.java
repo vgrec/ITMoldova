@@ -6,24 +6,24 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.itmoldova.model.Item;
+import com.itmoldova.model.Article;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
 
 @Dao
-public interface ItemDao {
+public interface ArticleDao {
 
-    @Query("select * from item")
-    Flowable<List<Item>> loadAllItems();
+    @Query("select * from Article")
+    Flowable<List<Article>> loadAllArticles();
 
-    @Query("select * from item where guid = :id")
-    Flowable<Item> getItemById(String id);
+    @Query("select * from Article where guid = :id")
+    Flowable<Article> getArticleById(String id);
 
     @Delete
-    void deleteItem(Item item);
+    void deleteArticle(Article article);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertItem(Item item);
+    void insertArticle(Article article);
 }

@@ -5,7 +5,7 @@ import com.itmoldova.AppSettings
 import com.itmoldova.ITMoldova
 import com.itmoldova.http.ITMoldovaService
 import com.itmoldova.model.Category
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 import com.itmoldova.model.Rss
 import com.itmoldova.util.Utils
 import io.reactivex.Observable
@@ -33,14 +33,14 @@ class ArticlesPresenter(private val apiService: ITMoldovaService, private val vi
         loadRssFeed(category, page, false)
     }
 
-    override fun onArticleClicked(items: List<Item>, item: Item, imageView: ImageView) {
-        val topItems = mutableListOf<Item>()
+    override fun onArticleClicked(articles: List<Article>, article: Article, imageView: ImageView) {
+        val topArticles = mutableListOf<Article>()
 
-        Observable.fromIterable(items)
+        Observable.fromIterable(articles)
                 .take(TOP_ARTICLES_NUMBER) // we are interested only in the top 10 articles
-                .subscribe({ currentItem -> topItems.add(currentItem) })
+                .subscribe({ item -> topArticles.add(item) })
 
-        view.openArticleDetail(topItems, item, imageView)
+        view.openArticleDetail(topArticles, article, imageView)
     }
 
     override fun refreshArticles(category: Category) {
@@ -70,18 +70,18 @@ class ArticlesPresenter(private val apiService: ITMoldovaService, private val vi
 
     private fun processResponse(response: Rss?, clearDataSet: Boolean) {
         if (response != null && response.channel != null) {
-            val items = response.channel.itemList
-            updateLastPubDate(items)
-            view.showArticles(items, clearDataSet)
+            val articles = response.channel.articles
+            updateLastPubDate(articles)
+            view.showArticles(articles, clearDataSet)
         } else {
             view.showError()
         }
     }
 
-    private fun updateLastPubDate(items: List<Item>) {
+    private fun updateLastPubDate(articles: List<Article>) {
         // Update last pub date only for articles that belong to HOME category
         if (category == Category.HOME) {
-            val newLastPubDate = Utils.pubDateToMillis(items[0].pubDate)
+            val newLastPubDate = Utils.pubDateToMillis(articles[0].pubDate)
             appSettings.lastPubDate = newLastPubDate
         }
     }

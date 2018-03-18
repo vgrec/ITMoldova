@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.itmoldova.R
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 import com.itmoldova.util.UiUtils
 import com.itmoldova.util.Utils
 import com.squareup.picasso.Picasso
 
 class ArticlesAdapter(private val context: Context,
-                      private val items: List<Item>,
-                      private val itemClickListener: (item: Item, imageView: ImageView) -> Unit) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
+                      private val articles: List<Article>,
+                      private val itemClickListener: (article: Article, imageView: ImageView) -> Unit) : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
 
     private var showingBookmarks: Boolean = false
 
@@ -25,13 +25,13 @@ class ArticlesAdapter(private val context: Context,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-        holder.titleView.text = item.title
-        holder.dateView.text = Utils.formatPubDate(item.pubDate)
-        Picasso.with(context).load(UiUtils.extractFirstImage(item.content)).into(holder.previewImage)
+        val article = articles[position]
+        holder.titleView.text = article.title
+        holder.dateView.text = Utils.formatPubDate(article.pubDate)
+        Picasso.with(context).load(UiUtils.extractFirstImage(article.content)).into(holder.previewImage)
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = articles.size
 
     override fun getItemViewType(position: Int): Int =
             when {
@@ -52,7 +52,7 @@ class ArticlesAdapter(private val context: Context,
 
         override fun onClick(v: View) {
             if (v.id == R.id.row) {
-                itemClickListener(items[adapterPosition], previewImage)
+                itemClickListener(articles[adapterPosition], previewImage)
             }
         }
     }

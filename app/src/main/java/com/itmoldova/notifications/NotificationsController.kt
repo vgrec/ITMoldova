@@ -16,7 +16,7 @@ import com.itmoldova.Extra
 import com.itmoldova.R
 import com.itmoldova.detail.DetailActivity
 import com.itmoldova.list.MainActivity
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 import com.itmoldova.util.Logs
 import com.itmoldova.util.UiUtils
 import com.itmoldova.util.Utils
@@ -48,73 +48,73 @@ class NotificationsController @Inject constructor(private val context: Context,
         BIG_TEXT
     }
 
-    fun shouldShowNotification(items: List<Item>): Boolean = getNumberOfNewArticles(items) > 0
+    fun shouldShowNotification(articles: List<Article>): Boolean = getNumberOfNewArticles(articles) > 0
 
-    fun showNotification(items: List<Item>) {
-        val type = detectNotificationTypeToShow(items)
+    fun showNotification(articles: List<Article>) {
+        val type = detectNotificationTypeToShow(articles)
         when (type) {
-            NotificationsController.NotificationType.MULTILINE -> showMultilineNotification(items)
-            NotificationsController.NotificationType.BIG_IMAGE -> showBigImageNotification(items)
-            NotificationsController.NotificationType.BIG_TEXT -> showBigTextNotification(items)
+            NotificationsController.NotificationType.MULTILINE -> showMultilineNotification(articles)
+            NotificationsController.NotificationType.BIG_IMAGE -> showBigImageNotification(articles)
+            NotificationsController.NotificationType.BIG_TEXT -> showBigTextNotification(articles)
         }
     }
 
     @VisibleForTesting
-    fun detectNotificationTypeToShow(items: List<Item>): NotificationType {
-        if (getNumberOfNewArticles(items) > 1) {
+    fun detectNotificationTypeToShow(articles: List<Article>): NotificationType {
+        if (getNumberOfNewArticles(articles) > 1) {
             return NotificationType.MULTILINE
         }
 
-        val hasImage = UiUtils.extractFirstImage(items[0].content) != null
+        val hasImage = UiUtils.extractFirstImage(articles[0].content) != null
         return if (hasImage) NotificationType.BIG_IMAGE else NotificationType.BIG_TEXT
     }
 
-    private fun showMultilineNotification(items: List<Item>) {
-        val firstItem = items[0]
+    private fun showMultilineNotification(articles: List<Article>) {
+        val firstArticle = articles[0]
 
         val inboxStyle = InboxStyle()
-        inboxStyle.setBigContentTitle(getNumberOfNewArticles(items).toString() + " " + context.getString(R.string.new_articles))
-        (0 until getNumberOfNewArticles(items))
-                .map { items[it] }
+        inboxStyle.setBigContentTitle(getNumberOfNewArticles(articles).toString() + " " + context.getString(R.string.new_articles))
+        (0 until getNumberOfNewArticles(articles))
+                .map { articles[it] }
                 .forEach { inboxStyle.addLine(it.title) }
 
-        val builder = createBaseBuilder(firstItem.title, firstItem.description)
+        val builder = createBaseBuilder(firstArticle.title, firstArticle.description)
         builder.setStyle(inboxStyle)
         builder.setContentIntent(createMainActivityPendingIntent())
         notificationManager.notify(MULTILINE_NOTIFICATION_ID, builder.build())
     }
 
-    private fun showBigTextNotification(items: List<Item>) {
-        val firstItem = items[0]
+    private fun showBigTextNotification(articles: List<Article>) {
+        val firstArticle = articles[0]
 
         val textStyle = BigTextStyle()
-        textStyle.setBigContentTitle(firstItem.title)
-        textStyle.bigText(firstItem.description)
+        textStyle.setBigContentTitle(firstArticle.title)
+        textStyle.bigText(firstArticle.description)
 
-        val builder = createBaseBuilder(firstItem.title, firstItem.description)
+        val builder = createBaseBuilder(firstArticle.title, firstArticle.description)
         builder.setStyle(textStyle)
-        builder.setContentIntent(createDetailActivityPendingIntent(firstItem))
+        builder.setContentIntent(createDetailActivityPendingIntent(firstArticle))
         notificationManager.notify(generateId(), builder.build())
     }
 
-    private fun showBigImageNotification(items: List<Item>) {
-        val firstItem = items[0]
-        val bitmap = loadBitmap(firstItem)
+    private fun showBigImageNotification(articles: List<Article>) {
+        val firstArticle = articles[0]
+        val bitmap = loadBitmap(firstArticle)
         if (bitmap != null) {
             val pictureStyle = BigPictureStyle()
-            pictureStyle.setBigContentTitle(firstItem.title)
+            pictureStyle.setBigContentTitle(firstArticle.title)
             pictureStyle.bigPicture(bitmap)
 
-            val builder = createBaseBuilder(firstItem.title, firstItem.description)
+            val builder = createBaseBuilder(firstArticle.title, firstArticle.description)
             builder.setStyle(pictureStyle)
-            builder.setContentIntent(createDetailActivityPendingIntent(firstItem))
+            builder.setContentIntent(createDetailActivityPendingIntent(firstArticle))
             notificationManager.notify(generateId(), builder.build())
         }
     }
 
-    private fun loadBitmap(firstItem: Item): Bitmap? {
+    private fun loadBitmap(firstArticle: Article): Bitmap? {
         val futureTarget = Glide.with(context.applicationContext)
-                .load(UiUtils.extractFirstImage(firstItem.content))
+                .load(UiUtils.extractFirstImage(firstArticle.content))
                 .asBitmap()
                 .fitCenter()
                 .into(NOTIFICATION_IMAGE_WIDTH, NOTIFICATION_IMAGE_HEIGHT)
@@ -142,15 +142,15 @@ class NotificationsController @Inject constructor(private val context: Context,
     }
 
     @VisibleForTesting
-    fun getNumberOfNewArticles(items: List<Item>): Int {
+    fun getNumberOfNewArticles(articles: List<Article>): Int {
         val lastPubDateSaved = appSettings.lastPubDate
-        val firstArticlePubDate = Utils.pubDateToMillis(items[0].pubDate)
+        val firstArticlePubDate = Utils.pubDateToMillis(articles[0].pubDate)
         if (lastPubDateSaved == firstArticlePubDate) {
             return 0
         }
 
-        // exit early if the subsequent items are older than the lastPubDateSaved
-        return items
+        // exit early if the subsequent articles are older than the lastPubDateSaved
+        return articles
                 .map { Utils.pubDateToMillis(it.pubDate) }
                 .takeWhile { it > lastPubDateSaved }
                 .count()
@@ -162,9 +162,9 @@ class NotificationsController @Inject constructor(private val context: Context,
         return PendingIntent.getActivity(context, generateId(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private fun createDetailActivityPendingIntent(item: Item): PendingIntent {
+    private fun createDetailActivityPendingIntent(article: Article): PendingIntent {
         val intent = Intent(context, DetailActivity::class.java)
-        intent.putExtra(Extra.ITEM, item)
+        intent.putExtra(Extra.ARTICLE, article)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         return PendingIntent.getActivity(context, generateId(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }

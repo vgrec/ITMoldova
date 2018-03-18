@@ -1,8 +1,8 @@
 package com.itmoldova.detail
 
 import com.itmoldova.R
-import com.itmoldova.db.ItemDao
-import com.itmoldova.model.Item
+import com.itmoldova.db.ArticleDao
+import com.itmoldova.model.Article
 import com.itmoldova.util.HtmlParser
 import com.itmoldova.util.Utils
 import io.reactivex.Completable
@@ -14,15 +14,15 @@ import io.reactivex.schedulers.Schedulers
  * Author vgrec, on 24.07.16.
  */
 class DetailPresenter(private val view: DetailContract.View,
-                      private val itemDao: ItemDao,
+                      private val articleDao: ArticleDao,
                       private val htmlParser: HtmlParser) : DetailContract.Presenter {
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
-    override fun loadArticleDetail(item: Item) {
-        view.showTitle(item.title)
+    override fun loadArticleDetail(article: Article) {
+        view.showTitle(article.title)
 
-        val content = htmlParser.parse(item.content)
+        val content = htmlParser.parse(article.content)
         view.showArticleDetail(content)
 
         val imageUrl = htmlParser.getHeaderImageUrl()
@@ -33,27 +33,27 @@ class DetailPresenter(private val view: DetailContract.View,
         }
     }
 
-    override fun loadRelatedArticles(items: List<Item>, item: Item) {
-        val relatedArticles = Utils.getRelatedArticles(items, item, 5)
+    override fun loadRelatedArticles(topArticles: List<Article>, article: Article) {
+        val relatedArticles = Utils.getRelatedArticles(topArticles, article, 5)
         view.showRelatedArticles(relatedArticles)
     }
 
-    override fun addOrRemoveFromBookmarks(isAlreadyAdded: Boolean, item: Item) {
+    override fun addOrRemoveFromBookmarks(isAlreadyAdded: Boolean, article: Article) {
         if (isAlreadyAdded) {
-            disposables.add(Completable.fromAction { itemDao.deleteItem(item) }
+            disposables.add(Completable.fromAction { articleDao.deleteArticle(article) }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ view.updateStarIcon(R.drawable.ic_star_outline) }))
         } else {
-            disposables.add(Completable.fromAction { itemDao.insertItem(item) }
+            disposables.add(Completable.fromAction { articleDao.insertArticle(article) }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ view.updateStarIcon(R.drawable.ic_star_full) }))
         }
     }
 
-    override fun setProperBookmarkIcon(item: Item) {
-        disposables.add(itemDao.getItemById(item.guid)
+    override fun setProperBookmarkIcon(article: Article) {
+        disposables.add(articleDao.getArticleById(article.guid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

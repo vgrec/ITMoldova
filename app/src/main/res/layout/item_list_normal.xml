@@ -26,7 +26,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="8dp"
-        android:textColor="@color/item_title"
+        android:textColor="@color/article_title"
         android:textSize="19sp"
         android:typeface="serif"
         tools:text="Meizu va prezenta smartphonul MX6 cu Ubuntu" />

@@ -19,7 +19,7 @@ import com.itmoldova.R
 import com.itmoldova.adapter.ArticlesAdapter
 import com.itmoldova.db.AppDatabase
 import com.itmoldova.detail.DetailActivity
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 
 
 /**
@@ -39,19 +39,19 @@ class BookmarksFragment : Fragment(), BookmarksContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        presenter = BookmarksPresenter(this, AppDatabase.getDatabase(activity).itemDao())
+        presenter = BookmarksPresenter(this, AppDatabase.getDatabase(activity).articleDao())
         presenter.loadBookmarks()
     }
 
-    override fun showBookmarks(items: List<Item>) {
-        val adapter = ArticlesAdapter(activity, items, { item, image -> openArticleDetail(item, image) })
+    override fun showBookmarks(articles: List<Article>) {
+        val adapter = ArticlesAdapter(activity, articles, { article, image -> openArticleDetail(article, image) })
         adapter.setShowingBookmarks(true)
         recyclerView.adapter = adapter
     }
 
-    private fun openArticleDetail(item: Item, image: ImageView) {
+    private fun openArticleDetail(article: Article, image: ImageView) {
         val intent = Intent(activity, DetailActivity::class.java)
-        intent.putExtra(Extra.ITEM, item)
+        intent.putExtra(Extra.ARTICLE, article)
 
         val transitionName = ViewCompat.getTransitionName(image)
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(

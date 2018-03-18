@@ -1,13 +1,13 @@
 package com.itmoldova.detail
 
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 
 class DetailContract {
 
     interface View {
         fun showArticleDetail(content: String)
 
-        fun showRelatedArticles(relatedItems: List<Item>)
+        fun showRelatedArticles(relatedArticles: List<Article>)
 
         fun showTitle(title: String)
 
@@ -19,13 +19,13 @@ class DetailContract {
     }
 
     interface Presenter {
-        fun loadArticleDetail(item: Item)
+        fun loadArticleDetail(article: Article)
 
-        fun loadRelatedArticles(items: List<Item>, item: Item)
+        fun loadRelatedArticles(topArticles: List<Article>, article: Article)
 
-        fun addOrRemoveFromBookmarks(isAlreadyAdded: Boolean, item: Item)
+        fun addOrRemoveFromBookmarks(isAlreadyAdded: Boolean, article: Article)
 
-        fun setProperBookmarkIcon(item: Item)
+        fun setProperBookmarkIcon(article: Article)
 
         fun cancel()
     }

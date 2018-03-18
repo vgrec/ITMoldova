@@ -2,7 +2,7 @@ package com.itmoldova.util
 
 import android.text.format.DateUtils
 import android.transition.Transition
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 import io.reactivex.Observable
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -46,31 +46,31 @@ object Utils {
     }
 
     /**
-     * If item is NOT in the list -> return the first six items
-     * If item IS in the list -> replace it with the item at position 0 and
-     * return the first six items from the list
+     * If article is NOT in the list -> return the first six articles
+     * If article IS in the list -> replace it with the article at position 0 and
+     * return the first six articles from the list
      *
-     * @param items a list of [Item]s
-     * @param item  the item for which the related articles should be retrieved
+     * @param articles a list of [Article]s
+     * @param article  the article for which the related articles should be retrieved
      */
-    fun getRelatedArticles(items: List<Item>?, item: Item?, n: Long): List<Item> {
-        if (items == null || item == null) {
+    fun getRelatedArticles(articles: List<Article>?, article: Article?, n: Long): List<Article> {
+        if (articles == null || article == null) {
             return emptyList()
         }
 
-        val selectedItems = mutableListOf<Item>()
-        Observable.fromIterable(items)
+        val selectedArticles = mutableListOf<Article>()
+        Observable.fromIterable(articles)
                 .take(n)
-                .subscribe({currentItem -> selectedItems.add(currentItem)})
+                .subscribe({item -> selectedArticles.add(item)})
 
-        if (selectedItems.contains(item)) {
-            selectedItems[selectedItems.indexOf(item)] = selectedItems[0]
-            selectedItems.removeAt(0)
+        if (selectedArticles.contains(article)) {
+            selectedArticles[selectedArticles.indexOf(article)] = selectedArticles[0]
+            selectedArticles.removeAt(0)
         } else {
-            selectedItems.removeAt(selectedItems.size - 1)
+            selectedArticles.removeAt(selectedArticles.size - 1)
         }
 
-        return selectedItems
+        return selectedArticles
     }
 
     open class TransactionListenerAdapter : Transition.TransitionListener {

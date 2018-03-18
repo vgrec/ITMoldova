@@ -1,17 +1,17 @@
 package com.itmoldova.bookmarks
 
-import com.itmoldova.db.ItemDao
+import com.itmoldova.db.ArticleDao
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class BookmarksPresenter(private val view: BookmarksContract.View,
-                         private val itemDao: ItemDao) : BookmarksContract.Presenter {
+                         private val articleDao: ArticleDao) : BookmarksContract.Presenter {
 
     private var disposable: Disposable? = null
 
     override fun loadBookmarks() {
-        disposable = itemDao.loadAllItems()
+        disposable = articleDao.loadAllArticles()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result -> view.showBookmarks(result) })

@@ -14,9 +14,9 @@ import org.simpleframework.xml.Root;
  */
 @Entity
 @Root(name = "item", strict = false)
-public class Item implements Parcelable {
+public class Article implements Parcelable {
 
-    public Item() {
+    public Article() {
     }
 
     @Element(name = "title", required = true)
@@ -120,7 +120,7 @@ public class Item implements Parcelable {
         dest.writeString(this.dc);
     }
 
-    protected Item(Parcel in) {
+    protected Article(Parcel in) {
         this.title = in.readString();
         this.link = in.readString();
         this.description = in.readString();
@@ -130,15 +130,15 @@ public class Item implements Parcelable {
         this.dc = in.readString();
     }
 
-    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+    public static final Parcelable.Creator<Article> CREATOR = new Parcelable.Creator<Article>() {
         @Override
-        public Item createFromParcel(Parcel source) {
-            return new Item(source);
+        public Article createFromParcel(Parcel source) {
+            return new Article(source);
         }
 
         @Override
-        public Item[] newArray(int size) {
-            return new Item[size];
+        public Article[] newArray(int size) {
+            return new Article[size];
         }
     };
 
@@ -147,9 +147,9 @@ public class Item implements Parcelable {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 
-        Item item = (Item) obj;
+        Article article = (Article) obj;
 
-        return guid != null ? guid.equals(item.guid) : item.guid == null;
+        return guid != null ? guid.equals(article.guid) : article.guid == null;
 
     }
 

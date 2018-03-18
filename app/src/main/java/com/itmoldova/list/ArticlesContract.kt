@@ -2,7 +2,7 @@ package com.itmoldova.list
 
 import android.widget.ImageView
 import com.itmoldova.model.Category
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 
 /**
  * Author vgrec, on 09.07.16.
@@ -10,7 +10,7 @@ import com.itmoldova.model.Item
 interface ArticlesContract {
 
     interface View {
-        fun showArticles(items: List<Item>, clearDataSet: Boolean)
+        fun showArticles(articles: List<Article>, clearDataSet: Boolean)
 
         fun setLoadingIndicator(loading: Boolean)
 
@@ -18,7 +18,7 @@ interface ArticlesContract {
 
         fun showNoInternetConnection()
 
-        fun openArticleDetail(items: List<Item>, item: Item, imageView: ImageView)
+        fun openArticleDetail(articles: List<Article>, article: Article, imageView: ImageView)
 
     }
 
@@ -29,7 +29,7 @@ interface ArticlesContract {
 
         fun cancel()
 
-        fun onArticleClicked(items: List<Item>, item: Item, imageView: ImageView)
+        fun onArticleClicked(articles: List<Article>, article: Article, imageView: ImageView)
     }
 
 }

@@ -17,7 +17,7 @@ import com.itmoldova.adapter.ArticlesAdapter
 import com.itmoldova.detail.DetailActivity
 import com.itmoldova.http.ITMoldovaServiceCreator
 import com.itmoldova.model.Category
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 import com.itmoldova.util.EndlessScrollListener
 import java.util.*
 
@@ -35,7 +35,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
     private lateinit var category: Category
 
     private var presenter: ArticlesContract.Presenter? = null
-    private val items = ArrayList<Item>()
+    private val articles = mutableListOf<Article>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         recyclerView.layoutManager = layoutManager
 
 
-        adapter = ArticlesAdapter(activity, items, { item, imageView -> presenter?.onArticleClicked(items, item, imageView) })
+        adapter = ArticlesAdapter(activity, articles, { article, imageView -> presenter?.onArticleClicked(articles, article, imageView) })
 
         recyclerView.adapter = adapter
         endlessScrollListener = RecyclerViewEndlessScrollListener(layoutManager)
@@ -71,10 +71,10 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         }
     }
 
-    override fun openArticleDetail(items: List<Item>, item: Item, imageView: ImageView) {
+    override fun openArticleDetail(articles: List<Article>, article: Article, imageView: ImageView) {
         val intent = Intent(activity, DetailActivity::class.java)
-        intent.putExtra(Extra.ITEM, item)
-        intent.putParcelableArrayListExtra(Extra.ITEMS, ArrayList(items))
+        intent.putExtra(Extra.ARTICLE, article)
+        intent.putParcelableArrayListExtra(Extra.ARTICLES, ArrayList(articles))
 
         val transitionName = ViewCompat.getTransitionName(imageView)
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -93,16 +93,16 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         presenter?.loadArticles(category, 0)
     }
 
-    override fun showArticles(items: List<Item>, clearDataSet: Boolean) {
+    override fun showArticles(articles: List<Article>, clearDataSet: Boolean) {
         if (clearDataSet) {
-            this.items.clear()
+            this.articles.clear()
             adapter.notifyDataSetChanged()
             endlessScrollListener.reset()
         }
 
-        val fromPosition = this.items.size
-        val toPosition = items.size
-        this.items.addAll(items)
+        val fromPosition = this.articles.size
+        val toPosition = articles.size
+        this.articles.addAll(articles)
         adapter.notifyItemRangeInserted(fromPosition, toPosition)
     }
 

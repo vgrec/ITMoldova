@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:maxLines="3"
-            android:textColor="@color/item_title"
+            android:textColor="@color/article_title"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:text="Lorem ipsum doler sit amet." />

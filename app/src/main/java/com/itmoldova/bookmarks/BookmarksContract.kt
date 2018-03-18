@@ -1,11 +1,11 @@
 package com.itmoldova.bookmarks
 
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 
 class BookmarksContract {
 
     interface View {
-        fun showBookmarks(items: List<Item>)
+        fun showBookmarks(articles: List<Article>)
     }
 
     interface Presenter {

@@ -1,7 +1,7 @@
 package com.itmoldova.utils
 
 import com.itmoldova.TestUtils
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 import com.itmoldova.util.Utils
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -9,28 +9,28 @@ import org.junit.Test
 class UtilsTest {
 
     @Test
-    fun testGetRelatedArticles_WhenCurrentItemInTheList() {
-        val currentItem = TestUtils.oneArticleWithImage()[0]
-        val items = TestUtils.tenArticles()
+    fun testGetRelatedArticles_WhenCurrentArticleInTheList() {
+        val currentArticle = TestUtils.oneArticleWithImage()[0]
+        val articles = TestUtils.tenArticles()
 
-        // current item is in the list -> should remove it and return the first six items
+        // current article is in the list -> should remove it and return the first six articles
 
-        val related = Utils.getRelatedArticles(items, currentItem, N)
+        val related = Utils.getRelatedArticles(articles, currentArticle, N)
         assertThat(related.size).isEqualTo(N - 1)
-        assertThat(related).doesNotContain(currentItem)
+        assertThat(related).doesNotContain(currentArticle)
     }
 
     @Test
-    fun testGetRelatedArticles_WhenCurrentItemNotInTheList() {
-        val currentItem = Item()
-        currentItem.guid = "unique-100"
-        val items = TestUtils.tenArticles()
+    fun testGetRelatedArticles_WhenCurrentArticleNotInTheList() {
+        val currentArticle = Article()
+        currentArticle.guid = "unique-100"
+        val articles = TestUtils.tenArticles()
 
-        // current item is not in the list -> should return the first six items
+        // current article is not in the list -> should return the first six articles
 
-        val related = Utils.getRelatedArticles(items, currentItem, N)
+        val related = Utils.getRelatedArticles(articles, currentArticle, N)
         assertThat(related.size).isEqualTo(N - 1)
-        assertThat(related).doesNotContain(currentItem)
+        assertThat(related).doesNotContain(currentArticle)
     }
 
     @Test
@@ -40,7 +40,7 @@ class UtilsTest {
     }
 
     companion object {
-        val N = 5
+        val N = 5L
     }
 }
 

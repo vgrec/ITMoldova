@@ -23,9 +23,9 @@ import android.widget.TextView
 import com.itmoldova.Extra
 import com.itmoldova.R
 import com.itmoldova.db.AppDatabase
-import com.itmoldova.db.ItemDao
+import com.itmoldova.db.ArticleDao
 import com.itmoldova.kotlinex.lollipopAndAbove
-import com.itmoldova.model.Item
+import com.itmoldova.model.Article
 import com.itmoldova.photoview.PhotoViewActivity
 import com.itmoldova.util.HtmlParser
 import com.itmoldova.util.UiUtils
@@ -47,16 +47,16 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     private lateinit var fab: FloatingActionButton
     private lateinit var webView: WebView
 
-    private lateinit var item: Item
-    private lateinit var items: List<Item>
+    private lateinit var article: Article
+    private lateinit var topArticles: List<Article>
 
     private lateinit var presenter: DetailContract.Presenter
-    private lateinit var dao: ItemDao
+    private lateinit var dao: ArticleDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        item = arguments.getParcelable(Extra.ITEM)
-        items = arguments.getParcelableArrayList(Extra.ITEMS)
+        article = arguments.getParcelable(Extra.ARTICLE)
+        topArticles = arguments.getParcelableArrayList(Extra.ARTICLES)
         setHasOptionsMenu(true)
     }
 
@@ -78,9 +78,9 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         }
 
         fab = view.findViewById(R.id.fab)
-        fab.setOnClickListener { presenter.addOrRemoveFromBookmarks(fab.tag == R.drawable.ic_star_full, item) }
+        fab.setOnClickListener { presenter.addOrRemoveFromBookmarks(fab.tag == R.drawable.ic_star_full, article) }
 
-        view.findViewById<View>(R.id.view_in_browser).setOnClickListener { openInBrowser(item.link) }
+        view.findViewById<View>(R.id.view_in_browser).setOnClickListener { openInBrowser(article.link) }
 
         val scrimView = view.findViewById<View>(R.id.image_header_scrim)
 
@@ -103,18 +103,18 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         setupToolbar()
 
-        dao = AppDatabase.getDatabase(activity).itemDao()
+        dao = AppDatabase.getDatabase(activity).articleDao()
 
         val displayWidth = activity.windowManager.defaultDisplay.width
         val displayDensity = resources.displayMetrics.density
         val bgColor = ContextCompat.getColor(activity, R.color.content_main_background)
-        val textColor = ContextCompat.getColor(activity, R.color.item_title)
+        val textColor = ContextCompat.getColor(activity, R.color.article_title)
         val linkColor = ContextCompat.getColor(activity, R.color.colorAccent)
 
         val htmlParser = HtmlParser(displayWidth, displayDensity, bgColor, textColor, linkColor)
         presenter = DetailPresenter(this, dao, htmlParser)
 
-        loadArticle(items, item)
+        loadArticle(topArticles, article)
     }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
@@ -157,11 +157,11 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         webView.loadDataWithBaseURL(null, content, "text/html", "utf-8", null)
     }
 
-    override fun showRelatedArticles(relatedItems: List<Item>) {
-        val relatedArticlesView = UiUtils.createRelatedViews(activity, relatedItems) { relatedArticle ->
+    override fun showRelatedArticles(relatedArticles: List<Article>) {
+        val relatedArticlesView = UiUtils.createRelatedViews(activity, relatedArticles) { relatedArticle ->
             val intent = Intent(activity, DetailActivity::class.java)
-            intent.putExtra(Extra.ITEM, relatedArticle)
-            intent.putParcelableArrayListExtra(Extra.ITEMS, ArrayList(items))
+            intent.putExtra(Extra.ARTICLE, relatedArticle)
+            intent.putParcelableArrayListExtra(Extra.ARTICLES, ArrayList(this.topArticles))
             activity.finish()
             startActivity(intent)
         }
@@ -189,7 +189,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        val urls = UiUtils.extractPhotoUrlsFromArticle(item.content)
+        val urls = UiUtils.extractPhotoUrlsFromArticle(article.content)
         val intent = Intent(activity, PhotoViewActivity::class.java)
         intent.putStringArrayListExtra(Extra.PHOTO_URLS, urls as ArrayList<String>)
         intent.putExtra(Extra.CLICKED_URL, v.tag as String)
@@ -205,11 +205,11 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         }
     }
 
-    fun loadArticle(items: List<Item>, item: Item) {
-        presenter.loadArticleDetail(item)
-        presenter.setProperBookmarkIcon(item)
-        if (items.isNotEmpty()) {
-            presenter.loadRelatedArticles(items, item)
+    fun loadArticle(topArticles: List<Article>, article: Article) {
+        presenter.loadArticleDetail(article)
+        presenter.setProperBookmarkIcon(article)
+        if (topArticles.isNotEmpty()) {
+            presenter.loadRelatedArticles(topArticles, article)
         }
     }
 
@@ -217,10 +217,10 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
         val FAB_CLOSE_ANIM_DURATION = 150L
 
-        fun newInstance(items: List<Item>?, item: Item): DetailFragment {
+        fun newInstance(relatedArticles: List<Article>?, article: Article): DetailFragment {
             val args = Bundle()
-            args.putParcelable(Extra.ITEM, item)
-            args.putParcelableArrayList(Extra.ITEMS, items?.let { ArrayList(items) } ?: ArrayList())
+            args.putParcelable(Extra.ARTICLE, article)
+            args.putParcelableArrayList(Extra.ARTICLES, relatedArticles?.let { ArrayList(relatedArticles) } ?: ArrayList())
             val fragment = DetailFragment()
             fragment.arguments = args
             return fragment

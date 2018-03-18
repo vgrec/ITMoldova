@@ -15,14 +15,14 @@ import java.util.List;
 public class Channel {
 
     @ElementList(name = "item", required = true, inline = true)
-    private List<Item> itemList;
+    private List<Article> articles;
 
-    public List<Item> getItemList() {
-        return itemList;
+    public List<Article> getArticles() {
+        return articles;
     }
 
-    public void setItemList(List<Item> itemList) {
-        this.itemList = itemList;
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 }
 

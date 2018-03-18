@@ -13,7 +13,7 @@
         android:layout_toLeftOf="@+id/image"
         android:lines="2"
         android:maxLines="2"
-        android:textColor="@color/item_title"
+        android:textColor="@color/article_title"
         android:textSize="18sp"
         tools:text="Title" />
 
