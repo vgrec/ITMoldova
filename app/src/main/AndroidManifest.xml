@@ -36,24 +36,10 @@
             android:name=".settings.SettingsActivity"
             android:label="@string/screen_title_settings" />
 
-        <service
-            android:name=".sync.v14.SyncArticlesServiceV14"
-            android:exported="false" />
-
-        <receiver
-            android:name=".sync.v14.BootReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".sync.v21.SyncArticlesServiceV21"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <activity android:name=".comments.NewCommentActivity" />
-        <activity android:name=".bookmarks.BookmarksActivity"/>
+        <activity
+            android:name=".bookmarks.BookmarksActivity"
+            android:label="@string/label_bookmarks" />
     </application>
 
 </manifest>

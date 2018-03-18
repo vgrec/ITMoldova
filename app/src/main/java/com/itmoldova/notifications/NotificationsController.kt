@@ -1,4 +1,4 @@
-package com.itmoldova.controller
+package com.itmoldova.notifications
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -38,9 +38,9 @@ import javax.inject.Inject
  * display multiline notification using [InboxStyle].
 </pre> *
  */
-class NotificationController @Inject constructor(private val context: Context,
-                                                 private val notificationManager: NotificationManager,
-                                                 private val appSettings: AppSettings) {
+class NotificationsController @Inject constructor(private val context: Context,
+                                                  private val notificationManager: NotificationManager,
+                                                  private val appSettings: AppSettings) {
 
     enum class NotificationType {
         MULTILINE,
@@ -53,9 +53,9 @@ class NotificationController @Inject constructor(private val context: Context,
     fun showNotification(items: List<Item>) {
         val type = detectNotificationTypeToShow(items)
         when (type) {
-            NotificationController.NotificationType.MULTILINE -> showMultilineNotification(items)
-            NotificationController.NotificationType.BIG_IMAGE -> showBigImageNotification(items)
-            NotificationController.NotificationType.BIG_TEXT -> showBigTextNotification(items)
+            NotificationsController.NotificationType.MULTILINE -> showMultilineNotification(items)
+            NotificationsController.NotificationType.BIG_IMAGE -> showBigImageNotification(items)
+            NotificationsController.NotificationType.BIG_TEXT -> showBigTextNotification(items)
         }
     }
 

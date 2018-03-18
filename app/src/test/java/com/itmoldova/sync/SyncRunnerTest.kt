@@ -2,7 +2,7 @@ package com.itmoldova.sync
 
 import com.itmoldova.AppSettings
 import com.itmoldova.TestUtils
-import com.itmoldova.controller.NotificationController
+import com.itmoldova.notifications.NotificationsController
 import com.itmoldova.http.ITMoldovaService
 import com.itmoldova.http.NetworkDetector
 import com.itmoldova.model.Rss
@@ -26,7 +26,7 @@ class SyncRunnerTest {
         mockNetworkDetector = mock(NetworkDetector::class.java)
 
         syncRunner = RssChecker(
-                mock(NotificationController::class.java),
+                mock(NotificationsController::class.java),
                 mock(AppSettings::class.java),
                 mockService,
                 mockNetworkDetector)

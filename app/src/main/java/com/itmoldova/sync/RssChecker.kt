@@ -1,7 +1,7 @@
 package com.itmoldova.sync
 
 import com.itmoldova.AppSettings
-import com.itmoldova.controller.NotificationController
+import com.itmoldova.notifications.NotificationsController
 import com.itmoldova.http.ITMoldovaService
 import com.itmoldova.http.NetworkDetector
 import com.itmoldova.model.Rss
@@ -15,7 +15,7 @@ import javax.inject.Inject
  * new articles were published since the last sync, fires a notifications.
  */
 class RssChecker @Inject
-constructor(private val notificationController: NotificationController,
+constructor(private val notificationsController: NotificationsController,
             private val appSettings: AppSettings,
             private val service: ITMoldovaService,
             private val networkDetector: NetworkDetector) {
@@ -41,8 +41,8 @@ constructor(private val notificationController: NotificationController,
         }
 
         val items = response.channel.itemList
-        if (notificationController.shouldShowNotification(items)) {
-            notificationController.showNotification(items)
+        if (notificationsController.shouldShowNotification(items)) {
+            notificationsController.showNotification(items)
             val newLastPubDate = Utils.pubDateToMillis(items[0].pubDate)
             appSettings.lastPubDate = newLastPubDate
         }

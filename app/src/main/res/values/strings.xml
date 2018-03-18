@@ -35,5 +35,6 @@
     <string name="new_articles">articole noi</string>
 
     <string name="activity_image_transition" translatable="false">activity_image_transition</string>
+    <string name="label_bookmarks">Bookmarks</string>
 
 </resources>
