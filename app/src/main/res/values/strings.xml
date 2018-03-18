@@ -22,7 +22,7 @@
     <string name="view_in_browser">View in browser</string>
     <string name="prefs_notifications">Notifications</string>
     <string name="prefs_sync_interval">Sync interval</string>
-    <string name="screen_title_settings">Settings</string>
+    <string name="label_settings">Settings</string>
 
     <!-- Notification entries -->
     <string name="notification_entry_1hour">1 ora</string>

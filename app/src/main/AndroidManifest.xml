@@ -34,7 +34,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".settings.SettingsActivity"
-            android:label="@string/screen_title_settings" />
+            android:label="@string/label_settings" />
 
         <activity android:name=".comments.NewCommentActivity" />
         <activity
