@@ -19,7 +19,7 @@ public interface ItemDao {
     Flowable<List<Item>> loadAllItems();
 
     @Query("select * from item where guid = :id")
-    Item getItemById(String id);
+    Flowable<Item> getItemById(String id);
 
     @Delete
     void deleteItem(Item item);

@@ -78,7 +78,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         }
 
         fab = view.findViewById(R.id.fab)
-        fab.setOnClickListener { presenter.addRemoveFromBookmarks(item) }
+        fab.setOnClickListener { presenter.addOrRemoveFromBookmarks(fab.tag == R.drawable.ic_star_full, item) }
 
         view.findViewById<View>(R.id.view_in_browser).setOnClickListener { openInBrowser(item.link) }
 
@@ -114,7 +114,6 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         val htmlParser = HtmlParser(displayWidth, displayDensity, bgColor, textColor, linkColor)
         presenter = DetailPresenter(this, dao, htmlParser)
 
-        fab.setImageResource(if (presenter.isItemBookmarked(item)) R.drawable.ic_star_full else R.drawable.ic_star_outline)
         loadArticle(items, item)
     }
 
@@ -186,6 +185,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
     override fun updateStarIcon(iconResId: Int) {
         fab.setImageResource(iconResId)
+        fab.tag = iconResId
     }
 
     override fun onClick(v: View) {
@@ -207,6 +207,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
     fun loadArticle(items: List<Item>, item: Item) {
         presenter.loadArticleDetail(item)
+        presenter.setProperBookmarkIcon(item)
         if (items.isNotEmpty()) {
             presenter.loadRelatedArticles(items, item)
         }
@@ -231,5 +232,10 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
                 .scaleX(0f)
                 .scaleY(0f)
                 .setDuration(FAB_CLOSE_ANIM_DURATION)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.cancel()
     }
 }

@@ -23,8 +23,10 @@ class DetailContract {
 
         fun loadRelatedArticles(items: List<Item>, item: Item)
 
-        fun addRemoveFromBookmarks(item: Item)
+        fun addOrRemoveFromBookmarks(isAlreadyAdded: Boolean, item: Item)
 
-        fun isItemBookmarked(item: Item): Boolean
+        fun setProperBookmarkIcon(item: Item)
+
+        fun cancel()
     }
 }

@@ -16,7 +16,6 @@ public abstract class AppDatabase extends RoomDatabase {
         if (instance == null) {
             instance = Room
                     .databaseBuilder(context, AppDatabase.class, "items")
-                    .allowMainThreadQueries() // TODO: https://medium.com/google-developers/room-rxjava-acb0cd4f3757
                     .build();
         }
         return instance;
