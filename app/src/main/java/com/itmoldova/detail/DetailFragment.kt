@@ -21,9 +21,9 @@ import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.TextView
 import com.itmoldova.Extra
+import com.itmoldova.ITMoldova
 import com.itmoldova.R
 import com.itmoldova.db.AppDatabase
-import com.itmoldova.db.ArticleDao
 import com.itmoldova.kotlinex.lollipopAndAbove
 import com.itmoldova.model.Article
 import com.itmoldova.photoview.PhotoViewActivity
@@ -31,6 +31,7 @@ import com.itmoldova.util.HtmlParser
 import com.itmoldova.util.UiUtils
 import com.itmoldova.util.Utils
 import com.squareup.picasso.Picasso
+import javax.inject.Inject
 
 /**
  * Shows details of an article.
@@ -51,13 +52,16 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     private lateinit var topArticles: List<Article>
 
     private lateinit var presenter: DetailContract.Presenter
-    private lateinit var dao: ArticleDao
+
+    @Inject
+    lateinit var database: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         article = arguments.getParcelable(Extra.ARTICLE)
         topArticles = arguments.getParcelableArrayList(Extra.ARTICLES)
         setHasOptionsMenu(true)
+        ITMoldova.appComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -103,8 +107,6 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         setupToolbar()
 
-        dao = AppDatabase.getDatabase(activity).articleDao()
-
         val displayWidth = activity.windowManager.defaultDisplay.width
         val displayDensity = resources.displayMetrics.density
         val bgColor = ContextCompat.getColor(activity, R.color.content_main_background)
@@ -112,7 +114,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         val linkColor = ContextCompat.getColor(activity, R.color.colorAccent)
 
         val htmlParser = HtmlParser(displayWidth, displayDensity, bgColor, textColor, linkColor)
-        presenter = DetailPresenter(this, dao, htmlParser)
+        presenter = DetailPresenter(this, database.articleDao(), htmlParser)
 
         loadArticle(topArticles, article)
     }

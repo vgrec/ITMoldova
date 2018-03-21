@@ -1,9 +1,11 @@
 package com.itmoldova.di
 
 import android.app.NotificationManager
+import android.arch.persistence.room.Room
 import android.content.Context
 
 import com.itmoldova.AppSettings
+import com.itmoldova.db.AppDatabase
 import com.itmoldova.sync.ITMoldovaJobCreator
 import com.itmoldova.sync.RssChecker
 
@@ -34,5 +36,12 @@ class ApplicationModule(private val context: Context) {
     @Provides
     fun provideJobCreator(rssChecker: RssChecker): ITMoldovaJobCreator {
         return ITMoldovaJobCreator(rssChecker)
+    }
+
+    @Provides
+    fun provideDatabase(context: Context): AppDatabase {
+        return Room
+                .databaseBuilder(context, AppDatabase::class.java, "articles")
+                .build()
     }
 }

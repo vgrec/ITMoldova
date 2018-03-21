@@ -15,7 +15,6 @@ import com.itmoldova.Extra
 import com.itmoldova.R
 import com.itmoldova.adapter.ArticlesAdapter
 import com.itmoldova.detail.DetailActivity
-import com.itmoldova.http.ITMoldovaServiceCreator
 import com.itmoldova.model.Category
 import com.itmoldova.model.Article
 import com.itmoldova.util.EndlessScrollListener
@@ -87,9 +86,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter = ArticlesPresenter(
-                ITMoldovaServiceCreator.createItMoldovaService(activity),
-                this)
+        presenter = ArticlesPresenter(this)
         presenter?.loadArticles(category, 0)
     }
 

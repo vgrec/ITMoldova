@@ -14,12 +14,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.itmoldova.Extra
+import com.itmoldova.ITMoldova
 
 import com.itmoldova.R
 import com.itmoldova.adapter.ArticlesAdapter
 import com.itmoldova.db.AppDatabase
 import com.itmoldova.detail.DetailActivity
 import com.itmoldova.model.Article
+import javax.inject.Inject
 
 
 /**
@@ -28,6 +30,14 @@ import com.itmoldova.model.Article
 class BookmarksFragment : Fragment(), BookmarksContract.View {
     private lateinit var recyclerView: RecyclerView
     private lateinit var presenter: BookmarksPresenter
+
+    @Inject
+    lateinit var database: AppDatabase
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ITMoldova.appComponent.inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_bookmarks, container, false)
@@ -39,7 +49,7 @@ class BookmarksFragment : Fragment(), BookmarksContract.View {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        presenter = BookmarksPresenter(this, AppDatabase.getDatabase(activity).articleDao())
+        presenter = BookmarksPresenter(this, database.articleDao())
         presenter.loadBookmarks()
     }
 

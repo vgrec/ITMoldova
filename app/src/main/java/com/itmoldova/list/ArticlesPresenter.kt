@@ -14,12 +14,15 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class ArticlesPresenter(private val apiService: ITMoldovaService, private val view: ArticlesContract.View) : ArticlesContract.Presenter {
+class ArticlesPresenter(private val view: ArticlesContract.View) : ArticlesContract.Presenter {
     private var disposable: Disposable? = null
     private var category: Category? = null
 
     @Inject
     lateinit var appSettings: AppSettings
+
+    @Inject
+    lateinit var apiService: ITMoldovaService
 
     companion object {
         val TOP_ARTICLES_NUMBER = 10L
