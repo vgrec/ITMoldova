@@ -1,6 +1,6 @@
 package com.itmoldova.utils
 
-import com.itmoldova.TestUtils
+import com.itmoldova.TestData
 import com.itmoldova.model.Article
 import com.itmoldova.util.Utils
 import org.assertj.core.api.Assertions.assertThat
@@ -10,8 +10,8 @@ class UtilsTest {
 
     @Test
     fun testGetRelatedArticles_WhenCurrentArticleInTheList() {
-        val currentArticle = TestUtils.oneArticleWithImage()[0]
-        val articles = TestUtils.tenArticles()
+        val currentArticle = TestData.oneArticleWithImage()[0]
+        val articles = TestData.tenArticles()
 
         // current article is in the list -> should remove it and return the first six articles
 
@@ -24,7 +24,7 @@ class UtilsTest {
     fun testGetRelatedArticles_WhenCurrentArticleNotInTheList() {
         val currentArticle = Article()
         currentArticle.guid = "unique-100"
-        val articles = TestUtils.tenArticles()
+        val articles = TestData.tenArticles()
 
         // current article is not in the list -> should return the first six articles
 
@@ -40,7 +40,7 @@ class UtilsTest {
     }
 
     companion object {
-        val N = 5L
+        val N = 5
     }
 }
 

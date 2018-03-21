@@ -53,14 +53,14 @@ object Utils {
      * @param articles a list of [Article]s
      * @param article  the article for which the related articles should be retrieved
      */
-    fun getRelatedArticles(articles: List<Article>?, article: Article?, n: Long): List<Article> {
+    fun getRelatedArticles(articles: List<Article>?, article: Article?, n: Int): List<Article> {
         if (articles == null || article == null) {
             return emptyList()
         }
 
         val selectedArticles = mutableListOf<Article>()
         Observable.fromIterable(articles)
-                .take(n)
+                .take(n.toLong())
                 .subscribe({item -> selectedArticles.add(item)})
 
         if (selectedArticles.contains(article)) {

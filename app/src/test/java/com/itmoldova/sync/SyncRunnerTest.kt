@@ -1,29 +1,31 @@
 package com.itmoldova.sync
 
 import com.itmoldova.AppSettings
-import com.itmoldova.TestUtils
+import com.itmoldova.TestData
 import com.itmoldova.notifications.NotificationsController
 import com.itmoldova.http.ITMoldovaService
 import com.itmoldova.http.NetworkDetector
 import com.itmoldova.model.Rss
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
-import rx.Observable
-import rx.Scheduler
+
 
 class SyncRunnerTest {
 
-    private lateinit var mockScheduler: Scheduler
     private lateinit var mockService: ITMoldovaService
     private lateinit var mockNetworkDetector: NetworkDetector
     private lateinit var syncRunner: RssChecker
+    private lateinit var scheduler: Scheduler
 
     @Before
     fun setUp() {
-        mockScheduler = mock(Scheduler::class.java)
         mockService = mock(ITMoldovaService::class.java)
         mockNetworkDetector = mock(NetworkDetector::class.java)
+        scheduler = Schedulers.trampoline()
 
         syncRunner = RssChecker(
                 mock(NotificationsController::class.java),
@@ -37,7 +39,7 @@ class SyncRunnerTest {
     fun testNoSyncWhenNoConnection() {
         `when`(mockNetworkDetector.hasInternetConnection()).thenReturn(false)
 
-        syncRunner.start(mockScheduler, mockScheduler)
+        syncRunner.start(scheduler, scheduler)
         verify<ITMoldovaService>(mockService, never()).getDefaultRssFeed(anyInt())
     }
 
@@ -45,10 +47,10 @@ class SyncRunnerTest {
     fun testSyncStartsWhenConnection() {
         `when`(mockNetworkDetector.hasInternetConnection()).thenReturn(true)
         `when`<Observable<Rss>>(mockService.getDefaultRssFeed(anyInt())).thenReturn(
-                Observable.just<Rss>(TestUtils.rssResponse())
+                Observable.just<Rss>(TestData.rssResponse())
         )
 
-        syncRunner.start(mockScheduler, mockScheduler)
+        syncRunner.start(scheduler, scheduler)
         verify<ITMoldovaService>(mockService, times(1)).getDefaultRssFeed(anyInt())
     }
 }

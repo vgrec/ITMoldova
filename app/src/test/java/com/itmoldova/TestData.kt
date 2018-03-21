@@ -9,11 +9,11 @@ import java.util.ArrayList
 /**
  * Helper class that provides test data.
  */
-object TestUtils {
+object TestData {
 
     fun rssResponse(): Rss {
         val channel = Channel()
-        channel.articles = TestUtils.oneArticleWithImage()
+        channel.articles = TestData.oneArticleWithImage()
         val rss = Rss()
         rss.channel = channel
         return rss
