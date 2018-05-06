@@ -43,13 +43,13 @@ class UiUtils {
         fun extractFirstImage(content: String): String? {
             val document = Jsoup.parse(content)
             val images = document.select("img[src]")
-            return images?.first()?.absUrl("src")?.replace("http", "https")
+            return images?.first()?.absUrl("src")?.replace("http://", "https://")
         }
 
         fun extractPhotoUrlsFromArticle(content: String): List<String> {
             val document = Jsoup.parse(content)
             val images = document.select("img[src]")
-            return images.map { it.absUrl("src").replace("http", "https") }
+            return images.map { it.absUrl("src").replace("http://", "https://") }
         }
     }
 }
