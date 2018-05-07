@@ -11,3 +11,9 @@ fun lollipopAndAbove(body: () -> Unit) {
         body()
     }
 }
+
+fun oreoAndAbove(body: () -> Unit) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        body()
+    }
+}

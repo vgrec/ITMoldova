@@ -1,10 +1,16 @@
 package com.itmoldova
 
+import android.annotation.TargetApi
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import com.evernote.android.job.JobManager
 import com.itmoldova.di.ApplicationComponent
 import com.itmoldova.di.ApplicationModule
 import com.itmoldova.di.DaggerApplicationComponent
+import com.itmoldova.kotlinex.oreoAndAbove
 import com.itmoldova.sync.ITMoldovaJobCreator
 import javax.inject.Inject
 
@@ -12,6 +18,7 @@ class ITMoldova : Application() {
 
     companion object {
         lateinit var appComponent: ApplicationComponent
+        val DEFAULT_CHANNEL_ID = "default_chanel_id"
     }
 
     @Inject
@@ -25,5 +32,19 @@ class ITMoldova : Application() {
         appComponent.inject(this)
 
         JobManager.create(this).addJobCreator(jobCreator)
+        createDefaultNotificationChannel()
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun createDefaultNotificationChannel() {
+        oreoAndAbove {
+            val name = getString(R.string.channel_name)
+            val description = getString(R.string.channel_description)
+            val channel = NotificationChannel(DEFAULT_CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT)
+            channel.description = description
+
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 }

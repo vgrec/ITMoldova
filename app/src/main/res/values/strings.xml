@@ -36,5 +36,7 @@
 
     <string name="activity_image_transition" translatable="false">activity_image_transition</string>
     <string name="label_bookmarks">Bookmarks</string>
+    <string name="channel_name">IT Moldova</string>
+    <string name="channel_description">New posts notifications</string>
 
 </resources>

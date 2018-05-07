@@ -13,8 +13,10 @@ import android.support.v4.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.itmoldova.AppSettings
 import com.itmoldova.Extra
+import com.itmoldova.ITMoldova
 import com.itmoldova.R
 import com.itmoldova.detail.DetailActivity
+import com.itmoldova.kotlinex.oreoAndAbove
 import com.itmoldova.list.MainActivity
 import com.itmoldova.model.Article
 import com.itmoldova.util.Logs
@@ -132,13 +134,17 @@ class NotificationsController @Inject constructor(private val context: Context,
     }
 
     private fun createBaseBuilder(title: String, description: String): NotificationCompat.Builder {
-        return NotificationCompat.Builder(context)
+        val builder = NotificationCompat.Builder(context)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_menu_gallery)
                 .setContentTitle(title)
                 .setContentText(description)
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+
+        oreoAndAbove { builder.setChannelId(ITMoldova.DEFAULT_CHANNEL_ID) }
+
+        return builder
     }
 
     @VisibleForTesting
