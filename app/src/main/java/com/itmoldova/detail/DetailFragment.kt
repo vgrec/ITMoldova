@@ -109,8 +109,8 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
         val displayWidth = activity.windowManager.defaultDisplay.width
         val displayDensity = resources.displayMetrics.density
-        val bgColor = ContextCompat.getColor(activity, R.color.content_main_background)
-        val textColor = ContextCompat.getColor(activity, R.color.article_title)
+        val bgColor = ContextCompat.getColor(activity, R.color.content_main_background_dark)
+        val textColor = ContextCompat.getColor(activity, R.color.article_title_dark)
         val linkColor = ContextCompat.getColor(activity, R.color.colorAccent)
 
         val htmlParser = HtmlParser(displayWidth, displayDensity, bgColor, textColor, linkColor)

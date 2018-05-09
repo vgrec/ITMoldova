@@ -11,17 +11,21 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import com.itmoldova.BaseActivity
 
 import com.itmoldova.R
 import com.itmoldova.adapter.CategoriesFragmentPagerAdapter
 import com.itmoldova.bookmarks.BookmarksActivity
 import com.itmoldova.settings.SettingsActivity
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawer: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        setTheme(if (IS_DARK) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

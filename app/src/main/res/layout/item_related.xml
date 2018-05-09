@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/item_row_background"
+    android:background="@color/item_row_background_dark"
     android:padding="16dp">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_toLeftOf="@+id/image"
         android:lines="2"
         android:maxLines="2"
-        android:textColor="@color/article_title"
+        android:textColor="@color/article_title_dark"
         android:textSize="18sp"
         tools:text="Title" />
 
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:lines="1"
-        android:textColor="@color/item_date"
+        android:textColor="@color/item_date_dark"
         tools:text="1 hour ago" />
 
 

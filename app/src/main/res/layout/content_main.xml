@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/content_main_background"
+    android:background="@color/content_main_background_dark"
     tools:context=".list.MainActivity">
 
     <android.support.design.widget.AppBarLayout
