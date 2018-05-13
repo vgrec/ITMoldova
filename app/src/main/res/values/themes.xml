@@ -7,18 +7,30 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="themeArticleTitleColor">@color/article_title_light</item>
-    </style>
-
     <style name="AppTheme.Dark" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/window_background_dark</item>
+        <item name="themeWindowBackgroundColor">@color/window_background_dark</item>
         <item name="themeArticleTitleColor">@color/article_title_dark</item>
+        <item name="themeArticleDateTimeColor">@color/article_date_time_dark</item>
+        <item name="themeArticleRowBackgroundColor">@color/article_row_background_dark</item>
+        <item name="themeNavDrawerIconColor">@color/nav_drawer_icon_dark</item>
+        <item name="themeNavDrawerTextColor">@color/nav_drawer_item_dark</item>
+    </style>
+
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/window_background_light</item>
+        <item name="themeWindowBackgroundColor">@color/window_background_light</item>
+        <item name="themeArticleTitleColor">@color/article_title_light</item>
+        <item name="themeArticleDateTimeColor">@color/article_date_time_light</item>
+        <item name="themeArticleRowBackgroundColor">@color/article_row_background_light</item>
+        <item name="themeNavDrawerIconColor">@color/nav_drawer_icon_light</item>
+        <item name="themeNavDrawerTextColor">@color/nav_drawer_item_light</item>
     </style>
 
     <style name="AppTheme.Light.NoActionBar">

@@ -51,5 +51,13 @@ class UiUtils {
             val images = document.select("img[src]")
             return images.map { it.absUrl("src").replace("http://", "https://") }
         }
+
+        fun getColorResFromAttribute(context: Context, attribute: Int): Int {
+            val attrs: IntArray = intArrayOf(attribute)
+            val typedArray = context.obtainStyledAttributes(attrs)
+            val color = typedArray.getResourceId(0, android.R.color.darker_gray)
+            typedArray.recycle()
+            return color
+        }
     }
 }

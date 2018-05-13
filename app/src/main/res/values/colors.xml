@@ -6,12 +6,19 @@
     <color name="photo_view_background">#212121</color>
 
     <!-- Colors for dark theme-->
-    <color name="content_main_background_dark">#424242</color>
-    <color name="item_row_background_dark">#262626</color>
+    <color name="window_background_dark">#424242</color>
+    <color name="article_row_background_dark">#262626</color>
     <color name="article_title_dark">#e3e3e3</color>
-    <color name="item_date_dark">#7997c8</color>
+    <color name="article_date_time_dark">#7997c8</color>
+    <color name="nav_drawer_icon_dark">@color/article_title_dark</color>
+    <color name="nav_drawer_item_dark">@color/article_title_dark</color>
 
     <!-- Colors for light theme-->
+    <color name="window_background_light">#ffffff</color>
+    <color name="article_row_background_light">#ffffff</color>
     <color name="article_title_light">#424242</color>
+    <color name="article_date_time_light">#424242</color>
+    <color name="nav_drawer_icon_light">@color/article_title_light</color>
+    <color name="nav_drawer_item_light">@color/article_title_light</color>
 
 </resources>

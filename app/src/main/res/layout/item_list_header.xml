@@ -49,7 +49,7 @@
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/item_date_dark"
+            android:textColor="@color/article_date_time_dark"
             android:textSize="14sp"
             android:textStyle="bold"
             tools:text="Lorem ipsum doler sit amet." />

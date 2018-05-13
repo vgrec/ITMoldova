@@ -12,6 +12,7 @@ import com.itmoldova.util.ActivityUtils
 class DetailActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(if (IS_DARK) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 

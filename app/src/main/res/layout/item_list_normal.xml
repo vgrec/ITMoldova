@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp"
-    android:background="@color/item_row_background_dark"
+    android:background="?attr/themeArticleRowBackgroundColor"
     android:orientation="vertical">
 
     <ImageView
@@ -39,7 +39,7 @@
         android:layout_toEndOf="@+id/preview_image"
         android:layout_toRightOf="@+id/preview_image"
         android:padding="8dp"
-        android:textColor="@color/item_date_dark"
+        android:textColor="?attr/themeArticleDateTimeColor"
         tools:text="1 hour ago" />
 
 </RelativeLayout>
