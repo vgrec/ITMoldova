@@ -1,13 +1,14 @@
 package com.itmoldova.settings
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import com.itmoldova.BaseActivity
 import com.itmoldova.R
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(if (IS_DARK) R.style.AppTheme_Dark else R.style.AppTheme_Light)
         super.onCreate(savedInstanceState)
         // Fragment added via XML
         setContentView(R.layout.activity_settings)

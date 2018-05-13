@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Theme attributes -->
+    <attr name="themeArticleTitleColor" format="color" />
+    <attr name="themeArticleDateTimeColor" format="color" />
+    <attr name="themeArticleRowBackgroundColor" format="color" />
+    <attr name="themeWindowBackgroundColor" format="color" />
+    <attr name="themeNavDrawerIconColor" format="color" />
+    <attr name="themeNavDrawerTextColor" format="color" />
+
+</resources>
