@@ -1,23 +1,22 @@
 
 ----------
-- Handle Youtube videos in article details page
-- Change fonts in details and list. Check if the nav drawer also has to be changed.
+* Handle Youtube videos in article details page
 - Display pub date and author on details page.
 * View in browser full article
 * Integrate an image viewer
 - About (info about app, author, link to git)
 * Settings screen
-- Notifications
-- Add ability to bookmark
+* Notifications
+* Add ability to bookmark
 - In List view: if no preview image is available, then show text summary max 3 lines.
 * Display related articles
 * Infinite loading
 * Cache
 - Optimize for tablets.
 - Add ripple effect
-- Animate when opening the details screen
+* Animate when opening the details screen
 - Check language files, make default Romanian.
-
+- Add Dark/Light themes
 
 ----------
 - Test landscape in the DetailsActivity with the test code
