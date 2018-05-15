@@ -124,12 +124,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
             when (item.itemId) {
                 R.id.action_refresh -> {
-//                    presenter?.refreshArticles(category)
-                    BaseActivity.IS_DARK = !BaseActivity.IS_DARK
-                    activity?.recreate()
-
-
-
+                    presenter?.refreshArticles(category)
                     true
                 }
                 else -> super.onOptionsItemSelected(item)
