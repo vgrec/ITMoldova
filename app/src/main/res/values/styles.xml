@@ -2,12 +2,10 @@
 
     <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/CustomTabTextAppearance</item>
-        <item name="tabSelectedTextColor">@android:color/white</item>
     </style>
 
     <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#BFFF</item>
         <item name="textAllCaps">true</item>
     </style>
 
