@@ -13,14 +13,14 @@
         android:title="Settings" />
 
     <item
+        android:id="@+id/action_switch_theme"
+        android:icon="@drawable/ic_switch_theme"
+        android:title="Dark Theme"
+        app:actionLayout="@layout/nav_drawer_switch" />
+
+    <item
         android:id="@+id/action_about"
         android:icon="@drawable/ic_about"
         android:title="About" />
-
-    <item
-        android:id="@+id/action_switch_theme"
-        android:icon="@drawable/ic_about"
-        android:title="Dark Theme"
-        app:actionLayout="@layout/nav_drawer_switch" />
 
 </menu>
