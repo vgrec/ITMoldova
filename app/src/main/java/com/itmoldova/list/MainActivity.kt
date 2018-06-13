@@ -15,22 +15,26 @@ import android.view.ViewTreeObserver
 import android.widget.Switch
 import com.itmoldova.AppSettings
 import com.itmoldova.BaseActivity
+import com.itmoldova.ITMoldova
 import com.itmoldova.R
 import com.itmoldova.adapter.CategoriesFragmentPagerAdapter
 import com.itmoldova.bookmarks.BookmarksActivity
 import com.itmoldova.sync.SyncJob
+import javax.inject.Inject
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawer: DrawerLayout
-    private lateinit var appSettings: AppSettings
+    
+    @Inject
+    lateinit var appSettings: AppSettings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(if (IS_DARK) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        appSettings = AppSettings(this)
+        ITMoldova.appComponent.inject(this)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
