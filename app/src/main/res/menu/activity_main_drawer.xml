@@ -8,15 +8,17 @@
         android:title="Bookmarks" />
 
     <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/ic_settings"
-        android:title="Settings" />
-
-    <item
         android:id="@+id/action_switch_theme"
         android:icon="@drawable/ic_switch_theme"
         android:title="Dark Theme"
         app:actionLayout="@layout/nav_drawer_switch" />
+
+    <item
+        android:id="@+id/action_toggle_notifications"
+        android:icon="@drawable/ic_notifications"
+        android:title="Notifications"
+        app:actionLayout="@layout/nav_drawer_notifications" />
+
 
     <item
         android:id="@+id/action_about"

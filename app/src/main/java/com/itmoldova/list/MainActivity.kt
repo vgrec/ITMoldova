@@ -13,22 +13,24 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Switch
+import com.itmoldova.AppSettings
 import com.itmoldova.BaseActivity
 import com.itmoldova.R
 import com.itmoldova.adapter.CategoriesFragmentPagerAdapter
 import com.itmoldova.bookmarks.BookmarksActivity
-import com.itmoldova.settings.SettingsActivity
+import com.itmoldova.sync.SyncJob
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawer: DrawerLayout
+    private lateinit var appSettings: AppSettings
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         setTheme(if (IS_DARK) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        appSettings = AppSettings(this)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -53,13 +55,31 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 root.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                setupThemeSwitch()
+                setupNotificationsSwitch()
+            }
+
+            private fun setupThemeSwitch() {
                 val themeSwitch = findViewById<Switch>(R.id.theme_switch)
-                themeSwitch.isChecked = BaseActivity.IS_DARK
+                themeSwitch.isChecked = IS_DARK
                 themeSwitch.setOnCheckedChangeListener { view, isChecked ->
                     drawer.postDelayed({
-                        BaseActivity.IS_DARK = !BaseActivity.IS_DARK
+                        IS_DARK = !IS_DARK
                         recreate()
                     }, resources.getInteger(android.R.integer.config_mediumAnimTime).toLong())
+                }
+            }
+
+            private fun setupNotificationsSwitch() {
+                val notificationsSwitch = findViewById<Switch>(R.id.notifications_switch)
+                notificationsSwitch.isChecked = appSettings.notificationsEnabled
+                notificationsSwitch.setOnCheckedChangeListener { view, isChecked ->
+                    appSettings.notificationsEnabled = !appSettings.notificationsEnabled
+                    if (appSettings.notificationsEnabled) {
+                        SyncJob.scheduleSync()
+                    } else {
+                        SyncJob.cancelSync()
+                    }
                 }
             }
         })
@@ -77,9 +97,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         // Handle navigation view item clicks here.
         val id = item.itemId
 
-        if (id == R.id.action_settings) {
-            startActivity(Intent(this, SettingsActivity::class.java))
-        } else if (id == R.id.action_bookmarks) {
+        if (id == R.id.action_bookmarks) {
             startActivity(Intent(this, BookmarksActivity::class.java))
         }
 

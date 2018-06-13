@@ -10,25 +10,17 @@ import android.preference.PreferenceManager
 class AppSettings(context: Context) {
 
     companion object {
-        val SYNC_INTERVAL_NEVER: Long = -1
-        private val SYNC_INTERVAL = "SYNC_INTERVAL"
-        private val LAST_PUB_DATE = "LAST_PUB_DATE"
+        private const val NOTIFICATIONS_ENABLED = "NOTIFICATIONS_ENABLED"
+        private const val LAST_PUB_DATE = "LAST_PUB_DATE"
     }
 
     private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-    private val resources = context.resources
-
-    fun getNotificationEntry(): String {
-        val key = resources.getString(R.string.key_notifications)
-        val defaultValue = resources.getString(R.string.notification_value_never)
-        return preferences.getString(key, defaultValue)
-    }
 
     var lastPubDate: Long
         get() = preferences.getLong(LAST_PUB_DATE, 0)
         set(value) = preferences.edit().putLong(LAST_PUB_DATE, value).apply()
 
-    var syncInterval: Long
-        get() = preferences.getLong(SYNC_INTERVAL, SYNC_INTERVAL_NEVER)
-        set(value) = preferences.edit().putLong(SYNC_INTERVAL, value).apply()
+    var notificationsEnabled: Boolean
+        get() = preferences.getBoolean(NOTIFICATIONS_ENABLED, true)
+        set(value) = preferences.edit().putBoolean(NOTIFICATIONS_ENABLED, value).apply()
 }

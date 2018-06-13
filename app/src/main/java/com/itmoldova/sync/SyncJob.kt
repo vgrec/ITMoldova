@@ -13,9 +13,9 @@ class SyncJob(private val rssChecker: RssChecker) : Job() {
     companion object {
         val TAG = "sync_job_tag"
 
-        fun schedulePeriodicSync(interval: Long) {
+        fun scheduleSync() {
             JobRequest.Builder(TAG)
-                    .setPeriodic(TimeUnit.HOURS.toMillis(interval))
+                    .setPeriodic(TimeUnit.HOURS.toMillis(2))
                     .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
                     .build()
                     .schedule()
