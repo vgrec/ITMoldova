@@ -5,24 +5,23 @@
     <item
         android:id="@+id/action_bookmarks"
         android:icon="@drawable/ic_favorite_filled"
-        android:title="Bookmarks" />
-
-    <item
-        android:id="@+id/action_switch_theme"
-        android:icon="@drawable/ic_switch_theme"
-        android:title="Dark Theme"
-        app:actionLayout="@layout/nav_drawer_switch" />
+        android:title="@string/label_bookmarks" />
 
     <item
         android:id="@+id/action_toggle_notifications"
         android:icon="@drawable/ic_notifications"
-        android:title="Notifications"
+        android:title="@string/label_notifications"
         app:actionLayout="@layout/nav_drawer_notifications" />
 
+    <item
+        android:id="@+id/action_switch_theme"
+        android:icon="@drawable/ic_switch_theme"
+        android:title="@string/label_dark_theme"
+        app:actionLayout="@layout/nav_drawer_switch" />
 
     <item
         android:id="@+id/action_about"
         android:icon="@drawable/ic_about"
-        android:title="About" />
+        android:title="@string/label_info" />
 
 </menu>

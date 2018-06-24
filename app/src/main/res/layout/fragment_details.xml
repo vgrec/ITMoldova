@@ -72,7 +72,7 @@
                     android:lineSpacingExtra="2sp"
                     android:padding="16dp"
                     android:textColor="?attr/themeArticleTitleColor"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
                     android:typeface="serif"
                     tools:text="Ce sa intamplat cu noul Android care va fi?" />
@@ -85,17 +85,31 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginStart="16dp" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="@string/related_articles"
+                    android:textColor="?attr/themeArticleTitleColor"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:typeface="serif" />
+
                 <android.support.v7.widget.CardView
                     android:id="@+id/related"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:orientation="vertical" />
 
                 <Button
                     android:id="@+id/view_in_browser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:text="@string/view_in_browser" />
 
             </LinearLayout>
