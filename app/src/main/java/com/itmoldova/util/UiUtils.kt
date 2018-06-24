@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.itmoldova.BaseActivity
 import com.itmoldova.R
 import com.itmoldova.model.Article
 import com.squareup.picasso.Picasso
@@ -18,17 +19,20 @@ class UiUtils {
         fun createRelatedViews(context: Context, relatedArticles: List<Article>, clickListener: (Article) -> Unit): ViewGroup {
             val params = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            params.setMargins(0, context.resources.getDimensionPixelSize(R.dimen.related_item_margin), 0, 0)
             val linearLayout = LinearLayout(context)
             linearLayout.layoutParams = params
             linearLayout.orientation = LinearLayout.VERTICAL
+            val drawable = context.getDrawable(R.drawable.list_divider)
+            drawable.setTint(getDividerColor(context, BaseActivity.IS_DARK))
+            linearLayout.dividerDrawable = drawable
+            linearLayout.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
 
 
             for (article in relatedArticles) {
                 val view = LayoutInflater.from(context).inflate(R.layout.item_related, null, false)
                 view.layoutParams = params
                 (view.findViewById<View>(R.id.title) as TextView).text = article.title
-                (view.findViewById<View>(R.id.date) as TextView).text = article.pubDate
+                (view.findViewById<View>(R.id.date) as TextView).text = Utils.formatPubDate(article.pubDate)
 
                 Picasso.with(context)
                         .load(extractFirstImage(article.content))
@@ -58,6 +62,11 @@ class UiUtils {
             val color = typedArray.getResourceId(0, android.R.color.darker_gray)
             typedArray.recycle()
             return color
+        }
+
+        fun getDividerColor(context: Context, isDark: Boolean): Int {
+            return if (BaseActivity.IS_DARK) context.resources.getColor(R.color.list_divider_dark)
+            else context.resources.getColor(R.color.list_divider_light)
         }
     }
 }

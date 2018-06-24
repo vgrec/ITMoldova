@@ -85,10 +85,11 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginStart="16dp" />
 
-                <LinearLayout
+                <android.support.v7.widget.CardView
                     android:id="@+id/related"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:orientation="vertical" />
 
                 <Button

@@ -23,6 +23,7 @@ import com.itmoldova.adapter.ArticlesAdapter
 import com.itmoldova.db.AppDatabase
 import com.itmoldova.detail.DetailActivity
 import com.itmoldova.model.Article
+import com.itmoldova.util.UiUtils
 import javax.inject.Inject
 
 
@@ -47,10 +48,7 @@ class BookmarksFragment : Fragment(), BookmarksContract.View {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         val dividerItemDecoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         val drawable = resources.getDrawable(R.drawable.list_divider)
-        val dividerColor =
-                if (BaseActivity.IS_DARK) resources.getColor(R.color.list_divider_dark)
-                else resources.getColor(R.color.list_divider_light)
-        drawable.setTint(dividerColor)
+        drawable.setTint(UiUtils.getDividerColor(view.context, BaseActivity.IS_DARK))
         dividerItemDecoration.setDrawable(drawable)
         recyclerView.addItemDecoration(dividerItemDecoration)
         return view

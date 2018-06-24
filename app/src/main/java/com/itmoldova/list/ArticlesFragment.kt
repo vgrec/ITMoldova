@@ -20,6 +20,7 @@ import com.itmoldova.detail.DetailActivity
 import com.itmoldova.model.Article
 import com.itmoldova.model.Category
 import com.itmoldova.util.EndlessScrollListener
+import com.itmoldova.util.UiUtils
 import java.util.*
 
 /**
@@ -53,10 +54,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         recyclerView.layoutManager = layoutManager
         val dividerItemDecoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         val drawable = resources.getDrawable(R.drawable.list_divider)
-        val dividerColor =
-                if (BaseActivity.IS_DARK) resources.getColor(R.color.list_divider_dark)
-                else resources.getColor(R.color.list_divider_light)
-        drawable.setTint(dividerColor)
+        drawable.setTint(UiUtils.getDividerColor(view.context, BaseActivity.IS_DARK))
         dividerItemDecoration.setDrawable(drawable)
         recyclerView.addItemDecoration(dividerItemDecoration)
 

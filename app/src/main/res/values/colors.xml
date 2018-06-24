@@ -18,7 +18,7 @@
     <color name="window_background_light">#ffffff</color>
     <color name="article_row_background_light">#ffffff</color>
     <color name="article_title_light">#424242</color>
-    <color name="article_date_time_light">#424242</color>
+    <color name="article_date_time_light">#4589f9</color>
     <color name="nav_drawer_icon_light">@color/article_title_light</color>
     <color name="nav_drawer_item_light">@color/article_title_light</color>
     <color name="list_divider_light">#ccc</color>
