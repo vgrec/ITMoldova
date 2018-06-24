@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/themeArticleRowBackgroundColor"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical">
 
     <ImageView
@@ -24,6 +25,7 @@
         android:maxLines="2"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
+        android:paddingTop="4dp"
         android:textColor="?attr/themeArticleTitleColor"
         android:textSize="18sp"
         android:typeface="serif"

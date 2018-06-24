@@ -13,6 +13,8 @@
     <color name="nav_drawer_icon_dark">@color/article_title_dark</color>
     <color name="nav_drawer_item_dark">@color/article_title_dark</color>
     <color name="list_divider_dark">#424242</color>
+    <color name="button_view_in_browser_title_dark">#424242</color>
+    <color name="button_view_in_browser_background_dark">#ccc</color>
 
     <!-- Colors for light theme-->
     <color name="window_background_light">#ffffff</color>
@@ -22,5 +24,7 @@
     <color name="nav_drawer_icon_light">@color/article_title_light</color>
     <color name="nav_drawer_item_light">@color/article_title_light</color>
     <color name="list_divider_light">#ccc</color>
+    <color name="button_view_in_browser_title_light">#e3e3e3</color>
+    <color name="button_view_in_browser_background_light">@color/colorPrimary</color>
 
 </resources>

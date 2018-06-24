@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="235dp"
             android:background="@android:color/white"
-            android:transitionName="@string/activity_image_transition"
             android:scaleType="centerCrop"
+            android:transitionName="@string/activity_image_transition"
             tools:src="@drawable/test" />
 
         <View

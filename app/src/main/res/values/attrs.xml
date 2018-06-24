@@ -8,5 +8,7 @@
     <attr name="themeWindowBackgroundColor" format="color" />
     <attr name="themeNavDrawerIconColor" format="color" />
     <attr name="themeNavDrawerTextColor" format="color" />
+    <attr name="themeButtonViewInBrowserTitleColor" format="color" />
+    <attr name="themeButtonViewInBrowserBackgroundColor" format="color" />
 
 </resources>

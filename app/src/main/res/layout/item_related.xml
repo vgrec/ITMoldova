@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/themeArticleRowBackgroundColor"
+    android:foreground="?attr/selectableItemBackground"
     android:padding="8dp">
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="74dp"
+        android:layout_height="60dp"
         android:layout_marginRight="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/test" />
@@ -21,7 +22,7 @@
         android:layout_toRightOf="@+id/image"
         android:maxLines="2"
         android:textColor="?attr/themeArticleTitleColor"
-        android:textSize="18sp"
+        android:textSize="16sp"
         tools:text="Title" />
 
     <TextView
