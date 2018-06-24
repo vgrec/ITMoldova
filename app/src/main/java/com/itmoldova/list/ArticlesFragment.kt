@@ -6,6 +6,7 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
@@ -16,8 +17,8 @@ import com.itmoldova.Extra
 import com.itmoldova.R
 import com.itmoldova.adapter.ArticlesAdapter
 import com.itmoldova.detail.DetailActivity
-import com.itmoldova.model.Category
 import com.itmoldova.model.Article
+import com.itmoldova.model.Category
 import com.itmoldova.util.EndlessScrollListener
 import java.util.*
 
@@ -50,6 +51,14 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         val layoutManager = LinearLayoutManager(activity)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = layoutManager
+        val dividerItemDecoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
+        val drawable = resources.getDrawable(R.drawable.list_divider)
+        val dividerColor =
+                if (BaseActivity.IS_DARK) resources.getColor(R.color.list_divider_dark)
+                else resources.getColor(R.color.list_divider_light)
+        drawable.setTint(dividerColor)
+        dividerItemDecoration.setDrawable(drawable)
+        recyclerView.addItemDecoration(dividerItemDecoration)
 
 
         adapter = ArticlesAdapter(activity, articles, { article, imageView -> presenter?.onArticleClicked(articles, article, imageView) })

@@ -12,6 +12,7 @@
     <color name="article_date_time_dark">#7997c8</color>
     <color name="nav_drawer_icon_dark">@color/article_title_dark</color>
     <color name="nav_drawer_item_dark">@color/article_title_dark</color>
+    <color name="list_divider_dark">#424242</color>
 
     <!-- Colors for light theme-->
     <color name="window_background_light">#ffffff</color>
@@ -20,5 +21,6 @@
     <color name="article_date_time_light">#424242</color>
     <color name="nav_drawer_icon_light">@color/article_title_light</color>
     <color name="nav_drawer_item_light">@color/article_title_light</color>
+    <color name="list_divider_light">#ccc</color>
 
 </resources>

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.view.ViewCompat
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 
@@ -13,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.itmoldova.BaseActivity
 import com.itmoldova.Extra
 import com.itmoldova.ITMoldova
 
@@ -43,6 +45,14 @@ class BookmarksFragment : Fragment(), BookmarksContract.View {
         val view = inflater!!.inflate(R.layout.fragment_bookmarks, container, false)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(activity)
+        val dividerItemDecoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
+        val drawable = resources.getDrawable(R.drawable.list_divider)
+        val dividerColor =
+                if (BaseActivity.IS_DARK) resources.getColor(R.color.list_divider_dark)
+                else resources.getColor(R.color.list_divider_light)
+        drawable.setTint(dividerColor)
+        dividerItemDecoration.setDrawable(drawable)
+        recyclerView.addItemDecoration(dividerItemDecoration)
         return view
     }
 
