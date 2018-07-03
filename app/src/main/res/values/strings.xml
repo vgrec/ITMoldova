@@ -30,5 +30,6 @@
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="channel_name" translatable="false">IT Moldova</string>
     <string name="channel_description" translatable="false">New posts notifications</string>
+    <string name="app_name_logo">Lider de știri în IT</string>
 
 </resources>

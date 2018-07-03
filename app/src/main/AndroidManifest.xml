@@ -32,9 +32,6 @@
         <activity
             android:name=".photoview.PhotoViewActivity"
             android:theme="@style/AppTheme.Dark.NoActionBar" />
-        <activity
-            android:name=".settings.SettingsActivity"
-            android:label="@string/label_settings" />
 
         <activity android:name=".comments.NewCommentActivity" />
         <activity
