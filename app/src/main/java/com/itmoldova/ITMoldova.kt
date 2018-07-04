@@ -12,6 +12,7 @@ import com.itmoldova.di.ApplicationModule
 import com.itmoldova.di.DaggerApplicationComponent
 import com.itmoldova.kotlinex.oreoAndAbove
 import com.itmoldova.sync.ITMoldovaJobCreator
+import com.itmoldova.sync.SyncJob
 import javax.inject.Inject
 
 class ITMoldova : Application() {
@@ -24,6 +25,9 @@ class ITMoldova : Application() {
     @Inject
     lateinit var jobCreator: ITMoldovaJobCreator
 
+    @Inject
+    lateinit var appSettings: AppSettings
+
     override fun onCreate() {
         super.onCreate()
         appComponent = DaggerApplicationComponent.builder()
@@ -33,6 +37,10 @@ class ITMoldova : Application() {
 
         JobManager.create(this).addJobCreator(jobCreator)
         createDefaultNotificationChannel()
+
+        if (appSettings.notificationsEnabled) {
+            SyncJob.scheduleSync()
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.O)
