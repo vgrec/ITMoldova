@@ -56,12 +56,15 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     @Inject
     lateinit var database: AppDatabase
 
+    @Inject
+    lateinit var htmlParser: HtmlParser
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ITMoldova.appComponent.inject(this)
         article = arguments.getParcelable(Extra.ARTICLE)
         topArticles = arguments.getParcelableArrayList(Extra.ARTICLES)
         setHasOptionsMenu(true)
-        ITMoldova.appComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -107,19 +110,10 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         setupToolbar()
 
-        val displayWidth = activity.windowManager.defaultDisplay.width
-        val displayDensity = resources.displayMetrics.density
-        val bgColor = ContextCompat.getColor(activity, UiUtils.getColorResFromAttribute(activity, R.attr.themeWindowBackgroundColor))
-        val textColor = ContextCompat.getColor(activity, UiUtils.getColorResFromAttribute(activity, R.attr.themeArticleTitleColor))
-        val linkColor = ContextCompat.getColor(activity, R.color.colorAccent)
-
-        val htmlParser = HtmlParser(displayWidth, displayDensity, bgColor, textColor, linkColor)
         presenter = DetailPresenter(this, database.articleDao(), htmlParser)
-
         loadArticle(topArticles, article)
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         showFabOnTransitionEnd()
@@ -129,17 +123,15 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     private fun showFabOnTransitionEnd() {
         lollipopAndAbove {
             val sharedElementTransition = activity.window.sharedElementEnterTransition
-            sharedElementTransition?.let {
-                it.addListener(object : Utils.TransactionListenerAdapter() {
-                    override fun onTransitionEnd(transition: Transition?) {
-                        fab.show()
-                    }
+            sharedElementTransition?.addListener(object : Utils.TransactionListenerAdapter() {
+                override fun onTransitionEnd(transition: Transition?) {
+                    fab.show()
+                }
 
-                    override fun onTransitionStart(transition: Transition?) {
-                        fab.visibility = View.INVISIBLE
-                    }
-                })
-            }
+                override fun onTransitionStart(transition: Transition?) {
+                    fab.visibility = View.INVISIBLE
+                }
+            })
         }
     }
 
