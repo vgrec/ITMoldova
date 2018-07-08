@@ -4,6 +4,7 @@ import android.widget.ImageView
 import com.itmoldova.AppSettings
 import com.itmoldova.ITMoldova
 import com.itmoldova.http.ITMoldovaService
+import com.itmoldova.http.NetworkDetector
 import com.itmoldova.model.Category
 import com.itmoldova.model.Article
 import com.itmoldova.model.Rss
@@ -23,6 +24,9 @@ class ArticlesPresenter(private val view: ArticlesContract.View) : ArticlesContr
 
     @Inject
     lateinit var apiService: ITMoldovaService
+
+    @Inject
+    lateinit var networkDetector: NetworkDetector
 
     companion object {
         val TOP_ARTICLES_NUMBER = 10L
@@ -51,6 +55,11 @@ class ArticlesPresenter(private val view: ArticlesContract.View) : ArticlesContr
     }
 
     private fun loadRssFeed(category: Category, page: Int, clearDataSet: Boolean) {
+        if (!networkDetector.hasInternetConnection()) {
+            view.showNoInternetConnection()
+            return
+        }
+
         this.category = category
         disposable = getObservableByCategory(category, page)
                 .subscribeOn(Schedulers.newThread())

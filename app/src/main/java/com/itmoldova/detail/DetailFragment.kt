@@ -8,10 +8,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.customtabs.CustomTabsIntent
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.transition.Transition
@@ -24,7 +22,7 @@ import com.itmoldova.Extra
 import com.itmoldova.ITMoldova
 import com.itmoldova.R
 import com.itmoldova.db.AppDatabase
-import com.itmoldova.kotlinex.lollipopAndAbove
+import com.itmoldova.kotlinex.runOnVersion
 import com.itmoldova.model.Article
 import com.itmoldova.photoview.PhotoViewActivity
 import com.itmoldova.util.HtmlParser
@@ -121,7 +119,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showFabOnTransitionEnd() {
-        lollipopAndAbove {
+        runOnVersion(Build.VERSION_CODES.LOLLIPOP) {
             val sharedElementTransition = activity.window.sharedElementEnterTransition
             sharedElementTransition?.addListener(object : Utils.TransactionListenerAdapter() {
                 override fun onTransitionEnd(transition: Transition?) {

@@ -2,6 +2,8 @@ package com.itmoldova.list
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.StringRes
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
@@ -11,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
-import android.widget.Toast
 import com.itmoldova.BaseActivity
 import com.itmoldova.Extra
 import com.itmoldova.R
@@ -116,12 +117,20 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
     }
 
     override fun showError() {
-        Toast.makeText(activity, "Error.", Toast.LENGTH_LONG).show()
+        showSnackbar(R.string.snackbar_generic_error)
     }
 
     override fun showNoInternetConnection() {
-        Toast.makeText(activity, "No Internet", Toast.LENGTH_LONG).show()
-        // TODO: consider showing a SnackBar here
+        showSnackbar(R.string.snackbar_no_connection)
+    }
+
+    private fun showSnackbar(@StringRes stringResId: Int) {
+        Snackbar.make(
+                activity.findViewById<RecyclerView>(R.id.recycler_view),
+                stringResId,
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.snackbar_retry_action, { presenter?.refreshArticles(category) })
+                .show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

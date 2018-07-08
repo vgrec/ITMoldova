@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.RingtoneManager
+import android.os.Build
 import android.support.annotation.VisibleForTesting
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationCompat.*
@@ -16,7 +17,7 @@ import com.itmoldova.Extra
 import com.itmoldova.ITMoldova
 import com.itmoldova.R
 import com.itmoldova.detail.DetailActivity
-import com.itmoldova.kotlinex.oreoAndAbove
+import com.itmoldova.kotlinex.runOnVersion
 import com.itmoldova.list.MainActivity
 import com.itmoldova.model.Article
 import com.itmoldova.util.Logs
@@ -142,7 +143,9 @@ class NotificationsController @Inject constructor(private val context: Context,
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 
-        oreoAndAbove { builder.setChannelId(ITMoldova.DEFAULT_CHANNEL_ID) }
+        runOnVersion(Build.VERSION_CODES.O) {
+            builder.setChannelId(ITMoldova.DEFAULT_CHANNEL_ID)
+        }
 
         return builder
     }

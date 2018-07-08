@@ -3,17 +3,11 @@ package com.itmoldova.kotlinex
 import android.os.Build
 
 /**
- * Calls the specified block of code only if the app is running on
- * a device with Lollipop or above.
+ * Calls the specified block of code only if the app's version
+ * is equal or greater than the specified version.
  */
-fun lollipopAndAbove(body: () -> Unit) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        body()
-    }
-}
-
-fun oreoAndAbove(body: () -> Unit) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+fun runOnVersion(version: Int, body: () -> Unit){
+    if (Build.VERSION.SDK_INT >= version) {
         body()
     }
 }

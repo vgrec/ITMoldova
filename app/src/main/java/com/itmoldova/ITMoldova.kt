@@ -10,7 +10,7 @@ import com.evernote.android.job.JobManager
 import com.itmoldova.di.ApplicationComponent
 import com.itmoldova.di.ApplicationModule
 import com.itmoldova.di.DaggerApplicationComponent
-import com.itmoldova.kotlinex.oreoAndAbove
+import com.itmoldova.kotlinex.runOnVersion
 import com.itmoldova.sync.ITMoldovaJobCreator
 import com.itmoldova.sync.SyncJob
 import javax.inject.Inject
@@ -45,7 +45,7 @@ class ITMoldova : Application() {
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun createDefaultNotificationChannel() {
-        oreoAndAbove {
+        runOnVersion(Build.VERSION_CODES.O) {
             val name = getString(R.string.channel_name)
             val description = getString(R.string.channel_description)
             val channel = NotificationChannel(DEFAULT_CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT)
