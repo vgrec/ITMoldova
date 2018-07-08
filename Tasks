@@ -16,7 +16,10 @@
 * Add ripple effect
 * Animate when opening the details screen
 * Check language files, make default Romanian.
-- Add Dark/Light themes
+* Add Dark/Light themes
+- Integrate Crashlytics
+- Show empty states in list Fragment
+- Show Snackbar with Retry option in case error
 
 ----------
 - Test landscape in the DetailsActivity with the test code
