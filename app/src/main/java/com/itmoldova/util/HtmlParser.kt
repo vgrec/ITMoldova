@@ -1,13 +1,18 @@
 package com.itmoldova.util
 
+import android.content.Context
+import android.support.v4.content.ContextCompat
+import com.itmoldova.R
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 
-class HtmlParser(private val displayWidth: Int,
-                 private val displayDensity: Float,
-                 private val bgColor: Int,
-                 private val textColor: Int,
-                 private val linkColor: Int) {
+class HtmlParser(context: Context) {
+
+    private val displayWidth = context.resources.displayMetrics.widthPixels
+    private val displayDensity = context.resources.displayMetrics.density
+    private val bgColor = ContextCompat.getColor(context, UiUtils.getColorResFromAttribute(context, R.attr.themeWindowBackgroundColor))
+    private val textColor = ContextCompat.getColor(context, UiUtils.getColorResFromAttribute(context, R.attr.themeArticleTitleColor))
+    private val linkColor = ContextCompat.getColor(context, R.color.colorAccent)
 
     var content: String = ""
     var headerUrl: String? = ""

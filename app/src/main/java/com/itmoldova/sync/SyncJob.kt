@@ -1,6 +1,5 @@
 package com.itmoldova.sync
 
-import android.util.Log
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobManager
 import com.evernote.android.job.JobRequest
@@ -28,7 +27,6 @@ class SyncJob(private val rssChecker: RssChecker) : Job() {
 
     override fun onRunJob(params: Params?): Result {
         rssChecker.start(Schedulers.newThread(), AndroidSchedulers.mainThread())
-        Log.d("GREC", "Job run")
         return Result.SUCCESS
     }
 }

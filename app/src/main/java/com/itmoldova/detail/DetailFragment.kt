@@ -8,10 +8,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.customtabs.CustomTabsIntent
 import android.support.design.widget.FloatingActionButton
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.transition.Transition
@@ -25,7 +23,7 @@ import com.itmoldova.Extra
 import com.itmoldova.ITMoldova
 import com.itmoldova.R
 import com.itmoldova.db.AppDatabase
-import com.itmoldova.kotlinex.lollipopAndAbove
+import com.itmoldova.kotlinex.runOnVersion
 import com.itmoldova.model.Article
 import com.itmoldova.photoview.PhotoViewActivity
 import com.itmoldova.util.HtmlParser
@@ -60,12 +58,15 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     @Inject
     lateinit var appSettings: AppSettings
 
+    @Inject
+    lateinit var htmlParser: HtmlParser
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ITMoldova.appComponent.inject(this)
         article = arguments.getParcelable(Extra.ARTICLE)
         topArticles = arguments.getParcelableArrayList(Extra.ARTICLES)
         setHasOptionsMenu(true)
-        ITMoldova.appComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -111,19 +112,10 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         setupToolbar()
 
-        val displayWidth = activity.windowManager.defaultDisplay.width
-        val displayDensity = resources.displayMetrics.density
-        val bgColor = ContextCompat.getColor(activity, UiUtils.getColorResFromAttribute(activity, R.attr.themeWindowBackgroundColor))
-        val textColor = ContextCompat.getColor(activity, UiUtils.getColorResFromAttribute(activity, R.attr.themeArticleTitleColor))
-        val linkColor = ContextCompat.getColor(activity, R.color.colorAccent)
-
-        val htmlParser = HtmlParser(displayWidth, displayDensity, bgColor, textColor, linkColor)
         presenter = DetailPresenter(this, database.articleDao(), htmlParser)
-
         loadArticle(topArticles, article)
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         showFabOnTransitionEnd()
@@ -131,19 +123,17 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showFabOnTransitionEnd() {
-        lollipopAndAbove {
+        runOnVersion(Build.VERSION_CODES.LOLLIPOP) {
             val sharedElementTransition = activity.window.sharedElementEnterTransition
-            sharedElementTransition?.let {
-                it.addListener(object : Utils.TransactionListenerAdapter() {
-                    override fun onTransitionEnd(transition: Transition?) {
-                        fab.show()
-                    }
+            sharedElementTransition?.addListener(object : Utils.TransactionListenerAdapter() {
+                override fun onTransitionEnd(transition: Transition?) {
+                    fab.show()
+                }
 
-                    override fun onTransitionStart(transition: Transition?) {
-                        fab.visibility = View.INVISIBLE
-                    }
-                })
-            }
+                override fun onTransitionStart(transition: Transition?) {
+                    fab.visibility = View.INVISIBLE
+                }
+            })
         }
     }
 
