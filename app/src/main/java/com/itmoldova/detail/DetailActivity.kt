@@ -3,16 +3,20 @@ package com.itmoldova.detail
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import com.itmoldova.BaseActivity
-import com.itmoldova.Extra
-import com.itmoldova.R
+import android.support.v7.app.AppCompatActivity
+import com.itmoldova.*
 import com.itmoldova.model.Article
 import com.itmoldova.util.ActivityUtils
+import javax.inject.Inject
 
-class DetailActivity : BaseActivity() {
+class DetailActivity : AppCompatActivity() {
+    @Inject
+    lateinit var appSettings: AppSettings
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(if (IS_DARK) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
+        ITMoldova.appComponent.inject(this)
+        setTheme(if (appSettings.darkModeEnabled) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 

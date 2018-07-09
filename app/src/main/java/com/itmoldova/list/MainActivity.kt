@@ -8,13 +8,13 @@ import android.support.v4.view.GravityCompat
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Switch
 import com.itmoldova.AppSettings
-import com.itmoldova.BaseActivity
 import com.itmoldova.ITMoldova
 import com.itmoldova.R
 import com.itmoldova.adapter.CategoriesFragmentPagerAdapter
@@ -22,7 +22,7 @@ import com.itmoldova.bookmarks.BookmarksActivity
 import com.itmoldova.sync.SyncJob
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawer: DrawerLayout
     
@@ -30,11 +30,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     lateinit var appSettings: AppSettings
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(if (IS_DARK) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
+        ITMoldova.appComponent.inject(this)
+        setTheme(if (appSettings.darkModeEnabled) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        ITMoldova.appComponent.inject(this)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -65,10 +65,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             private fun setupThemeSwitch() {
                 val themeSwitch = findViewById<Switch>(R.id.theme_switch)
-                themeSwitch.isChecked = IS_DARK
+                themeSwitch.isChecked = appSettings.darkModeEnabled
                 themeSwitch.setOnCheckedChangeListener { view, isChecked ->
                     drawer.postDelayed({
-                        IS_DARK = !IS_DARK
+                        appSettings.darkModeEnabled = !appSettings.darkModeEnabled
                         recreate()
                     }, resources.getInteger(android.R.integer.config_mediumAnimTime).toLong())
                 }

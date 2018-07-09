@@ -12,6 +12,7 @@ class AppSettings(context: Context) {
     companion object {
         private const val NOTIFICATIONS_ENABLED = "NOTIFICATIONS_ENABLED"
         private const val LAST_PUB_DATE = "LAST_PUB_DATE"
+        private const val DARK_MODE = "DARK_MODE"
     }
 
     private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -23,4 +24,8 @@ class AppSettings(context: Context) {
     var notificationsEnabled: Boolean
         get() = preferences.getBoolean(NOTIFICATIONS_ENABLED, true)
         set(value) = preferences.edit().putBoolean(NOTIFICATIONS_ENABLED, value).apply()
+
+    var darkModeEnabled: Boolean
+        get() = preferences.getBoolean(DARK_MODE, true)
+        set(value) = preferences.edit().putBoolean(DARK_MODE, value).apply()
 }

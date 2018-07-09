@@ -12,9 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
-import com.itmoldova.BaseActivity
-import com.itmoldova.Extra
-import com.itmoldova.R
+import com.itmoldova.*
 import com.itmoldova.adapter.ArticlesAdapter
 import com.itmoldova.detail.DetailActivity
 import com.itmoldova.model.Article
@@ -22,6 +20,7 @@ import com.itmoldova.model.Category
 import com.itmoldova.util.EndlessScrollListener
 import com.itmoldova.util.UiUtils
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Shows a list of articles.
@@ -30,6 +29,9 @@ import java.util.*
  * Author vgrec, on 09.07.16.
  */
 class ArticlesFragment : Fragment(), ArticlesContract.View {
+
+    @Inject
+    lateinit var appSettings: AppSettings
 
     private lateinit var adapter: ArticlesAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -41,6 +43,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ITMoldova.appComponent.inject(this)
         setHasOptionsMenu(true)
         category = arguments.getSerializable(Extra.CATEGORY) as Category
     }
@@ -54,7 +57,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         recyclerView.layoutManager = layoutManager
         val dividerItemDecoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         val drawable = resources.getDrawable(R.drawable.list_divider)
-        drawable.setTint(UiUtils.getDividerColor(view.context, BaseActivity.IS_DARK))
+        drawable.setTint(UiUtils.getDividerColor(view.context, appSettings.darkModeEnabled))
         dividerItemDecoration.setDrawable(drawable)
         recyclerView.addItemDecoration(dividerItemDecoration)
 

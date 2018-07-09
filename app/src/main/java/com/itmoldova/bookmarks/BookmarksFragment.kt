@@ -14,11 +14,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.itmoldova.BaseActivity
-import com.itmoldova.Extra
-import com.itmoldova.ITMoldova
+import com.itmoldova.*
 
-import com.itmoldova.R
 import com.itmoldova.adapter.ArticlesAdapter
 import com.itmoldova.db.AppDatabase
 import com.itmoldova.detail.DetailActivity
@@ -37,6 +34,9 @@ class BookmarksFragment : Fragment(), BookmarksContract.View {
     @Inject
     lateinit var database: AppDatabase
 
+    @Inject
+    lateinit var appSettings: AppSettings
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ITMoldova.appComponent.inject(this)
@@ -48,7 +48,7 @@ class BookmarksFragment : Fragment(), BookmarksContract.View {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         val dividerItemDecoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         val drawable = resources.getDrawable(R.drawable.list_divider)
-        drawable.setTint(UiUtils.getDividerColor(view.context, BaseActivity.IS_DARK))
+        drawable.setTint(UiUtils.getDividerColor(view.context, appSettings.darkModeEnabled))
         dividerItemDecoration.setDrawable(drawable)
         recyclerView.addItemDecoration(dividerItemDecoration)
         return view

@@ -20,6 +20,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.TextView
+import com.itmoldova.AppSettings
 import com.itmoldova.Extra
 import com.itmoldova.ITMoldova
 import com.itmoldova.R
@@ -55,6 +56,9 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
 
     @Inject
     lateinit var database: AppDatabase
+
+    @Inject
+    lateinit var appSettings: AppSettings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -160,7 +164,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     }
 
     override fun showRelatedArticles(relatedArticles: List<Article>) {
-        val relatedArticlesView = UiUtils.createRelatedViews(activity, relatedArticles) { relatedArticle ->
+        val relatedArticlesView = UiUtils.createRelatedViews(activity, relatedArticles, appSettings.darkModeEnabled) { relatedArticle ->
             val intent = Intent(activity, DetailActivity::class.java)
             intent.putExtra(Extra.ARTICLE, relatedArticle)
             intent.putParcelableArrayListExtra(Extra.ARTICLES, ArrayList(this.topArticles))
