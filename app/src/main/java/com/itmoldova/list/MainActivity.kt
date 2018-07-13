@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ITMoldova.appComponent.inject(this)
-        setTheme(if (appSettings.darkModeEnabled) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
+        setTheme(if (appSettings.isDarkModeEnabled) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -65,10 +65,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             private fun setupThemeSwitch() {
                 val themeSwitch = findViewById<Switch>(R.id.theme_switch)
-                themeSwitch.isChecked = appSettings.darkModeEnabled
+                themeSwitch.isChecked = appSettings.isDarkModeEnabled
                 themeSwitch.setOnCheckedChangeListener { view, isChecked ->
                     drawer.postDelayed({
-                        appSettings.darkModeEnabled = !appSettings.darkModeEnabled
+                        appSettings.isDarkModeEnabled = !appSettings.isDarkModeEnabled
                         recreate()
                     }, resources.getInteger(android.R.integer.config_mediumAnimTime).toLong())
                 }
@@ -76,10 +76,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             private fun setupNotificationsSwitch() {
                 val notificationsSwitch = findViewById<Switch>(R.id.notifications_switch)
-                notificationsSwitch.isChecked = appSettings.notificationsEnabled
+                notificationsSwitch.isChecked = appSettings.areNotificationsEnabled
                 notificationsSwitch.setOnCheckedChangeListener { view, isChecked ->
-                    appSettings.notificationsEnabled = !appSettings.notificationsEnabled
-                    if (appSettings.notificationsEnabled) {
+                    appSettings.areNotificationsEnabled = !appSettings.areNotificationsEnabled
+                    if (appSettings.areNotificationsEnabled) {
                         SyncJob.scheduleSync()
                     } else {
                         SyncJob.cancelSync()

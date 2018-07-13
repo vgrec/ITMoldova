@@ -47,7 +47,7 @@ class ApplicationModule(private val context: Context) {
     @Provides
     fun provideHtmlParser(context: Context, appSettings: AppSettings): HtmlParser {
         // Update the application context theme in order to be able to obtain proper styled attributes in the HtmlParser.
-        context.theme.applyStyle(if (appSettings.darkModeEnabled) R.style.AppTheme_Dark else R.style.AppTheme_Light, true)
+        context.theme.applyStyle(if (appSettings.isDarkModeEnabled) R.style.AppTheme_Dark else R.style.AppTheme_Light, true)
         return HtmlParser(context)
     }
 }

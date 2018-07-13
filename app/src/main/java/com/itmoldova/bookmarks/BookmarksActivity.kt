@@ -15,7 +15,7 @@ class BookmarksActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ITMoldova.appComponent.inject(this)
-        setTheme(if (appSetting.darkModeEnabled) R.style.AppTheme_Dark else R.style.AppTheme_Light)
+        setTheme(if (appSetting.isDarkModeEnabled) R.style.AppTheme_Dark else R.style.AppTheme_Light)
         super.onCreate(savedInstanceState)
         // Fragment added via XML
         setContentView(R.layout.activity_bookmarks)

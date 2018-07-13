@@ -154,7 +154,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     }
 
     override fun showRelatedArticles(relatedArticles: List<Article>) {
-        val relatedArticlesView = UiUtils.createRelatedViews(activity, relatedArticles, appSettings.darkModeEnabled) { relatedArticle ->
+        val relatedArticlesView = UiUtils.createRelatedViews(activity, relatedArticles, appSettings.isDarkModeEnabled) { relatedArticle ->
             val intent = Intent(activity, DetailActivity::class.java)
             intent.putExtra(Extra.ARTICLE, relatedArticle)
             intent.putParcelableArrayListExtra(Extra.ARTICLES, ArrayList(this.topArticles))

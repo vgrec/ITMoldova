@@ -48,7 +48,7 @@ class BookmarksFragment : Fragment(), BookmarksContract.View {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         val dividerItemDecoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         val drawable = resources.getDrawable(R.drawable.list_divider)
-        drawable.setTint(UiUtils.getDividerColor(view.context, appSettings.darkModeEnabled))
+        drawable.setTint(UiUtils.getDividerColor(view.context, appSettings.isDarkModeEnabled))
         dividerItemDecoration.setDrawable(drawable)
         recyclerView.addItemDecoration(dividerItemDecoration)
         return view

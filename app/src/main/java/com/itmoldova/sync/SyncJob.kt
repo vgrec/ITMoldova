@@ -25,7 +25,7 @@ class SyncJob(private val rssChecker: RssChecker) : Job() {
         }
     }
 
-    override fun onRunJob(params: Params?): Result {
+    override fun onRunJob(params: Params): Result {
         rssChecker.start(Schedulers.newThread(), AndroidSchedulers.mainThread())
         return Result.SUCCESS
     }

@@ -61,7 +61,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         recyclerView.layoutManager = layoutManager
         val dividerItemDecoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
         val drawable = resources.getDrawable(R.drawable.list_divider)
-        drawable.setTint(UiUtils.getDividerColor(view.context, appSettings.darkModeEnabled))
+        drawable.setTint(UiUtils.getDividerColor(view.context, appSettings.isDarkModeEnabled))
         dividerItemDecoration.setDrawable(drawable)
         recyclerView.addItemDecoration(dividerItemDecoration)
 

@@ -15,7 +15,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ITMoldova.appComponent.inject(this)
-        setTheme(if (appSettings.darkModeEnabled) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
+        setTheme(if (appSettings.isDarkModeEnabled) R.style.AppTheme_Dark_NoActionBar else R.style.AppTheme_Light_NoActionBar)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)

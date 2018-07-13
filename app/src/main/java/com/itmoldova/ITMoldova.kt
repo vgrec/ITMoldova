@@ -38,7 +38,8 @@ class ITMoldova : Application() {
         JobManager.create(this).addJobCreator(jobCreator)
         createDefaultNotificationChannel()
 
-        if (appSettings.notificationsEnabled) {
+        if (!appSettings.areNotificationsFirstTimeConfigured) {
+            appSettings.areNotificationsFirstTimeConfigured = true
             SyncJob.scheduleSync()
         }
     }
