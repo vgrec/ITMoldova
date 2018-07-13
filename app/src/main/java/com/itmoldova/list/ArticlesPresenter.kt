@@ -1,12 +1,13 @@
 package com.itmoldova.list
 
 import android.widget.ImageView
+import com.crashlytics.android.Crashlytics
 import com.itmoldova.AppSettings
 import com.itmoldova.ITMoldova
 import com.itmoldova.http.ITMoldovaService
 import com.itmoldova.http.NetworkDetector
-import com.itmoldova.model.Category
 import com.itmoldova.model.Article
+import com.itmoldova.model.Category
 import com.itmoldova.model.Rss
 import com.itmoldova.util.Utils
 import io.reactivex.Observable
@@ -68,7 +69,10 @@ class ArticlesPresenter(private val view: ArticlesContract.View) : ArticlesContr
                 .doOnTerminate { view.setLoadingIndicator(false) }
                 .subscribe(
                         { rss -> processResponse(rss, clearDataSet) },
-                        { error -> view.showError() }
+                        { error ->
+                            Crashlytics.logException(error)
+                            view.showError()
+                        }
                 )
     }
 

@@ -37,6 +37,11 @@
         <activity
             android:name=".bookmarks.BookmarksActivity"
             android:label="@string/label_bookmarks" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="${fabric-api-key}" />
+
     </application>
 
 </manifest>

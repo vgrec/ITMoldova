@@ -6,11 +6,13 @@ buildscript {
     repositories {
         jcenter()
         google()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'io.fabric.tools:gradle:1.25.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -22,6 +24,7 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }
         maven { url "https://maven.google.com" }
+        maven { url 'https://maven.fabric.io/public' }
         google()
     }
 }
@@ -36,4 +39,11 @@ ext {
     archLifecycleVersion = "1.0.0-alpha1"
     archRoomVersion = "1.0.0-alpha1"
     roomCompilerVersion = "1.0.0-alpha1"
+}
+
+Object readProperty(String propertyName) {
+    def props = new Properties()
+    file("keys.properties").withInputStream { props.load(it) }
+
+    return props.getProperty(propertyName)
 }

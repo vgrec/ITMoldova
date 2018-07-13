@@ -6,6 +6,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import com.crashlytics.android.Crashlytics
 import com.evernote.android.job.JobManager
 import com.itmoldova.di.ApplicationComponent
 import com.itmoldova.di.ApplicationModule
@@ -13,6 +14,7 @@ import com.itmoldova.di.DaggerApplicationComponent
 import com.itmoldova.kotlinex.runOnVersion
 import com.itmoldova.sync.ITMoldovaJobCreator
 import com.itmoldova.sync.SyncJob
+import io.fabric.sdk.android.Fabric
 import javax.inject.Inject
 
 class ITMoldova : Application() {
@@ -30,6 +32,8 @@ class ITMoldova : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Fabric.with(this, Crashlytics())
+
         appComponent = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .build()
@@ -37,6 +41,7 @@ class ITMoldova : Application() {
 
         JobManager.create(this).addJobCreator(jobCreator)
         createDefaultNotificationChannel()
+
 
         if (!appSettings.areNotificationsFirstTimeConfigured) {
             appSettings.areNotificationsFirstTimeConfigured = true
