@@ -9,7 +9,7 @@ public class LoggingInterceptor {
 
     public static HttpLoggingInterceptor get() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
         return interceptor;
     }
 }

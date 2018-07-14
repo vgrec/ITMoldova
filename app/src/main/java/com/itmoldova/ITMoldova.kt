@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.core.CrashlyticsCore
 import com.evernote.android.job.JobManager
 import com.itmoldova.di.ApplicationComponent
 import com.itmoldova.di.ApplicationModule
@@ -32,7 +33,10 @@ class ITMoldova : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Fabric.with(this, Crashlytics())
+
+        val crashlyticsCore = CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
+        val crashlytics = Crashlytics.Builder().core(crashlyticsCore).build()
+        Fabric.with(this, crashlytics)
 
         appComponent = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
