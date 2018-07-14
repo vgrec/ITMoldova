@@ -15,7 +15,7 @@ class DetailContract {
 
         fun hideHeaderImage()
 
-        fun updateStarIcon(iconResId: Int)
+        fun updateFavoriteIcon(iconResId: Int)
     }
 
     interface Presenter {

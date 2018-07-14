@@ -68,7 +68,7 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="16dp"
                     android:lineSpacingExtra="2sp"
                     android:padding="16dp"
                     android:textColor="?attr/themeArticleTitleColor"
@@ -124,7 +124,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_star_outline"
+            android:src="@drawable/ic_favorite_outline"
+            android:tint="@android:color/white"
             app:layout_anchor="@id/appbar_layout"
             app:layout_anchorGravity="bottom|end" />
 

@@ -87,7 +87,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         }
 
         fab = view.findViewById(R.id.fab)
-        fab.setOnClickListener { presenter.addOrRemoveFromBookmarks(fab.tag == R.drawable.ic_star_full, article) }
+        fab.setOnClickListener { presenter.addOrRemoveFromBookmarks(fab.tag == R.drawable.ic_favorite_full, article) }
 
         view.findViewById<View>(R.id.view_in_browser).setOnClickListener { openInBrowser(article.link) }
 
@@ -179,7 +179,7 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
         imageHeaderView.visibility = View.GONE
     }
 
-    override fun updateStarIcon(iconResId: Int) {
+    override fun updateFavoriteIcon(iconResId: Int) {
         fab.setImageResource(iconResId)
         fab.tag = iconResId
     }

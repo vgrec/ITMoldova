@@ -17,7 +17,7 @@
             android:background="@android:color/white"
             android:scaleType="centerCrop"
             android:transitionName="@string/activity_image_transition"
-            tools:src="@drawable/test" />
+            tools:src="@drawable/itmdlogolo" />
 
         <View
             android:layout_width="match_parent"

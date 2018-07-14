@@ -43,12 +43,12 @@ class DetailPresenter(private val view: DetailContract.View,
             disposables.add(Completable.fromAction { articleDao.deleteArticle(article) }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ view.updateStarIcon(R.drawable.ic_star_outline) }))
+                    .subscribe({ view.updateFavoriteIcon(R.drawable.ic_favorite_outline) }))
         } else {
             disposables.add(Completable.fromAction { articleDao.insertArticle(article) }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ view.updateStarIcon(R.drawable.ic_star_full) }))
+                    .subscribe({ view.updateFavoriteIcon(R.drawable.ic_favorite_full) }))
         }
     }
 
@@ -57,8 +57,8 @@ class DetailPresenter(private val view: DetailContract.View,
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { _ -> view.updateStarIcon(R.drawable.ic_star_full) },
-                        { _ -> view.updateStarIcon(R.drawable.ic_star_outline) }))
+                        { _ -> view.updateFavoriteIcon(R.drawable.ic_favorite_full) },
+                        { _ -> view.updateFavoriteIcon(R.drawable.ic_favorite_outline) }))
     }
 
     override fun cancel() {

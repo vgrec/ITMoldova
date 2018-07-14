@@ -36,4 +36,6 @@
     <string name="snackbar_no_connection">Nu există conexiune la internet</string>
     <string name="snackbar_retry_action">Reîncercați</string>
 
+    <string name="no_articles_bookmarked">Nici un articol adăugat la favorite.</string>
+
 </resources>

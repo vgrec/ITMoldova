@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_bookmarks"
-        android:icon="@drawable/ic_favorite_filled"
+        android:icon="@drawable/ic_favorite_full"
         android:title="@string/label_bookmarks" />
 
     <item
