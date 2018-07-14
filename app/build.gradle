@@ -8,7 +8,7 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "com.itmold"
+        applicationId "com.itmd2"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
@@ -27,6 +27,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
