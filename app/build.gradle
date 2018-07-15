@@ -11,7 +11,7 @@ android {
         applicationId "com.itmd2"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 3
+        versionCode 4
         versionName "1.0"
 
         manifestPlaceholders += ["fabric-api-key": readProperty("FABRIC_API_KEY")]
