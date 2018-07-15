@@ -131,12 +131,14 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
     }
 
     private fun showSnackbar(@StringRes stringResId: Int) {
-        Snackbar.make(
-                activity.findViewById<RecyclerView>(R.id.recycler_view),
-                stringResId,
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.snackbar_retry_action, { presenter?.refreshArticles(category) })
-                .show()
+        if (activity != null) {
+            Snackbar.make(
+                    activity.findViewById<RecyclerView>(R.id.recycler_view),
+                    stringResId,
+                    Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.snackbar_retry_action, { presenter?.refreshArticles(category) })
+                    .show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

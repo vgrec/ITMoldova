@@ -26,7 +26,7 @@ class DetailPresenter(private val view: DetailContract.View,
         view.showArticleDetail(content)
 
         val imageUrl = htmlParser.getHeaderImageUrl()
-        if (imageUrl != null) {
+        if (imageUrl != null && imageUrl.isNotEmpty()) {
             view.showHeaderImage(imageUrl)
         } else {
             view.hideHeaderImage()
