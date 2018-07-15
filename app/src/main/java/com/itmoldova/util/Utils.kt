@@ -27,8 +27,8 @@ object Utils {
 
             return DateUtils.getRelativeTimeSpanString(date.time, System.currentTimeMillis(),
                     DateUtils.MINUTE_IN_MILLIS, flags).toString()
-        } catch (e: ParseException) {
-            Logs.e("Exception while formatting the pubDate", e)
+        } catch (e: Exception) {
+            Logs.e("Exception while formatting the pubDate: $pubDate", e)
             return pubDate
         }
 
@@ -61,7 +61,7 @@ object Utils {
         val selectedArticles = mutableListOf<Article>()
         Observable.fromIterable(articles)
                 .take(n.toLong())
-                .subscribe({item -> selectedArticles.add(item)})
+                .subscribe({ item -> selectedArticles.add(item) })
 
         if (selectedArticles.contains(article)) {
             selectedArticles[selectedArticles.indexOf(article)] = selectedArticles[0]
