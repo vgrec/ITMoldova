@@ -138,7 +138,7 @@ class NotificationsController @Inject constructor(private val context: Context,
     private fun createBaseBuilder(title: String, description: String): NotificationCompat.Builder {
         val builder = NotificationCompat.Builder(context)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-                .setSmallIcon(R.drawable.ic_menu_gallery)
+                .setSmallIcon(R.drawable.ic_stat_notification)
                 .setContentTitle(title)
                 .setContentText(htmlToPlainText(description))
                 .setAutoCancel(true)
