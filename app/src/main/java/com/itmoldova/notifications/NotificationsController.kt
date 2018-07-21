@@ -11,6 +11,7 @@ import android.support.annotation.VisibleForTesting
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationCompat.*
 import android.support.v4.content.ContextCompat
+import android.text.Html
 import com.bumptech.glide.Glide
 import com.itmoldova.AppSettings
 import com.itmoldova.Extra
@@ -87,12 +88,12 @@ class NotificationsController @Inject constructor(private val context: Context,
         notificationManager.notify(MULTILINE_NOTIFICATION_ID, builder.build())
     }
 
-    private fun showBigTextNotification(articles: List<Article>) {
+    fun showBigTextNotification(articles: List<Article>) {
         val firstArticle = articles[0]
 
         val textStyle = BigTextStyle()
         textStyle.setBigContentTitle(firstArticle.title)
-        textStyle.bigText(firstArticle.description)
+        textStyle.bigText(htmlToPlainText(firstArticle.description))
 
         val builder = createBaseBuilder(firstArticle.title, firstArticle.description)
         builder.setStyle(textStyle)
@@ -139,7 +140,7 @@ class NotificationsController @Inject constructor(private val context: Context,
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_menu_gallery)
                 .setContentTitle(title)
-                .setContentText(description)
+                .setContentText(htmlToPlainText(description))
                 .setAutoCancel(true)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 
@@ -179,6 +180,10 @@ class NotificationsController @Inject constructor(private val context: Context,
     }
 
     private fun generateId(): Int = Random().nextInt(Integer.MAX_VALUE)
+
+    private fun htmlToPlainText(description: String): String {
+        return Html.fromHtml(Html.fromHtml(description).toString()).toString()
+    }
 
     companion object {
         private val MULTILINE_NOTIFICATION_ID = 1
