@@ -2,12 +2,13 @@
 
 #### _IT Moldova_ is simple app that shows articles from ITMoldova.com web site. ####
 
-**Features**:
+## Features ##
  - View articles
- - Get notified
- - Light & Dark theme
+ - Bookmark articles
+ - Receive notifications
+ - Choose between Light or Dark theme
 
-**Build with**:
+## Built with ##
  - Kotlin
  - Room
  - Dagger
@@ -18,12 +19,6 @@
         <img width="45%" src="screenshots/nav_drawer.png" alt="Summary screen"</img>
         <img height="0" width="8px">
         <img width="45%" src="screenshots/dark_theme_list.png" alt="Details Screen"></img>
-</div>
-
-<div align="center">
-        <img width="45%" src="screenshots/white_theme_list.png" alt="Summary screen"</img>
-        <img height="0" width="8px">
-        <img width="45%" src="screenshots/white_theme_detail.png" alt="Details Screen"></img>
 </div>
 
 License
