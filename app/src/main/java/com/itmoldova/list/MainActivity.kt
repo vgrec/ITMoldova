@@ -19,13 +19,14 @@ import com.itmoldova.ITMoldova
 import com.itmoldova.R
 import com.itmoldova.adapter.CategoriesFragmentPagerAdapter
 import com.itmoldova.bookmarks.BookmarksActivity
+import com.itmoldova.info.InfoActivity
 import com.itmoldova.sync.SyncJob
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawer: DrawerLayout
-    
+
     @Inject
     lateinit var appSettings: AppSettings
 
@@ -99,8 +100,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        if (id == R.id.action_bookmarks) {
-            startActivity(Intent(this, BookmarksActivity::class.java))
+        when (id) {
+            R.id.action_bookmarks -> startActivity(Intent(this, BookmarksActivity::class.java))
+            R.id.action_info -> startActivity(Intent(this, InfoActivity::class.java))
         }
 
         drawer.closeDrawer(GravityCompat.START)

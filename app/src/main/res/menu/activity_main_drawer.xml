@@ -20,8 +20,8 @@
         app:actionLayout="@layout/nav_drawer_switch" />
 
     <item
-        android:id="@+id/action_about"
-        android:icon="@drawable/ic_about"
+        android:id="@+id/action_info"
+        android:icon="@drawable/ic_info"
         android:title="@string/label_info" />
 
 </menu>

@@ -38,4 +38,18 @@
 
     <string name="no_articles_bookmarked">Nici un articol adăugat la favorite.</string>
 
+    <string name="info_text">
+        <![CDATA[
+        Site-ul <a href="http://itmoldova.com">ITMoldova.com</a> aduce cele mai proaspete informații din IT și ariile sale conexe
+        precum și articole de analiză dedicate produselor, tehnologiilor sau evenimentelor din această lume mereu nouă.
+        <br /> <br />
+        <b>Autor:</b> <br/>
+        <a href="https://github.com/vgrec">Veaceslav Grec</a>
+        <br/> <br/>
+        <b>Codul sursă:</b> <br />
+        <a href="https://github.com/vgrec/ITMoldova>https://github.com/vgrec/ITMoldova</a>
+        ]]>
+
+    </string>
+
 </resources>
