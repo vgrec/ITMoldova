@@ -6,11 +6,19 @@ import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.MenuItem
 import android.widget.TextView
+import com.itmoldova.AppSettings
+import com.itmoldova.ITMoldova
 import com.itmoldova.R
+import javax.inject.Inject
 
 class InfoActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var appSetting: AppSettings
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        ITMoldova.appComponent.inject(this)
+        setTheme(if (appSetting.isDarkModeEnabled) R.style.AppTheme_Dark else R.style.AppTheme_Light)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info)
 

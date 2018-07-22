@@ -5,6 +5,7 @@ import com.itmoldova.bookmarks.BookmarksActivity
 import com.itmoldova.bookmarks.BookmarksFragment
 import com.itmoldova.detail.DetailActivity
 import com.itmoldova.detail.DetailFragment
+import com.itmoldova.info.InfoActivity
 import com.itmoldova.list.ArticlesFragment
 import com.itmoldova.list.ArticlesPresenter
 import com.itmoldova.list.MainActivity
@@ -30,4 +31,6 @@ interface ApplicationComponent {
     fun inject(target: BookmarksActivity)
 
     fun inject(target: DetailActivity)
+
+    fun inject(target: InfoActivity)
 }
