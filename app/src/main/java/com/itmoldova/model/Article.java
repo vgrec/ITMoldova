@@ -4,6 +4,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Namespace;
@@ -31,6 +32,7 @@ public class Article implements Parcelable {
 
     @PrimaryKey
     @Element(name = "guid", required = false)
+    @NonNull
     private String guid; // A string that uniquely identifies the item.
 
     @Element(name = "pubDate", required = false)

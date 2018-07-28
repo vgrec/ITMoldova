@@ -49,14 +49,14 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         super.onCreate(savedInstanceState)
         ITMoldova.appComponent.inject(this)
         setHasOptionsMenu(true)
-        category = arguments.getSerializable(Extra.CATEGORY) as Category
+        category = arguments?.getSerializable(Extra.CATEGORY) as Category
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
         swipeRefreshLayout = view.findViewById(R.id.refresh)
 
-        val layoutManager = LinearLayoutManager(activity)
+        val layoutManager = LinearLayoutManager(activity!!)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = layoutManager
         val dividerItemDecoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
@@ -66,7 +66,9 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         recyclerView.addItemDecoration(dividerItemDecoration)
 
 
-        adapter = ArticlesAdapter(activity, articles, { article, imageView -> presenter?.onArticleClicked(articles, article, imageView) })
+        adapter = ArticlesAdapter(activity!!, articles) { article, imageView ->
+            presenter?.onArticleClicked(articles, article, imageView)
+        }
 
         recyclerView.adapter = adapter
         endlessScrollListener = RecyclerViewEndlessScrollListener(layoutManager)
@@ -92,7 +94,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
 
         val transitionName = ViewCompat.getTransitionName(imageView)
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                activity,
+                activity!!,
                 imageView,
                 transitionName)
 
@@ -131,9 +133,9 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
     }
 
     private fun showSnackbar(@StringRes stringResId: Int) {
-        if (activity != null) {
+        activity?.let {
             Snackbar.make(
-                    activity.findViewById<RecyclerView>(R.id.recycler_view),
+                    it.findViewById<RecyclerView>(R.id.recycler_view),
                     stringResId,
                     Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.snackbar_retry_action, { presenter?.refreshArticles(category) })
