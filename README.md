@@ -1,6 +1,6 @@
 # IT Moldova #
 
-#### _IT Moldova_ is simple app that shows articles from ITMoldova.com web site. ####
+#### _IT Moldova_ is a simple app that shows articles from ITMoldova.com web site. ####
 
 ## Features ##
  - View articles
@@ -9,11 +9,12 @@
  - Choose between Light or Dark theme
 
 ## Built with ##
- - Kotlin
- - Room
- - Dagger
- - RxJava
- - Retrofit
+ - **Kotlin** as the main language
+ - **Room** for persisting bookmarked articles
+ - **Dagger** for dependency injection
+ - **RxJava** for async operations
+ - **Retrofit** for http calls
+ - **Evernote** for scheduling periodic jobs
 
 <div align="center">
         <img width="45%" src="screenshots/nav_drawer.png" alt="Summary screen"</img>
