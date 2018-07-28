@@ -1,6 +1,6 @@
 # IT Moldova #
 
-#### _IT Moldova_ is a simple app that shows articles from ITMoldova.com web site. ####
+A simple app that shows articles from ITMoldova.com web site.
 
 ## Features ##
  - View articles
@@ -16,12 +16,14 @@
  - **Retrofit** for http calls
  - **Evernote** for scheduling periodic jobs
 
+## Dark theme ##
 <div align="center">
         <img width="45%" src="screenshots/dark_nav_drawer.png" alt="Summary screen"</img>
         <img height="0" width="8px">
         <img width="45%" src="screenshots/dark_list.png" alt="Details Screen"></img>
 </div>
 
+## Light theme ##
 <div align="center">
         <img width="45%" src="screenshots/white_nav_drawer.png" alt="Summary screen"</img>
         <img height="0" width="8px">
