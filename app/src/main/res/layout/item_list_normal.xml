@@ -28,7 +28,6 @@
         android:paddingTop="4dp"
         android:textColor="?attr/themeArticleTitleColor"
         android:textSize="18sp"
-        android:typeface="serif"
         tools:text="Meizu va prezenta smartphonul MX6 cu Ubuntu" />
 
     <TextView

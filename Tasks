@@ -4,7 +4,7 @@
 - Display pub date and author on details page.
 * View in browser full article
 * Integrate an image viewer
-- About (info about app, author, link to git)
+* About (info about app, link to github)
 * Settings screen
 * Notifications
 * Add ability to bookmark
@@ -24,6 +24,6 @@
 ----------
 - Test landscape in the DetailsActivity with the test code
 * Display real image in notification status bar
-- Fix image wrap on Api 16
+* Fix image wrap on Api 16
 - Add a default image for articles that don't have headline image otherwise the FAB won't show,
   therefore, not being possible to bookmark
