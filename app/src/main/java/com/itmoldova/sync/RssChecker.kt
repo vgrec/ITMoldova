@@ -43,9 +43,10 @@ constructor(private val notificationsController: NotificationsController,
         val articles = response.channel.articles
         if (notificationsController.shouldShowNotification(articles)) {
             notificationsController.showNotification(articles)
-            val newLastPubDate = Utils.pubDateToMillis(articles[0].pubDate)
-            appSettings.lastPubDate = newLastPubDate
         }
+
+        val newLastPubDate = Utils.pubDateToMillis(articles[0].pubDate)
+        appSettings.lastPubDate = newLastPubDate
     }
 
     private fun onError(error: Throwable) {

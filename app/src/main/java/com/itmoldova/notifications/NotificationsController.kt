@@ -52,7 +52,10 @@ class NotificationsController @Inject constructor(private val context: Context,
         BIG_TEXT
     }
 
-    fun shouldShowNotification(articles: List<Article>): Boolean = getNumberOfNewArticles(articles) > 0
+    fun shouldShowNotification(articles: List<Article>): Boolean {
+        return appSettings.lastPubDate != 0L && getNumberOfNewArticles(articles) > 0
+    }
+
 
     fun showNotification(articles: List<Article>) {
         val type = detectNotificationTypeToShow(articles)

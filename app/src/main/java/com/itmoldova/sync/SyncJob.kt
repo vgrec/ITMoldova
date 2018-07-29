@@ -16,6 +16,7 @@ class SyncJob(private val rssChecker: RssChecker) : Job() {
             JobRequest.Builder(TAG)
                     .setPeriodic(TimeUnit.HOURS.toMillis(2))
                     .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                    .setUpdateCurrent(true)
                     .build()
                     .schedule()
         }
