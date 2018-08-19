@@ -1,6 +1,6 @@
 # IT Moldova #
 
-A simple app that shows articles from ITMoldova.com web site.
+A simple rss reader that shows articles from ITMoldova web site.
 
 ## Features ##
  - View articles
