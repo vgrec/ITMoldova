@@ -1,7 +1,7 @@
 package com.itmoldova.anim
 
-import android.support.v4.view.ViewPager
 import android.view.View
+import androidx.viewpager.widget.ViewPager
 
 class DepthPageTransformer : ViewPager.PageTransformer {
 

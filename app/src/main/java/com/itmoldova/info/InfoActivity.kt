@@ -1,11 +1,11 @@
 package com.itmoldova.info
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.itmoldova.AppSettings
 import com.itmoldova.ITMoldova
 import com.itmoldova.R
@@ -29,8 +29,8 @@ class InfoActivity : AppCompatActivity() {
         infoTextView.movementMethod = LinkMovementMethod.getInstance()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == android.R.id.home) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
             finish()
             return true
         }

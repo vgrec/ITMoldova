@@ -1,8 +1,8 @@
 package com.itmoldova.di
 
 import android.app.NotificationManager
-import android.arch.persistence.room.Room
 import android.content.Context
+import androidx.room.Room
 import com.itmoldova.AppSettings
 import com.itmoldova.R
 import com.itmoldova.db.AppDatabase

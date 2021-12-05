@@ -1,7 +1,6 @@
 package com.itmoldova.list
 
 import android.widget.ImageView
-import com.crashlytics.android.Crashlytics
 import com.itmoldova.AppSettings
 import com.itmoldova.ITMoldova
 import com.itmoldova.http.ITMoldovaService
@@ -70,7 +69,6 @@ class ArticlesPresenter(private val view: ArticlesContract.View) : ArticlesContr
                 .subscribe(
                         { rss -> processResponse(rss, clearDataSet) },
                         { error ->
-                            Crashlytics.logException(error)
                             view.showError()
                         }
                 )

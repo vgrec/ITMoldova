@@ -2,18 +2,19 @@ package com.itmoldova.list
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.design.widget.TabLayout
-import android.support.v4.view.GravityCompat
-import android.support.v4.view.ViewPager
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Switch
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
 import com.itmoldova.AppSettings
 import com.itmoldova.ITMoldova
 import com.itmoldova.R
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             private fun setupThemeSwitch() {
-                val themeSwitch = findViewById<Switch>(R.id.theme_switch)
+                val themeSwitch = findViewById<SwitchCompat>(R.id.theme_switch)
                 themeSwitch.isChecked = appSettings.isDarkModeEnabled
                 themeSwitch.setOnCheckedChangeListener { view, isChecked ->
                     drawer.postDelayed({
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             private fun setupNotificationsSwitch() {
-                val notificationsSwitch = findViewById<Switch>(R.id.notifications_switch)
+                val notificationsSwitch = findViewById<SwitchCompat>(R.id.notifications_switch)
                 notificationsSwitch.isChecked = appSettings.areNotificationsEnabled
                 notificationsSwitch.setOnCheckedChangeListener { view, isChecked ->
                     appSettings.areNotificationsEnabled = !appSettings.areNotificationsEnabled

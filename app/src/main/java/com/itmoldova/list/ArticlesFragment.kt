@@ -2,17 +2,17 @@ package com.itmoldova.list
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewCompat
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
+import androidx.annotation.StringRes
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import com.itmoldova.AppSettings
 import com.itmoldova.Extra
 import com.itmoldova.ITMoldova
@@ -56,7 +56,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
         swipeRefreshLayout = view.findViewById(R.id.refresh)
 
-        val layoutManager = LinearLayoutManager(activity!!)
+        val layoutManager = LinearLayoutManager(requireActivity())
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = layoutManager
         val dividerItemDecoration = DividerItemDecoration(view.context, DividerItemDecoration.VERTICAL)
@@ -66,7 +66,7 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         recyclerView.addItemDecoration(dividerItemDecoration)
 
 
-        adapter = ArticlesAdapter(activity!!, articles) { article, imageView ->
+        adapter = ArticlesAdapter(requireActivity(), articles) { article, imageView ->
             presenter?.onArticleClicked(articles, article, imageView)
         }
 
@@ -92,9 +92,9 @@ class ArticlesFragment : Fragment(), ArticlesContract.View {
         intent.putExtra(Extra.ARTICLE, article)
         intent.putParcelableArrayListExtra(Extra.ARTICLES, ArrayList(articles))
 
-        val transitionName = ViewCompat.getTransitionName(imageView)
+        val transitionName = ViewCompat.getTransitionName(imageView) ?: ""
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                activity!!,
+                requireActivity(),
                 imageView,
                 transitionName)
 

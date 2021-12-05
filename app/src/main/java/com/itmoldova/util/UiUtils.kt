@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import com.itmoldova.R
 import com.itmoldova.model.Article
 import com.squareup.picasso.Picasso
@@ -21,8 +22,8 @@ class UiUtils {
             val linearLayout = LinearLayout(context)
             linearLayout.layoutParams = params
             linearLayout.orientation = LinearLayout.VERTICAL
-            val drawable = context.getDrawable(R.drawable.list_divider)
-            drawable.setTint(getDividerColor(context, darkModeEnabled))
+            val drawable = AppCompatResources.getDrawable(context, R.drawable.list_divider)
+            drawable?.setTint(getDividerColor(context, darkModeEnabled))
             linearLayout.dividerDrawable = drawable
             linearLayout.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
 

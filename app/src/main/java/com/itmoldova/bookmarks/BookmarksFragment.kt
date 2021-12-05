@@ -4,16 +4,16 @@ package com.itmoldova.bookmarks
 import android.app.Fragment
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.itmoldova.*
 
 import com.itmoldova.adapter.ArticlesAdapter
@@ -82,11 +82,11 @@ class BookmarksFragment : Fragment(), BookmarksContract.View {
         val intent = Intent(activity, DetailActivity::class.java)
         intent.putExtra(Extra.ARTICLE, article)
 
-        val transitionName = ViewCompat.getTransitionName(image)
+        val transitionName = ViewCompat.getTransitionName(image) ?: ""
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                activity,
-                image,
-                transitionName)
+            activity,
+            image,
+            transitionName)
 
         startActivity(intent, options.toBundle())
     }

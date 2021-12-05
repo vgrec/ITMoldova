@@ -7,11 +7,10 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.media.RingtoneManager
 import android.os.Build
-import android.support.annotation.VisibleForTesting
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationCompat.*
-import android.support.v4.content.ContextCompat
 import android.text.Html
+import androidx.annotation.VisibleForTesting
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.itmoldova.AppSettings
 import com.itmoldova.Extra
@@ -79,7 +78,7 @@ class NotificationsController @Inject constructor(private val context: Context,
     private fun showMultilineNotification(articles: List<Article>) {
         val firstArticle = articles[0]
 
-        val inboxStyle = InboxStyle()
+        val inboxStyle = NotificationCompat.InboxStyle()
         inboxStyle.setBigContentTitle(getNumberOfNewArticles(articles).toString() + " " + context.getString(R.string.new_articles))
         (0 until getNumberOfNewArticles(articles))
                 .map { articles[it] }
@@ -94,7 +93,7 @@ class NotificationsController @Inject constructor(private val context: Context,
     fun showBigTextNotification(articles: List<Article>) {
         val firstArticle = articles[0]
 
-        val textStyle = BigTextStyle()
+        val textStyle = NotificationCompat.BigTextStyle()
         textStyle.setBigContentTitle(firstArticle.title)
         textStyle.bigText(htmlToPlainText(firstArticle.description))
 
@@ -108,7 +107,7 @@ class NotificationsController @Inject constructor(private val context: Context,
         val firstArticle = articles[0]
         val bitmap = loadBitmap(firstArticle)
         if (bitmap != null) {
-            val pictureStyle = BigPictureStyle()
+            val pictureStyle = NotificationCompat.BigPictureStyle()
             pictureStyle.setBigContentTitle(firstArticle.title)
             pictureStyle.bigPicture(bitmap)
 

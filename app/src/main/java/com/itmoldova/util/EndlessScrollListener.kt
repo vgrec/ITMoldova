@@ -1,7 +1,8 @@
 package com.itmoldova.util
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
 
 /**
  * Custom implementation of [RecyclerView.OnScrollListener] that
@@ -21,9 +22,9 @@ abstract class EndlessScrollListener @JvmOverloads constructor(private val layou
     private var loading = true
     private var currentPage = 1
 
-    override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         val firstVisibleItem = layoutManager.findFirstVisibleItemPosition()
-        val visibleItemCount = recyclerView!!.childCount
+        val visibleItemCount = recyclerView.childCount
         val totalItemCount = layoutManager.itemCount
 
         // If the total item count is zero and the previous isn't, assume the
@@ -62,6 +63,6 @@ abstract class EndlessScrollListener @JvmOverloads constructor(private val layou
 
     companion object {
 
-        private val DEFAULT_VISIBLE_THRESHOLD = 5
+        private const val DEFAULT_VISIBLE_THRESHOLD = 5
     }
 }

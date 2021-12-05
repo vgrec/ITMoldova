@@ -20,7 +20,7 @@
     <string name="label_info">Info</string>
     <string name="label_dark_theme">Întunecat</string>
 
-    <string name="page_counter">%1$s / %2$s</string>
+    <string name="page_counter">%1$d / %2$d</string>
     <string name="view_in_browser">Vizualizați în Browser</string>
     <string name="new_articles">articole noi</string>
     <string name="related_articles">Articole similare</string>

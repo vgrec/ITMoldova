@@ -8,16 +8,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.customtabs.CustomTabsIntent
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.transition.Transition
 import android.view.*
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.browser.customtabs.CustomTabsIntent
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.itmoldova.AppSettings
 import com.itmoldova.Extra
 import com.itmoldova.ITMoldova
@@ -64,8 +64,8 @@ class DetailFragment : Fragment(), DetailContract.View, View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ITMoldova.appComponent.inject(this)
-        article = arguments.getParcelable(Extra.ARTICLE)
-        topArticles = arguments.getParcelableArrayList(Extra.ARTICLES)
+        article = arguments.getParcelable(Extra.ARTICLE) ?: return
+        topArticles = arguments.getParcelableArrayList(Extra.ARTICLES) ?: return
         setHasOptionsMenu(true)
     }
 

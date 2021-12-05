@@ -1,11 +1,11 @@
 package com.itmoldova.photoview
 
 import android.os.Bundle
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.viewpager.widget.ViewPager
 import com.itmoldova.Extra
 import com.itmoldova.R
 import com.itmoldova.adapter.PhotoViewAdapter
@@ -25,8 +25,8 @@ class PhotoViewActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         viewPager = findViewById(R.id.viewpager)
         pageNumber = findViewById(R.id.page_number)
 
-        val urls = intent.getStringArrayListExtra(Extra.PHOTO_URLS)
-        val clickedUrl = intent.getStringExtra(Extra.CLICKED_URL)
+        val urls = intent.getStringArrayListExtra(Extra.PHOTO_URLS) ?: return
+        val clickedUrl = intent.getStringExtra(Extra.CLICKED_URL) ?: return
         totalNumberOfUrls = urls.size
 
         val currentItem = if (urls.indexOf(clickedUrl) != -1) urls.indexOf(clickedUrl) else 0

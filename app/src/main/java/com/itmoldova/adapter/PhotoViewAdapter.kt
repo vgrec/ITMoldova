@@ -1,17 +1,15 @@
 package com.itmoldova.adapter
 
 import android.content.Context
-import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.viewpager.widget.PagerAdapter
+import com.github.chrisbanes.photoview.PhotoViewAttacher
 
 import com.itmoldova.R
 import com.squareup.picasso.Picasso
-
-import uk.co.senab.photoview.PhotoViewAttacher
-
 
 class PhotoViewAdapter(private val context: Context, private val urls: List<String>) : PagerAdapter() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
