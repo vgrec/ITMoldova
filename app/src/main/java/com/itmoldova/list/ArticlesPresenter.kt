@@ -31,11 +31,11 @@ class ArticlesPresenter(private val view: ArticlesContract.View) : ArticlesContr
     @Inject
     lateinit var networkDetector: NetworkDetector
 
-    @Inject
+    @Inject // currently in mock mode: com.itmoldova.di.ApplicationModule
     lateinit var rssFeedRepository: RssFeedRepository
 
     init {
-        ITMoldova.appComponent.inject(this)
+        ITMoldova.appComponent.inject(this) // ??
     }
 
     override fun loadArticles(category: Category, page: Int) {

@@ -23,7 +23,7 @@ class DetailActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             val article = intent.getParcelableExtra<Article>(Extra.ARTICLE) ?: return
             val relatedArticles =
-                intent.getParcelableArrayListExtra<Article>(Extra.ARTICLES) ?: return
+                intent.getParcelableArrayListExtra<Article>(Extra.ARTICLES) ?: emptyList()
             val detailFragment = DetailFragment.newInstance(relatedArticles, article)
             ActivityUtils.addFragmentToActivity(fragmentManager,
                 detailFragment,

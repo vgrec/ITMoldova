@@ -6,8 +6,8 @@ import androidx.room.Room
 import com.itmoldova.AppSettings
 import com.itmoldova.R
 import com.itmoldova.db.AppDatabase
+import com.itmoldova.repository.MockRssFeedRepositoryImpl
 import com.itmoldova.repository.RssFeedRepository
-import com.itmoldova.repository.RssFeedRepositoryImpl
 import com.itmoldova.sync.ITMoldovaJobCreator
 import com.itmoldova.sync.RssChecker
 import com.itmoldova.util.HtmlParser
@@ -58,6 +58,6 @@ class ApplicationModule(private val context: Context) {
     @Module
     interface Bindings {
         @Binds
-        fun bindRssFeedRepository(rss: RssFeedRepositoryImpl): RssFeedRepository
+        fun bindRssFeedRepository(rss: MockRssFeedRepositoryImpl): RssFeedRepository
     }
 }
