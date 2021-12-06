@@ -8,12 +8,15 @@ import com.itmoldova.http.NetworkDetector
 import com.itmoldova.model.Article
 import com.itmoldova.model.Category
 import com.itmoldova.model.Rss
+import com.itmoldova.repository.RssFeedRepository
 import com.itmoldova.util.Utils
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+
+private const val TOP_ARTICLES_NUMBER = 10
 
 class ArticlesPresenter(private val view: ArticlesContract.View) : ArticlesContract.Presenter {
     private var disposable: Disposable? = null
@@ -28,9 +31,8 @@ class ArticlesPresenter(private val view: ArticlesContract.View) : ArticlesContr
     @Inject
     lateinit var networkDetector: NetworkDetector
 
-    companion object {
-        val TOP_ARTICLES_NUMBER = 10L
-    }
+    @Inject
+    lateinit var rssFeedRepository: RssFeedRepository
 
     init {
         ITMoldova.appComponent.inject(this)
@@ -41,13 +43,7 @@ class ArticlesPresenter(private val view: ArticlesContract.View) : ArticlesContr
     }
 
     override fun onArticleClicked(articles: List<Article>, article: Article, imageView: ImageView) {
-        val topArticles = mutableListOf<Article>()
-
-        Observable.fromIterable(articles)
-                .take(TOP_ARTICLES_NUMBER) // we are interested only in the top 10 articles
-                .subscribe({ item -> topArticles.add(item) })
-
-        view.openArticleDetail(topArticles, article, imageView)
+        view.openArticleDetail(articles.take(TOP_ARTICLES_NUMBER), article, imageView)
     }
 
     override fun refreshArticles(category: Category) {
@@ -76,9 +72,9 @@ class ArticlesPresenter(private val view: ArticlesContract.View) : ArticlesContr
 
     private fun getObservableByCategory(category: Category, page: Int): Observable<Rss> {
         return if (category == Category.HOME) {
-            apiService.getDefaultRssFeed(page)
+            rssFeedRepository.getDefaultRssFeed(page)
         } else {
-            apiService.getRssFeedByCategory(category.categoryName, page)
+            rssFeedRepository.getRssFeedByCategory(category.categoryName, page)
         }
     }
 
